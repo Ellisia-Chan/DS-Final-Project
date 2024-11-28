@@ -10,14 +10,14 @@ class LinkedList:
         self.head = None
 
     # Method to add a node at the beginning of the LL
-    def insertAtBegin(self, data):
+    def insert_at_begin(self, data):
         new_node = Node(data)
         new_node.next = self.head
         self.head = new_node
 
     # Method to add a node at any index
     # Indexing starts from 0.
-    def insertAtIndex(self, data, index):
+    def insert_at_index(self, data, index):
         if index == 0:
             self.insertAtBegin(data)
             return
@@ -36,7 +36,7 @@ class LinkedList:
             print("Index not present")
 
     # Method to add a node at the end of LL
-    def insertAtEnd(self, data):
+    def insert_at_end(self, data):
         new_node = Node(data)
         if self.head is None:
             self.head = new_node
@@ -49,7 +49,7 @@ class LinkedList:
         current_node.next = new_node
 
     # Update node at a given position
-    def updateNode(self, val, index):
+    def update_node(self, val, index):
         current_node = self.head
         position = 0
         while current_node is not None and position != index:
@@ -125,7 +125,7 @@ class LinkedList:
         print("Node with the given data not found")
 
     # Print the size of the linked list
-    def sizeOfLL(self):
+    def size_of_linked_list(self):
         size = 0
         current_node = self.head
         while current_node:
@@ -134,7 +134,7 @@ class LinkedList:
         return size
 
     # Print the linked list
-    def printLL(self):
+    def print_linked_list(self):
         current_node = self.head
         while current_node:
             print(current_node.data)
