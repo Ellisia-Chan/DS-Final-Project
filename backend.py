@@ -5,11 +5,15 @@
 from LinkedList import Linked_List
 from PokemonArray import Pokemon_Array
 
+
+# 🟧 in progress
 class Backend:
+    # 🟧 in progress
     def __init__(self) -> None:
         self.player1_pokemons, self.player2_pokemons  = Linked_List()
         self.pokemon_array = Pokemon_Array()
 
+    # 🟧 in progress
     def select_pokemon(self, player, chosen_pokemon) -> None:
         # Add selected Pokémon to Player 1's linked list
         if chosen_pokemon:

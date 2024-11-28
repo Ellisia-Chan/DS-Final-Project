@@ -1,6 +1,11 @@
+# 🟧 in progress
+# ✅ working
+# ⚠️ Untested
+
 import numpy as np
 
 class Pokemon_Array:
+    # ✅ working
     def __init__(self):
         self.__pokemon_dtype: np.dtype = np.dtype([
             ("Name", "U20"),
@@ -8,7 +13,8 @@ class Pokemon_Array:
             ("Health", "i4"),
             ("Power", "i4")
         ])
-        
+
+        # ✅ working
         self.__pokemons: np.ndarray = np.array([
             #   Name          Type          Health   Power
             ('Pikachu',    'Electric',        35,     55),
@@ -25,11 +31,27 @@ class Pokemon_Array:
             ('Lucario',    'Fighting/Steel',  70,    110),
         ], dtype=self.__pokemon_dtype)
     
-    def show_pokemons(self) -> list:
-        for pokemon in self.__pokemons:
-            print(pokemon)
+    # Show pokemon list with numbers (index)
+    def show_pokemons(self):
+        for idx, pokemon in enumerate(self.__pokemons):
+            print(f"{idx}: {pokemon}")
 
-if __name__ == "__main__":
-    pokemon_array = Pokemon_Array()
-    pokemon_array.show_pokemons()
-    
+    # ✅ working
+    def select_and_remove_pokemon(self, index: int):
+        if 0 <= index < len(self.__pokemons):
+            selected_pokemon = self.__pokemons[index]
+            self.__pokemons = np.delete(self.__pokemons, index)
+            return selected_pokemon
+        else:
+            print("Invalid index!")
+            return None
+
+# if __name__ == "__main__":
+#     pokemon_array = Pokemon_Array()
+#     pokemon_array.show_pokemons()
+
+#     print("\n\n\nTite\n\n")
+#     pokemon_array.select_and_remove_pokemon(0)
+#     pokemon_array.select_and_remove_pokemon(1)
+#     print("\nTite\n\n")
+#     pokemon_array.show_pokemons()
