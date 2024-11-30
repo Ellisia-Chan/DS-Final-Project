@@ -1,32 +1,44 @@
-import tkinter as tk
+import pygame
+pygame.init()
 
-class DragAndDropCard(tk.Label):
-    def __init__(self, master, *args, **kwargs):
-        super().__init__(master, *args, **kwargs)
-        self.bind("<ButtonPress-1>", self.on_press)
-        self.bind("<B1-Motion>", self.on_drag)
-        self.bind("<ButtonRelease-1>", self.on_release)
+# Define screen
+screen = pygame.display.set_mode((800, 600))
+pygame.display.set_caption("Drag & Snap Example")
 
-    def on_press(self, event):
-        self.x_offset = event.x
-        self.y_offset = event.y
+# Define colors and fonts
+WHITE = (255, 255, 255)
+card_image = pygame.Surface((100, 150))  # Placeholder for card image
+card_image.fill((200, 0, 0))  # Red card
 
-    def on_drag(self, event):
-        new_x = self.winfo_x() - self.x_offset + event.x
-        new_y = self.winfo_y() - self.y_offset + event.y
-        self.place(x=new_x, y=new_y)
+card_rect = card_image.get_rect(center=(400, 300))  # Initial position
 
-    def on_release(self, event):
-        # Snap logic example
-        if self.winfo_x() < 200:
-            self.place(x=100, y=100)
-        else:
-            self.place(x=400, y=300)
+dragging = False
 
-root = tk.Tk()
-root.geometry("800x600")
+# Game loop
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if card_rect.collidepoint(event.pos):  # Check if card is clicked
+                dragging = True
+                offset = card_rect.topleft - event.pos
+        elif event.type == pygame.MOUSEBUTTONUP:
+            dragging = False
+            # Snap mechanics (just an example)
+            if card_rect.left < 200:
+                card_rect.topleft = (100, 100)  # Snap to a target position
+            else:
+                card_rect.topleft = (400, 300)  # Default position
+        elif event.type == pygame.MOUSEMOTION and dragging:
+            card_rect.topleft = event.pos + offset
 
-card = DragAndDropCard(root, text="Card", bg="red", width=10, height=5)
-card.place(x=400, y=300)
+    # Clear screen and redraw
+    screen.fill(WHITE)
+    screen.blit(card_image, card_rect)
 
-root.mainloop()
+    pygame.display.update()
+    pygame.time.Clock().tick(60)  # Limit FPS to 60
+
+pygame.quit()
