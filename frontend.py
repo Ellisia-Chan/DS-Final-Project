@@ -2,9 +2,8 @@
 # ✅ working
 # ⚠️ Untested
 
+from backend import Backend
 
-
-from Backend import Backend
 class Frontend:
     def __init__(self) -> None:
         self.backend = Backend()

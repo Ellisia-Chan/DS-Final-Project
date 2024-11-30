@@ -6,6 +6,9 @@ import numpy as np
 
 class Pokemon_Array:
     # ✅ working
+    # This method initialize the Pokemon_Array class
+    # It creates a numpy data type to hold the data of the pokemon
+    # The data type contains the name, type, health and power of the pokemon
     def __init__(self):
         self.__pokemon_dtype: np.dtype = np.dtype([
             ("Name", "U20"),
@@ -32,11 +35,15 @@ class Pokemon_Array:
         ], dtype=self.__pokemon_dtype)
     
     # Show pokemon list with numbers (index)
+    # This method prints the list of pokemons with their index to the console
     def show_pokemons(self):
         for idx, pokemon in enumerate(self.__pokemons):
             print(f"{idx}: {pokemon}")
 
     # ✅ working
+    # Select a pokemon by its index and remove it from the list
+    # This method takes an index of a pokemon and remove it from the list
+    # It returns the pokemon that was removed or None if the index is invalid
     def select_and_remove_pokemon(self, index: int):
         if 0 <= index < len(self.__pokemons):
             selected_pokemon = self.__pokemons[index]
@@ -50,8 +57,13 @@ class Pokemon_Array:
 #     pokemon_array = Pokemon_Array()
 #     pokemon_array.show_pokemons()
 
-#     print("\n\n\nTite\n\n")
-#     pokemon_array.select_and_remove_pokemon(0)
-#     pokemon_array.select_and_remove_pokemon(1)
-#     print("\nTite\n\n")
+#     print("\n\n\nTest\n\n")
+#     selected_pokemon_1 = pokemon_array.select_and_remove_pokemon(0)
+#     selected_pokemon_2 = pokemon_array.select_and_remove_pokemon(1)
+    
+#     print("\nTest\n\n")
 #     pokemon_array.show_pokemons()
+    
+#     print("\nTest\n\n")
+#     print(selected_pokemon_1)
+#     print(selected_pokemon_2)
