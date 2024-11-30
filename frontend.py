@@ -16,6 +16,7 @@ class Frontend:
             self.backend.select_pokemon(self.backend.player2_pokemons, "Player 2")
 
 
+    
 if __name__ == "__main__":
     frontend = Frontend()
     frontend.run()
