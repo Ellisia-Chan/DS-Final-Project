@@ -9,12 +9,14 @@ class Linked_List:
     def __init__(self):
         self.head = None
 
+    # ⚠️ Untested
     # Method to add a node at the beginning of the LL
     def insert_at_begin(self, data):
         new_node = Node(data)
         new_node.next = self.head
         self.head = new_node
 
+    # ⚠️ Untested
     # Method to add a node at any index
     # Indexing starts from 0.
     def insert_at_index(self, data, index):
@@ -22,6 +24,7 @@ class Linked_List:
             self.insertAtBegin(data)
             return
 
+    # ⚠️ Untested
         position = 0
         current_node = self.head
         while current_node is not None and position + 1 != index:
@@ -35,6 +38,7 @@ class Linked_List:
         else:
             print("Index not present")
 
+    # ⚠️ Untested
     # Method to add a node at the end of LL
     def insert_at_end(self, data):
         new_node = Node(data)
@@ -48,6 +52,7 @@ class Linked_List:
 
         current_node.next = new_node
 
+    # ⚠️ Untested
     # Update node at a given position
     def update_node(self, val, index):
         current_node = self.head
@@ -61,6 +66,7 @@ class Linked_List:
         else:
             print("Index not present")
 
+    # ⚠️ Untested
     # Method to remove first node of linked list
     def remove_first_node(self):
         if self.head is None:
@@ -68,6 +74,7 @@ class Linked_List:
 
         self.head = self.head.next
 
+    # ⚠️ Untested
     # Method to remove last node of linked list
     def remove_last_node(self):
         if self.head is None:
@@ -85,6 +92,7 @@ class Linked_List:
 
         current_node.next = None
 
+    # ⚠️ Untested
     # Method to remove a node at a given index
     def remove_at_index(self, index):
         if self.head is None:
@@ -105,6 +113,7 @@ class Linked_List:
         else:
             print("Index not present")
 
+    # ⚠️ Untested
     # Method to remove a node from the linked list by its data
     def remove_node(self, data):
         current_node = self.head
@@ -124,6 +133,7 @@ class Linked_List:
         # If the data was not found
         print("Node with the given data not found")
 
+    # ⚠️ Untested
     # Print the size of the linked list
     def size_of_linked_list(self):
         size = 0
@@ -133,6 +143,7 @@ class Linked_List:
             current_node = current_node.next
         return size
 
+    # ⚠️ Untested
     # Print the linked list
     def print_linked_list(self):
         current_node = self.head
