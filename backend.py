@@ -1,54 +1,53 @@
 # 🟧 in progress
 # ✅ working
 # ⚠️ Untested
+# 🐞Debugging
 
 from LinkedList import Linked_List
 from PokemonArray import Pokemon_Array
 
-
 # 🟧 in progress
 class Backend:
     # 🟧 in progress
-    def __init__(self) -> None:
-        self.player1_pokemons = Linked_List()
-        self.player2_pokemons = Linked_List()
-        self.pokemon_array = Pokemon_Array()
+    def __init__(self, frontend_instance) -> None:
+        self.frontend = frontend_instance
+        self.player1_pokemons: Linked_List = Linked_List()
+        self.player2_pokemons: Linked_List = Linked_List()
+        self.pokemon_array: Pokemon_Array = Pokemon_Array()
 
     # 🟧 in progress | note: Linked list in progress
-    def select_pokemon(self, player: Linked_List, player_num_str: str) -> None:
-        # Display the available Pokémon
-        self.pokemon_array.show_pokemons()
+    def select_pokemon_list(self) -> None:
+        index: int = 0
+        while index < 2:
+            try:
+                player: str = "Player 1" if index == 0 else "Player 2"
+                player_pokemons: Linked_List = self.player1_pokemons if index == 0 else self.player2_pokemons
 
-        try:
-            # Prompt the player to select a Pokémon by its index
-            player_choice = int(input(f"{player_num_str}, enter the index of the Pokémon you want to select: "))
+                choices: list = list(map(int, input(f"{player}, select 3 Pokémon by entering their indices (space-separated): ").split()))
 
-            # Get the selected Pokémon and remove it from the array
-            selected_pokemon = self.pokemon_array.select_and_remove_pokemon(player_choice)
+                if len(choices) != 3:
+                    self.frontend.show_error_message("Backend: You must select exactly 3 Pokémon!")
+                    continue
 
-            # Add the chosen Pokémon to the player's linked list
-            if selected_pokemon:
-                player.insert_at_end(selected_pokemon[0])  # Use the name of the Pokémon
-                print(f"{player_num_str}'s Pokémon: ", player.print_linked_list())
-            else:
-                print("Invalid selection. Try again.")
- 
-        except (ValueError, IndexError):
-            print("Invalid input. Please enter a valid index.")
+                if all(1 <= choice <= self.pokemon_array.size() for choice in choices):
+                    for choice in choices:
+                        player_pokemons.insert_at_begin(self.pokemon_array.select_and_remove_pokemon(choice))
+                    print(f"{player} has successfully selected their Pokémon.")
+                    index += 1
+                else:
+                    self.frontend.show_error_message("Backend: One or more indices are invalid. Please try again.")
 
+            except (ValueError, IndexError):
+                self.frontend.show_error_message("Backend: Please enter valid numeric indices separated by spaces.")
+            
+    def show_selected_pokemons(self) -> None:
+        self.player1_pokemons.print_linked_list()
+        self.player2_pokemons.print_linked_list()
 
+# 🐞Debugging
 if __name__ == "__main__":
     backend = Backend()
     print("Pick your pokemon.\n")
 
-    backend.select_pokemon(backend.player1_pokemons, "Player 1")
-    print( backend.pokemon_array.show_pokemons()) #backend.pokemon_array
-
-
-
-
-
-
-
-
-
+    backend.select_pokemon_list(backend.player1_pokemons, "Player 1")
+    print(backend.pokemon_array.show_pokemons()) #backend.pokemon_array

@@ -1,18 +1,23 @@
 import Packages
-Packages.InitializePackages()
+#Packages.InitializePackages()
+
+from frontend import Frontend
 
 
 class Gameplay:
     def __init__(self) -> None:
-        pass
+        self.frontend = Frontend()
+        
+        self.run()
 
     # 🟧 in progress
     def run(self) -> None:
-        while self.backend.player1_pokemons.size_of_linked_list() < 3 and self.backend.player2_pokemons.size_of_linked_list() < 3:
-            
-            self.backend.select_pokemon(self.backend.player1_pokemons, "Player 1")
-            self.backend.select_pokemon(self.backend.player2_pokemons, "Player 2")
+        self.frontend.program_intro()
+        input("Press enter to continue...")
+        
+        # 🟧 in progress
+        # player pokemon array selection loop
+        self.frontend.pokemon_selection()
 
 if __name__ == "__main__":
-    Game = Gameplay
-    Game.run()
+    Gameplay()
