@@ -59,6 +59,8 @@ class Frontend:
         self.wait_for_start()
         
     # ✅ Working
+    # This method displays the Pokemon array from the backend using a rich table.
+    # It shows the available Pokemon for selection and prints the table center-aligned.
     def display_pokemon_array(self) -> None:
         os.system('cls')
         
@@ -114,11 +116,9 @@ class Frontend:
         # Print the table center-aligned
         self.console.print(Align.left(table))
 
-# =================================================================================
-#
-# Methods that call backend core methods
-#
-# =================================================================================
+# ================================================================================
+#                               Backend Core Method Calls
+# ================================================================================
         
     # ✅ working
     def pokemon_selection(self) -> None:

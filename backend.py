@@ -25,6 +25,9 @@ class Backend:
         self.pokemon_array: Pokemon_Array = Pokemon_Array()
         
     # ✅ in progress
+    # This method allows the user to select 3 pokemons from the pokemon array
+    # and adds them to the player's pokemon linked list. The pokemon is then removed
+    # from the pokemon array. This is done for both player 1 and player 2.
     def select_pokemon_list(self) -> None:
         index: int = 0
         while index < 2:

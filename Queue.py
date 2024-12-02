@@ -4,11 +4,11 @@
 # 🐞Debugging
 
 class Queue:
-    # ⚠️ Untested
+    # ✅ working
     def __init__(self):
         self.queue = []
     
-    # ⚠️ Untested
+    # ✅ working
     def enqueue(self, element):
         self.queue.append(element)
     
@@ -32,5 +32,6 @@ class Queue:
     def size(self):
         return len(self.queue)
     
+    # 🐞Debugging
     def show_queue(self):
         print(self.queue)
