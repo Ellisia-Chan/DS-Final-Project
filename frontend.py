@@ -13,7 +13,7 @@ class Frontend:
         print("Welcome to the Pokemon Battle Game! \n")
         
     def pokemon_selection(self) -> None:
-        self.backend.pokemon_array.show_pokemons()
+        #self.backend.pokemon_array.show_pokemons()
         self.backend.select_pokemon_list()
         self.backend.show_selected_pokemons()
         

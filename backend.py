@@ -19,6 +19,7 @@ class Backend:
     def select_pokemon_list(self) -> None:
         index: int = 0
         while index < 2:
+            self.pokemon_array.show_pokemons()
             try:
                 player: str = "Player 1" if index == 0 else "Player 2"
                 player_pokemons: Linked_List = self.player1_pokemons if index == 0 else self.player2_pokemons
@@ -31,8 +32,8 @@ class Backend:
 
                 if all(1 <= choice <= self.pokemon_array.size() for choice in choices):
                     for choice in choices:
-                        player_pokemons.insert_at_begin(self.pokemon_array.select_and_remove_pokemon(choice))
-                    print(f"{player} has successfully selected their Pokémon.")
+                        player_pokemons.insert_at_end(self.pokemon_array.select_pokemon(choice))
+                    self.pokemon_array.remove_pokemon(choices)
                     index += 1
                 else:
                     self.frontend.show_error_message("Backend: One or more indices are invalid. Please try again.")
