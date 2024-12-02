@@ -12,7 +12,6 @@ class Gameplay:
     # 🟧 in progress
     def run(self) -> None:
         self.frontend.program_intro()
-        input("Press enter to continue...")
         
         # 🟧 in progress
         # player pokemon array selection loop

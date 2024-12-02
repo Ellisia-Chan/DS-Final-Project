@@ -7,7 +7,7 @@ import sys
 # Add your depencies here
 # =======================================
 dependencies = [
-    "numpy"
+    "numpy", "rich"
 ]
 
 

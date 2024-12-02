@@ -14,6 +14,10 @@ class Backend:
         self.player1_pokemons: Linked_List = Linked_List()
         self.player2_pokemons: Linked_List = Linked_List()
         self.pokemon_array: Pokemon_Array = Pokemon_Array()
+        
+        
+        
+        
 
     # 🟧 in progress | note: Linked list in progress
     def select_pokemon_list(self) -> None:

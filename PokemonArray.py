@@ -35,11 +35,14 @@ class Pokemon_Array:
             ('Flareon',    'Fire',           65,    130),  # Fire
         ], dtype=self.__pokemon_dtype)
 
+    def get(self) -> list:
+        return self.__pokemons
+
     # Show pokemon list with numbers (index)
     # This method prints the list of pokemons with their index to the console
-    def show_pokemons(self):
-        for idx, pokemon in enumerate(self.__pokemons):
-            print(f"{idx + 1}: {pokemon}")
+    # def show_pokemons(self):
+    #     for idx, pokemon in enumerate(self.__pokemons):
+    #         print(f"{idx + 1}: {pokemon}")
 
     # ✅ working
     # Select a pokemon by its index and remove it from the list
