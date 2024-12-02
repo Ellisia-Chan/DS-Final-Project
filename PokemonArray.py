@@ -1,6 +1,7 @@
 # 🟧 in progress
 # ✅ working
 # ⚠️ Untested
+# 🐞Debugging
 
 import numpy as np
 
@@ -19,50 +20,58 @@ class Pokemon_Array:
 
         # ✅ working
         self.__pokemons: np.ndarray = np.array([
-            #   Name          Type          Health   Power
-            ('Pikachu',    'Electric',        35,     55),
-            ('Charizard',  'Fire/Flying',     78,     84),
-            ('Bulbasaur',  'Grass/Poison',    45,     49),
-            ('Squirtle',   'Water',           44,     48),
-            ('Jigglypuff', 'Fairy/Normal',    115,    45),
-            ('Gengar',     'Ghost/Poison',    60,     65),
-            ('Eevee',      'Normal',          55,     55),
-            ('Snorlax',    'Normal',          160,   110),
-            ('Machamp',    'Fighting',        90,    130),
-            ('Dragonite',  'Dragon/Flying',   91,    134),
-            ('Vaporeon',   'Water',           130,    65),
-            ('Lucario',    'Fighting/Steel',  70,    110),
+            #   Name        Type           Health   Power
+            ('Charizard',  'Fire',           78,     84),  # Fire
+            ('Arcanine',   'Fire',           90,     95),  # Fire
+            ('Pikachu',    'Electric',       35,     55),  # Electric
+            ('Jolteon',    'Electric',       65,    110),  # Electric
+            ('Squirtle',   'Water',          44,     48),  # Water
+            ('Vaporeon',   'Water',         130,     65),  # Water
+            ('Bulbasaur',  'Grass',          45,     49),  # Grass
+            ('Leafeon',    'Grass',          65,    110),  # Grass
+            ('Eevee',      'Normal',         55,     55),  # Normal
+            ('Snorlax',    'Normal',        160,    110),  # Normal
+            ('Tauros',     'Normal',         75,    100),  # Normal
+            ('Flareon',    'Fire',           65,    130),  # Fire
         ], dtype=self.__pokemon_dtype)
-    
-    # Show pokemon list with numbers (index)
-    # This method prints the list of pokemons with their index to the console
-    def show_pokemons(self):
-        for idx, pokemon in enumerate(self.__pokemons):
-            print(f"{idx}: {pokemon}")
+
+    def get(self) -> list:
+        return self.__pokemons
 
     # ✅ working
     # Select a pokemon by its index and remove it from the list
     # This method takes an index of a pokemon and remove it from the list
     # It returns the pokemon that was removed or None if the index is invalid
-    def select_and_remove_pokemon(self, index: int):
-        if 0 <= index < len(self.__pokemons):
-            selected_pokemon = self.__pokemons[index]
-            self.__pokemons = np.delete(self.__pokemons, index)
+    def select_pokemon(self, index: int) -> list:
+        index -= 1
+        if index >= 0 and index < len(self.__pokemons):
+            selected_pokemon = [str(x) if isinstance(x, np.str_) else int(x) for x in self.__pokemons[index]]
             return selected_pokemon
         else:
-            print("Invalid index!")
+            print("Pokemon_Array: Invalid index!")
             return None
+    
+    def remove_pokemon(self, index_list: list) -> None:
+        for index in sorted(index_list, reverse=True):
+            self.__pokemons = np.delete(self.__pokemons, index - 1)
+        
+    # ✅ working
+    # returns the size of the pokemon array
+    def size(self) -> int:
+        return len(self.__pokemons)
 
-# if __name__ == "__main__":
+# 🐞Debugging
+if __name__ == "__main__":
+    import main
+    main.Gameplay()
 #     pokemon_array = Pokemon_Array()
 #     pokemon_array.show_pokemons()
 
 #     print("\n\n\nTest\n\n")
-#     selected_pokemon_1 = pokemon_array.select_and_remove_pokemon(0)
-#     selected_pokemon_2 = pokemon_array.select_and_remove_pokemon(1)
-    
+#     selected_pokemon_1 = pokemon_array.select_and_remove_pokemon(13)
 #     print("\nTest\n\n")
 #     pokemon_array.show_pokemons()
+#     selected_pokemon_2 = pokemon_array.select_and_remove_pokemon(1)
     
 #     print("\nTest\n\n")
 #     print(selected_pokemon_1)

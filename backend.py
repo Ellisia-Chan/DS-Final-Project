@@ -1,54 +1,92 @@
 # 🟧 in progress
 # ✅ working
 # ⚠️ Untested
+# 🐞Debugging
 
 from LinkedList import Linked_List
+from Queue import Queue
 from PokemonArray import Pokemon_Array
-
 
 # 🟧 in progress
 class Backend:
     # 🟧 in progress
-    def __init__(self) -> None:
-        self.player1_pokemons = Linked_List()
-        self.player2_pokemons = Linked_List()
-        self.pokemon_array = Pokemon_Array()
+    def __init__(self, frontend_instance) -> None:
+        self.frontend = frontend_instance
+        
+        # Player 1
+        self.player1_pokemons: Linked_List = Linked_List()
+        self.player1_pokemon_queue: Queue = Queue()
+        
+        # Player 2
+        self.player2_pokemons: Linked_List = Linked_List()
+        self.player2_pokemon_queue: Queue = Queue()
+        
+        # Pokemon Array
+        self.pokemon_array: Pokemon_Array = Pokemon_Array()
+        
+    # ✅ in progress
+    # This method allows the user to select 3 pokemons from the pokemon array
+    # and adds them to the player's pokemon linked list. The pokemon is then removed
+    # from the pokemon array. This is done for both player 1 and player 2.
+    def select_pokemon_list(self) -> None:
+        index: int = 0
+        while index < 2:
+            self.frontend.display_pokemon_array()
+            try:
+                player_str: str = "Player 1" if index == 0 else "Player 2"
+                player_pokemons: Linked_List = self.player1_pokemons if index == 0 else self.player2_pokemons
 
-    # 🟧 in progress | note: Linked list in progress
-    def select_pokemon(self, player: Linked_List, player_num_str: str) -> None:
-        # Display the available Pokémon
-        self.pokemon_array.show_pokemons()
+                choices: list = list(map(int, input(f"{player_str}\nEnter 3 pokemons by entering their indices (space-separated): ").split()))
 
-        try:
-            # Prompt the player to select a Pokémon by its index
-            player_choice = int(input(f"{player_num_str}, enter the index of the Pokémon you want to select: "))
+                if len(choices) != 3:
+                    self.frontend.show_error_message("You must select exactly 3 Pokémon!")
+                    continue
 
-            # Get the selected Pokémon and remove it from the array
-            selected_pokemon = self.pokemon_array.select_and_remove_pokemon(player_choice)
+                if all(1 <= choice <= self.pokemon_array.size() for choice in choices):
+                    for choice in choices:
+                        player_pokemons.insert_at_end(self.pokemon_array.select_pokemon(choice))
+                    self.pokemon_array.remove_pokemon(choices)
+                    index += 1
+                else:
+                    self.frontend.show_error_message("One or more indices are invalid. Please try again.")
 
-            # Add the chosen Pokémon to the player's linked list
-            if selected_pokemon:
-                player.insert_at_end(selected_pokemon[0])  # Use the name of the Pokémon
-                print(f"{player_num_str}'s Pokémon: ", player.print_linked_list())
-            else:
-                print("Invalid selection. Try again.")
- 
-        except (ValueError, IndexError):
-            print("Invalid input. Please enter a valid index.")
+            except (ValueError, IndexError):
+                self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
+    
+    # 🟧 in progress          
+    def select_pokemon_queue(self):
+        index: int = 0
+        while index < 2:
+            try:
+                player_str: str = "Player 1" if index == 0 else "Player 2"
+                player_pokemons: Linked_List = self.player1_pokemons if index == 0 else self.player2_pokemons
+                player_queue: Queue = self.player1_pokemon_queue if index == 0 else self.player2_pokemon_queue
+                self.frontend.display_player_pokemons(player_pokemons, player_str)
+                
+                queue_choice = list(map(int, input(f"{player_str}\nEnter 3 pokemons in order for battle use by entering their indices (space-separated): ").split()))
+                
+                if len(queue_choice) != 3:
+                    self.frontend.show_error_message("You must select exactly 3 Pokémon!")
+                    continue
 
-
+                if all(1 <= choice <= self.pokemon_array.size() for choice in queue_choice):
+                    for choice in queue_choice:
+                        player_queue.enqueue(player_pokemons.get_node(choice))
+                    index += 1
+                else:
+                    self.frontend.show_error_message("One or more indices are invalid. Please try again.")
+            
+            except (ValueError, IndexError):
+                self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
+    
+    # 🐞Debugging
+    def show_player_queue(self):
+        print("Player 1")
+        print(self.player1_pokemon_queue.show_queue())
+        print("Player 2")
+        print(self.player2_pokemon_queue.show_queue())
+    
+# 🐞Debugging
 if __name__ == "__main__":
-    backend = Backend()
-    print("Pick your pokemon.\n")
-
-    backend.select_pokemon(backend.player1_pokemons, "Player 1")
-    print( backend.pokemon_array.show_pokemons()) #backend.pokemon_array
-
-
-
-
-
-
-
-
-
+    import main
+    main.Gameplay()
