@@ -1,3 +1,8 @@
+# 🟧 in progress
+# ✅ working
+# ⚠️ Untested
+# 🐞Debugging
+
 import Packages
 #Packages.InitializePackages()
 
@@ -13,9 +18,12 @@ class Gameplay:
     def run(self) -> None:
         self.frontend.program_intro()
         
-        # 🟧 in progress
+        # ✅ working
         # player pokemon array selection loop
         self.frontend.pokemon_selection()
+        
+        # player pokemon queue for battle
+        self.frontend.pokemon_queue_selection()
 
 if __name__ == "__main__":
     Gameplay()
