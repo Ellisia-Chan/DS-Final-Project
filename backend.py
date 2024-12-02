@@ -4,6 +4,7 @@
 # 🐞Debugging
 
 from LinkedList import Linked_List
+from Queue import Queue
 from PokemonArray import Pokemon_Array
 
 # 🟧 in progress
@@ -11,27 +12,31 @@ class Backend:
     # 🟧 in progress
     def __init__(self, frontend_instance) -> None:
         self.frontend = frontend_instance
+        
+        # Player 1
         self.player1_pokemons: Linked_List = Linked_List()
+        self.player1_pokemon_queue: Queue = Queue()
+        
+        # Player 2
         self.player2_pokemons: Linked_List = Linked_List()
+        self.player2_pokemon_queue: Queue = Queue()
+        
+        # Pokemon Array
         self.pokemon_array: Pokemon_Array = Pokemon_Array()
         
-        
-        
-        
-
-    # 🟧 in progress | note: Linked list in progress
+    # ✅ in progress
     def select_pokemon_list(self) -> None:
         index: int = 0
         while index < 2:
-            self.pokemon_array.show_pokemons()
+            self.frontend.display_pokemon_array()
             try:
-                player: str = "Player 1" if index == 0 else "Player 2"
+                player_str: str = "Player 1" if index == 0 else "Player 2"
                 player_pokemons: Linked_List = self.player1_pokemons if index == 0 else self.player2_pokemons
 
-                choices: list = list(map(int, input(f"{player}, select 3 Pokémon by entering their indices (space-separated): ").split()))
+                choices: list = list(map(int, input(f"{player_str}\nEnter 3 pokemons by entering their indices (space-separated): ").split()))
 
                 if len(choices) != 3:
-                    self.frontend.show_error_message("Backend: You must select exactly 3 Pokémon!")
+                    self.frontend.show_error_message("You must select exactly 3 Pokémon!")
                     continue
 
                 if all(1 <= choice <= self.pokemon_array.size() for choice in choices):
@@ -40,19 +45,45 @@ class Backend:
                     self.pokemon_array.remove_pokemon(choices)
                     index += 1
                 else:
-                    self.frontend.show_error_message("Backend: One or more indices are invalid. Please try again.")
+                    self.frontend.show_error_message("One or more indices are invalid. Please try again.")
 
             except (ValueError, IndexError):
-                self.frontend.show_error_message("Backend: Please enter valid numeric indices separated by spaces.")
-            
-    def show_selected_pokemons(self) -> None:
-        self.player1_pokemons.print_linked_list()
-        self.player2_pokemons.print_linked_list()
+                self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
+    
+    # 🟧 in progress          
+    def select_pokemon_queue(self):
+        index: int = 0
+        while index < 2:
+            try:
+                player_str: str = "Player 1" if index == 0 else "Player 2"
+                player_pokemons: Linked_List = self.player1_pokemons if index == 0 else self.player2_pokemons
+                player_queue: Queue = self.player1_pokemon_queue if index == 0 else self.player2_pokemon_queue
+                self.frontend.display_player_pokemons(player_pokemons, player_str)
+                
+                queue_choice = list(map(int, input(f"{player_str}\nEnter 3 pokemons in order for battle use by entering their indices (space-separated): ").split()))
+                
+                if len(queue_choice) != 3:
+                    self.frontend.show_error_message("You must select exactly 3 Pokémon!")
+                    continue
 
+                if all(1 <= choice <= self.pokemon_array.size() for choice in queue_choice):
+                    for choice in queue_choice:
+                        player_queue.enqueue(player_pokemons.get_node(choice))
+                    index += 1
+                else:
+                    self.frontend.show_error_message("One or more indices are invalid. Please try again.")
+            
+            except (ValueError, IndexError):
+                self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
+    
+    # 🐞Debugging
+    def show_player_queue(self):
+        print("Player 1")
+        print(self.player1_pokemon_queue.show_queue())
+        print("Player 2")
+        print(self.player2_pokemon_queue.show_queue())
+    
 # 🐞Debugging
 if __name__ == "__main__":
-    backend = Backend()
-    print("Pick your pokemon.\n")
-
-    backend.select_pokemon_list(backend.player1_pokemons, "Player 1")
-    print(backend.pokemon_array.show_pokemons()) #backend.pokemon_array
+    import main
+    main.Gameplay()
