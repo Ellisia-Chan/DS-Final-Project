@@ -45,15 +45,18 @@ class Pokemon_Array:
     # Select a pokemon by its index and remove it from the list
     # This method takes an index of a pokemon and remove it from the list
     # It returns the pokemon that was removed or None if the index is invalid
-    def select_and_remove_pokemon(self, index: int) -> list:
+    def select_pokemon(self, index: int) -> list:
         index -= 1
         if index >= 0 and index < len(self.__pokemons):
-            selected_pokemon = list(self.__pokemons[index])
-            self.__pokemons = np.delete(self.__pokemons, index)
+            selected_pokemon = [str(x) if isinstance(x, np.str_) else int(x) for x in self.__pokemons[index]]
             return selected_pokemon
         else:
             print("Pokemon_Array: Invalid index!")
             return None
+    
+    def remove_pokemon(self, index_list: list) -> None:
+        for index in sorted(index_list, reverse=True):
+            self.__pokemons = np.delete(self.__pokemons, index - 1)
         
     # ✅ working
     # returns the size of the pokemon array
@@ -61,7 +64,9 @@ class Pokemon_Array:
         return len(self.__pokemons)
 
 # 🐞Debugging
-# if __name__ == "__main__":
+if __name__ == "__main__":
+    import main
+    main.Gameplay()
 #     pokemon_array = Pokemon_Array()
 #     pokemon_array.show_pokemons()
 

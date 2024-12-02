@@ -3,7 +3,6 @@ import Packages
 
 from frontend import Frontend
 
-
 class Gameplay:
     def __init__(self) -> None:
         self.frontend = Frontend()
