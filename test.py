@@ -147,4 +147,4 @@ if __name__ == "__main__":
     player2_queue = deque([]) # "Player 2 Stats", "Bulbasaur", "Squirtle"
 
     panel = BattlePanel()
-    panel.print_three_panel_from_queue(player1_queue, player2_queue)
+    panel.pokemon_battle_panel(player1_queue, player2_queue)
