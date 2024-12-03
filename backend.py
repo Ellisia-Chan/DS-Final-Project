@@ -68,7 +68,7 @@ class Backend:
                 player_queue: Queue = self.player1_pokemon_queue if index == 0 else self.player2_pokemon_queue
                 self.frontend.display_player_pokemons(player_pokemons, player_str)
                 
-                queue_choice = list(map(int, input(f"{player_str}\nEnter 3 pokemons in order for battle use by entering their indices (space-separated): ").split()))
+                queue_choice = list(map(int, input(f"Enter 3 pokemons in order for battle use by entering their indices (space-separated): ").split()))
                 
                 if len(queue_choice) != 3:
                     self.frontend.show_error_message("You must select exactly 3 Pokémon!")
@@ -79,7 +79,7 @@ class Backend:
                     self.frontend.show_error_message("Duplicate Pokémon selections are not allowed.")
                     continue
 
-                if all(1 <= choice <= self.pokemon_array.size() for choice in queue_choice):
+                if all(1 <= choice <= player_pokemons.size() for choice in queue_choice):
                     for choice in queue_choice:
                         player_queue.enqueue(player_pokemons.get_node(choice))
                     index += 1
