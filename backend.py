@@ -41,6 +41,11 @@ class Backend:
                 if len(choices) != 3:
                     self.frontend.show_error_message("You must select exactly 3 Pokémon!")
                     continue
+                
+                # Check for duplicate choices
+                if len(set(choices)) != len(choices):
+                    self.frontend.show_error_message("Duplicate Pokémon selections are not allowed.")
+                    continue
 
                 if all(1 <= choice <= self.pokemon_array.size() for choice in choices):
                     for choice in choices:
@@ -67,6 +72,11 @@ class Backend:
                 
                 if len(queue_choice) != 3:
                     self.frontend.show_error_message("You must select exactly 3 Pokémon!")
+                    continue
+                
+                # Check for duplicate choices
+                if len(set(queue_choice)) != len(queue_choice):
+                    self.frontend.show_error_message("Duplicate Pokémon selections are not allowed.")
                     continue
 
                 if all(1 <= choice <= self.pokemon_array.size() for choice in queue_choice):
