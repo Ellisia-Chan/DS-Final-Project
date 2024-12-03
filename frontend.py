@@ -117,12 +117,7 @@ class Frontend:
         # Print the table center-aligned
         self.console.print(Align.left(table))
 
-    # 💬 Ayusin mo pre ASHSAHASHSAHAS yung ilalagay dito nasa test.py
-    # 🟧 in progress
-    def pokemon_battle(self, player_1, player_2) -> None:
-        os.system('cls')  # Clear terminal
-
-        self.console.print("[bold green]Pokemon Battle![/bold green]\n\n")
+    
 
  
 # ================================================================================
