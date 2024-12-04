@@ -14,7 +14,6 @@ from rich.table import Table
 from rich.align import Align
 from rich.box import HEAVY
 
-
 class Frontend:
     # 🟧 in progress
     def __init__(self) -> None:
@@ -90,7 +89,7 @@ class Frontend:
         # Print the table center-aligned
         self.console.print(Align.left(table))
     
-    # 🟧 in progress
+    # ✅ working
     def display_player_pokemons(self, player_linked_list, player_str: int) -> None:
         os.system('cls')
         
@@ -246,6 +245,9 @@ class Frontend:
         table.add_row(panel1_left, panel1_middle, panel1_right)
         table.add_row(panel2_left, panel2_middle, panel2_right)
         table.add_row(panel3_left, panel3_middle, panel3_right)
+        
+        self.console.print(Panel(Align.center("[bold blue]Pokemon Battle Queue[/bold blue]",
+            vertical="middle"), style="white", border_style="blue", box=HEAVY, padding=(1, 1)))
 
         # Print the table with all three rows
         self.console.print(table)
@@ -259,7 +261,7 @@ class Frontend:
     def pokemon_selection(self) -> None:
         self.backend.select_pokemon_list()
     
-    # 🟧 in progress
+    # ✅ working
     def pokemon_queue_selection(self) -> None:
         self.backend.select_pokemon_queue()
         
