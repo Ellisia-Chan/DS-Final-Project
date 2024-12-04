@@ -33,5 +33,5 @@ class Queue:
         return len(self.queue)
     
     # 🐞Debugging
-    def show_queue(self):
-        print(self.queue)
+    def get_queue(self) -> list:
+        return self.queue

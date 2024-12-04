@@ -53,7 +53,7 @@ class BattlePanel:
         )
         panel1_middle = Panel(
             middle_aligned_message1,
-            title="Battle",
+            title="Battle 1",
             style="yellow",
             border_style="yellow",
             width=middle_width,
@@ -81,7 +81,7 @@ class BattlePanel:
         )
         panel2_middle = Panel(
             middle_aligned_message2,
-            title="Battle",
+            title="Battle 2",
             style="yellow",
             border_style="yellow",
             width=middle_width,
@@ -109,7 +109,7 @@ class BattlePanel:
         )
         panel3_middle = Panel(
             middle_aligned_message3,
-            title="Battle",
+            title="Battle 3",
             style="yellow",
             border_style="yellow",
             width=middle_width,
