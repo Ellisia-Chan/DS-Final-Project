@@ -126,7 +126,7 @@ class Backend:
                             
             except (ValueError, IndexError):
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
-    
+    # 🟧 in progress
     def random_effect_generator(self, player_stack: Stack) -> None:
         effects_list: list = ["Power UP", "Poison"]
         for _ in range(3):
