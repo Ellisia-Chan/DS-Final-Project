@@ -137,7 +137,7 @@ class Frontend:
         # Print the table center-aligned
         self.console.print(Align.left(table))
 
-    # 🟧 in progress
+    # ✅ working
     def display_players_pokemon_queue(self, player1_queue: list, player2_queue: list) -> None:
         os.system('cls')
         # Get console width
@@ -271,11 +271,27 @@ class Frontend:
         self.console.print(table)
         self.console.input(Panel(Align.center("[bold green]PRESS ENTER TO CONTINUE To BATTLE[/bold green]", vertical="middle"), style="white", border_style="yellow", box=HEAVY))
     
+    # 🟧 in progress
     def random_effects_display(self, player_name: str, pokemon_name: str) -> None:
         os.system('cls')
         message: str = f"[bold white]\t\t  {player_name} Pokemon Random Effect stack[/bold white]\n{pokemon_name[0]} will receive a 3 random effect stack (Power-ups or Poisons)\n\n[red]Press enter to generate stack[/red]"
         
-        self.print_panel(message, "Random Effects", "yellow")       
+        self.print_panel(message, "Random Effects", "yellow")
+    
+    # 🟧 in progress  
+    def display_pokemon_stack_effect(self, player_str: str, pokemon_name: str, pokemon_effect_stack: list) -> None:
+        table = Table(border_style="bold white", box=HEAVY, title=f"{player_str} {pokemon_name[0]} Effect Stack")
+        
+        table.add_column("Index", justify="center", width=8)
+        table.add_column("Effects", justify="center", width=20)
+        
+        for idx, effect in enumerate(reversed(pokemon_effect_stack)):
+            table.add_row(
+                str(idx+1),  # Index
+                str(effect),  # Effect
+            )
+            
+        self.console.print(Align.left(table))
  
 # ================================================================================
 #                               Backend Core Method Calls

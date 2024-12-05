@@ -9,7 +9,6 @@ from stack import Stack
 from PokemonArray import Pokemon_Array
 
 import random
-
 # 🟧 in progress
 class Backend:
     # 🟧 in progress
@@ -115,18 +114,21 @@ class Backend:
         while index < 2:
             try:
                 player_str: str = "Player 1" if index == 0 else "Player 2"
-                player_queue = self.player1_pokemon_queue if index == 0 else self.player2_pokemon_queue
-                player_stack = self.player1_pokemon_stack if index == 0 else self.player2_pokemon_stack
+                player_queue: Queue = self.player1_pokemon_queue if index == 0 else self.player2_pokemon_queue
+                player_stack: Stack = self.player1_pokemon_stack if index == 0 else self.player2_pokemon_stack
                 
                 self.frontend.random_effects_display(player_str, player_queue.front())
                 input()
                 self.random_effect_generator(player_stack)
-                player_stack.show()
+                self.frontend.display_pokemon_stack_effect(player_str, player_queue.front(), player_stack.get())
+                input()
+                
                 index += 1
                             
             except (ValueError, IndexError):
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
-    # 🟧 in progress
+                
+    # ✅ working
     def random_effect_generator(self, player_stack: Stack) -> None:
         effects_list: list = ["Power UP", "Poison"]
         for _ in range(3):
