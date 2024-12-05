@@ -24,7 +24,7 @@ class Backend:
         # Pokemon Array
         self.pokemon_array: Pokemon_Array = Pokemon_Array()
         
-    # ✅ in progress
+    # ✅ working
     # This method allows the user to select 3 pokemons from the pokemon array
     # and adds them to the player's pokemon linked list. The pokemon is then removed
     # from the pokemon array. This is done for both player 1 and player 2.
@@ -58,7 +58,7 @@ class Backend:
             except (ValueError, IndexError):
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
     
-    # 🟧 in progress          
+    # ✅ working          
     def select_pokemon_queue(self):
         index: int = 0
         while index < 2:
@@ -88,13 +88,10 @@ class Backend:
             
             except (ValueError, IndexError):
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
-    
-    # 🐞Debugging
-    def show_player_queue(self):
-        print("Player 1")
-        print(self.player1_pokemon_queue.show_queue())
-        print("Player 2")
-        print(self.player2_pokemon_queue.show_queue())
+        
+        self.frontend.display_players_pokemon_queue(
+            self.player1_pokemon_queue.get_queue(),
+            self.player2_pokemon_queue.get_queue())
     
 # 🐞Debugging
 if __name__ == "__main__":
