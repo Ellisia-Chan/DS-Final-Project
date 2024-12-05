@@ -24,7 +24,13 @@ class Frontend:
     def show_error_message(self, message: str) -> None:
         error_message = Text(message, style="red")
         self.console.print(error_message)
-        time.sleep(1)
+        time.sleep(1.5)
+    
+    # ✅ working
+    # shows selected pokemon when selecting
+    def show_selected_pokemon(self, pokemon: list) -> None:
+        self.console.print(f"Selected Pokemon: [green]{pokemon[0][0]}, {pokemon[1][0]}, {pokemon[2][0]}[/green]")
+        time.sleep(1.5)
         
     # ✅ Working
     def wait_for_start(self) -> None:
@@ -35,6 +41,21 @@ class Frontend:
             sys.exit()  # Quit the program
         else:
             self.console.print("[bold green]Game starting...[/bold green]", style="white")
+    
+    #✅ Working
+    def print_panel(self, message, title, style, width_fraction=2):
+            # Helper function to create and print a styled panel
+            console_width = self.console.size.width // width_fraction
+            aligned_message = Align.center(message)
+            panel = Panel(
+                aligned_message,
+                title=title,
+                style=style,
+                border_style=style,
+                width=console_width,
+                padding=(1, 1)
+            )
+            self.console.print(panel, justify="left")
      
     # 🟧 in progress
     def program_intro(self) -> None:
@@ -116,7 +137,7 @@ class Frontend:
         # Print the table center-aligned
         self.console.print(Align.left(table))
 
-    # 🟧 in progress
+    # ✅ working
     def display_players_pokemon_queue(self, player1_queue: list, player2_queue: list) -> None:
         os.system('cls')
         # Get console width
@@ -162,7 +183,6 @@ class Frontend:
         )
         panel1_middle = Panel(
             middle_aligned_message1,
-            title="Battle 1",
             style="yellow",
             border_style="yellow",
             width=middle_width,
@@ -190,7 +210,6 @@ class Frontend:
         )
         panel2_middle = Panel(
             middle_aligned_message2,
-            title="Battle 2",
             style="yellow",
             border_style="yellow",
             width=middle_width,
@@ -218,7 +237,6 @@ class Frontend:
         )
         panel3_middle = Panel(
             middle_aligned_message3,
-            title="Battle 3",
             style="yellow",
             border_style="yellow",
             width=middle_width,
@@ -251,7 +269,29 @@ class Frontend:
 
         # Print the table with all three rows
         self.console.print(table)
-
+        self.console.input(Panel(Align.center("[bold green]PRESS ENTER TO CONTINUE To BATTLE[/bold green]", vertical="middle"), style="white", border_style="yellow", box=HEAVY))
+    
+    # 🟧 in progress
+    def random_effects_display(self, player_name: str, pokemon_name: str) -> None:
+        os.system('cls')
+        message: str = f"[bold white]\t\t  {player_name} Pokemon Random Effect stack[/bold white]\n{pokemon_name[0]} will receive a 3 random effect stack (Power-ups or Poisons)\n\n[red]Press enter to generate stack[/red]"
+        
+        self.print_panel(message, "Random Effects", "yellow")
+    
+    # 🟧 in progress  
+    def display_pokemon_stack_effect(self, player_str: str, pokemon_name: str, pokemon_effect_stack: list) -> None:
+        table = Table(border_style="bold white", box=HEAVY, title=f"{player_str} {pokemon_name[0]} Effect Stack")
+        
+        table.add_column("Index", justify="center", width=8)
+        table.add_column("Effects", justify="center", width=20)
+        
+        for idx, effect in enumerate(reversed(pokemon_effect_stack)):
+            table.add_row(
+                str(idx+1),  # Index
+                str(effect),  # Effect
+            )
+            
+        self.console.print(Align.left(table))
  
 # ================================================================================
 #                               Backend Core Method Calls
@@ -264,6 +304,9 @@ class Frontend:
     # ✅ working
     def pokemon_queue_selection(self) -> None:
         self.backend.select_pokemon_queue()
+        
+    def pokemon_rand_effects_selection(self) -> None:
+        self.backend.random_effects_selection()
         
 if __name__ == "__main__":
     import main

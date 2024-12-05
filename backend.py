@@ -5,8 +5,10 @@
 
 from LinkedList import Linked_List
 from Queue import Queue
+from stack import Stack
 from PokemonArray import Pokemon_Array
 
+import random
 # 🟧 in progress
 class Backend:
     # 🟧 in progress
@@ -16,10 +18,16 @@ class Backend:
         # Player 1
         self.player1_pokemons: Linked_List = Linked_List()
         self.player1_pokemon_queue: Queue = Queue()
+        self.player1_pokemon_stack: Stack = Stack()
+        
+        self.player1_current_battle_pokemon: list = []
         
         # Player 2
         self.player2_pokemons: Linked_List = Linked_List()
         self.player2_pokemon_queue: Queue = Queue()
+        self.player2_pokemon_stack: Stack = Stack()
+        
+        self.player2_current_battle_pokemon: list = []
         
         # Pokemon Array
         self.pokemon_array: Pokemon_Array = Pokemon_Array()
@@ -54,12 +62,17 @@ class Backend:
                     index += 1
                 else:
                     self.frontend.show_error_message("One or more indices are invalid. Please try again.")
+                
+                self.frontend.show_selected_pokemon(player_pokemons.get_linked_list())
 
             except (ValueError, IndexError):
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
     
-    # ✅ working          
-    def select_pokemon_queue(self):
+    # ✅ working
+    # This method allows the user to select 3 pokemons from their respective pokemon linked lists
+    # and adds them to the player's pokemon queue. The pokemons are added in order of selection.
+    # This is done for both player 1 and player 2.
+    def select_pokemon_queue(self) -> None:
         index: int = 0
         while index < 2:
             try:
@@ -85,6 +98,8 @@ class Backend:
                     index += 1
                 else:
                     self.frontend.show_error_message("One or more indices are invalid. Please try again.")
+                
+                self.frontend.show_selected_pokemon(player_queue.get_queue())
             
             except (ValueError, IndexError):
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
@@ -93,6 +108,34 @@ class Backend:
             self.player1_pokemon_queue.get_queue(),
             self.player2_pokemon_queue.get_queue())
     
+    # 🟧 in progress
+    def random_effects_selection(self) -> None:
+        index: int = 0
+        while index < 2:
+            try:
+                player_str: str = "Player 1" if index == 0 else "Player 2"
+                player_queue: Queue = self.player1_pokemon_queue if index == 0 else self.player2_pokemon_queue
+                player_stack: Stack = self.player1_pokemon_stack if index == 0 else self.player2_pokemon_stack
+                
+                self.frontend.random_effects_display(player_str, player_queue.front())
+                input()
+                self.random_effect_generator(player_stack)
+                self.frontend.display_pokemon_stack_effect(player_str, player_queue.front(), player_stack.get())
+                input()
+                
+                index += 1
+                            
+            except (ValueError, IndexError):
+                self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
+                
+    # ✅ working
+    def random_effect_generator(self, player_stack: Stack) -> None:
+        effects_list: list = ["Power UP", "Poison"]
+        for _ in range(3):
+            effect: str = random.choice(effects_list)
+            player_stack.push(effect)
+            
+
 # 🐞Debugging
 if __name__ == "__main__":
     import main
