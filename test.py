@@ -212,6 +212,7 @@ class Frontend:
             style="white",
             width=left_width,
             padding=(1, 1),
+            box=HEAVY
 
         )
         panel1_middle = Panel(
@@ -220,10 +221,11 @@ class Frontend:
             border_style="white",
             width=middle_width,
             padding=(1, 1),
+            box=HEAVY
         )
         panel1_right = Panel(
             right_aligned_message1,
-            title="Queue 2",
+            title="Queue 1",
             style="green",
             border_style="green",
             width=right_width,
@@ -234,16 +236,16 @@ class Frontend:
         panel2_left = Panel(
             left_aligned_message2,
             style="white",
-            border_style="white",
             width=left_width,
             padding=(1, 1),
+            box=HEAVY
         )
         panel2_middle = Panel(
             middle_aligned_message2,
             style='white',
-            border_style="white",
             width=middle_width,
             padding=(1, 1),
+            box=HEAVY
         )
         panel2_right = Panel(
             right_aligned_message2,
@@ -258,16 +260,16 @@ class Frontend:
         panel3_left = Panel(
             left_aligned_message3,
             style="white",
-            border_style="white",
             width=left_width,
             padding=(1, 1),
+            box=HEAVY
         )
         panel3_middle = Panel(
             middle_aligned_message3,
             style='white',
-            border_style='white',
             width=middle_width,
             padding=(1, 1),
+            box=HEAVY
         )
         panel3_right = Panel(
             right_aligned_message3,
@@ -306,4 +308,5 @@ class Frontend:
 if __name__ == "__main__":
      f = Frontend()
     #  f.display_players_pokemon_queue([],[],"white","white")
-     f.player_queue_insert([], "Player 1")
+     f.player_queue_insert([["Pikachu"], ["Charizard"], ["Bulbasaur"]], "Player 2")
+
