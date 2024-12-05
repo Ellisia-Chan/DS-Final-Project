@@ -344,7 +344,7 @@ class Frontend:
             step_duration = seconds / total_steps
 
             with Progress(
-                TextColumn("[bold blue]Battle ready:[/bold blue]"),
+                TextColumn("[bold blue]Preparing battle:[/bold blue]"),
                 BarColumn(bar_width=60),
                 TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
             ) as progress:
@@ -519,7 +519,21 @@ class Frontend:
         
         # Print the table with all three rows
         self.console.print(table)
-   
+    
+
+
+    # ⚠️ Untested
+    def prompt_player_queue(self) -> str:
+        self.console.print(
+            Panel(
+                Align.center("[cyan]Enter 3 Pokémon by entering their indices (space-separated):[/cyan]", vertical="middle"),
+                style="white",
+                border_style="yellow",
+                box=HEAVY
+            )
+        )
+
+        return input("> ").strip()
 # ================================================================================
 #                               Backend Core Method Calls
 # ================================================================================

@@ -171,7 +171,7 @@ class Frontend:
 
 
 
-    # ⚠️ Untested
+    # ✅ working
     def player_queue_insert(self, player_queue: list, player_number: str):
         self.clear_screen()
 
@@ -308,5 +308,8 @@ class Frontend:
 if __name__ == "__main__":
      f = Frontend()
      f.display_players_pokemon_queue([],[],"white","white")
+     f.player_queue_insert([], "Player 1")
      f.player_queue_insert([["Pikachu"], ["Charizard"], ["Bulbasaur"]], "Player 2")
 
+# 💬 may message ako. Pre gawin mo for every file, ctrl + f mo then type # ⚠️ Untested. 
+# ASHSAHDSAHASHDASHDASH you're welcome (sorry)

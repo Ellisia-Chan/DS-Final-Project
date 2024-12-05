@@ -75,10 +75,6 @@ class Backend:
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
     
     # ⚠️ Untested
-    # This method allows the user to select 3 pokemons from their respective pokemon linked lists
-    # and adds them to the player's pokemon queue. The pokemons are added in order of selection.
-    # This is done for both player 1 and player 2.
-    
     def select_pokemon_queue(self) -> None:
         
         index: int = 0
@@ -93,7 +89,7 @@ class Backend:
                 self.frontend.player_queue_insert(player_pokemons,player_str)
 
                 # Prompt player to make their selections
-                choices_raw = self.frontend.prompt_player_selection(player_str)
+                choices_raw = self.frontend.prompt_player_queue(player_str)
                 queue_choice: list = list(map(int, choices_raw.split()))
 
                 # Validate the input: ensure exactly 3 Pokémon are selected
