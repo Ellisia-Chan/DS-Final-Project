@@ -74,7 +74,7 @@ class Backend:
             except (ValueError, IndexError):
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
     
-    # ✅ working
+    # ⚠️ Untested
     # This method allows the user to select 3 pokemons from their respective pokemon linked lists
     # and adds them to the player's pokemon queue. The pokemons are added in order of selection.
     # This is done for both player 1 and player 2.
@@ -95,7 +95,11 @@ class Backend:
                 player_queue: Queue = self.player1_pokemon_queue if index == 0 else self.player2_pokemon_queue
                 self.frontend.display_player_pokemons(player_pokemons, player_str)
                 
-                queue_choice = list(map(int, input(f"Enter 3 pokemons in order for battle use by entering their indices (space-separated): ").split()))
+                self.frontend.player_queue_insert(player_queue,player_str)
+                # Get input from the user
+                choices_raw = self.frontend.prompt_player_selection(player_str)
+                queue_choice: list = list(map(int, choices_raw.split()))
+
                 
                 if len(queue_choice) != 3:
                     self.frontend.show_error_message("You must select exactly 3 Pokémon!")
@@ -113,7 +117,8 @@ class Backend:
                 else:
                     self.frontend.show_error_message("One or more indices are invalid. Please try again.")
                 
-                self.frontend.show_selected_pokemon(player_queue.get_queue())
+                self.frontend.player_queue_insert(queue_choice,player_str)
+                # self.frontend.show_selected_pokemon(player_queue.get_queue())
             
             except (ValueError, IndexError):
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
