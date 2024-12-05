@@ -35,8 +35,8 @@ class Frontend:
     # ✅ working
     # shows selected pokemon when selecting
     def show_selected_pokemon(self, pokemon: list) -> None:
-        self.console.print(f"Selected Pokemon: [green]{pokemon[0][0]}, {pokemon[1][0]}, {pokemon[2][0]}[/green]")
-        time.sleep(1.5)
+        self.console.print(Align.center(f"Selected Pokemon: [green]{pokemon[0][0]}, {pokemon[1][0]}, {pokemon[2][0]}[/green]"), style="white")
+        time.sleep(2)
         
     # ✅ Working
     def wait_for_start(self) -> None:
@@ -93,10 +93,8 @@ class Frontend:
         )
 
         # Additional Information and Messages
-        self.console.print(Align.center("[yellow]🛈[/yellow]: [bold yellow]✨Choose your Pokemon✨:[/bold yellow] [green]3 each player![/green]\n", vertical="middle"), style="white")
-        self.console.print(Align.center("[yellow]🛈[/yellow]: Choose your pokemon [bold yellow]queue order![/bold yellow]", vertical="middle"), style="white")
-        self.console.print(Align.center("[yellow]🛈[/yellow]: 🧙 exchange luck with a [purple]random effect![/purple] [bold green]💚 potion[/bold green] or [bold red]💔 poison[/bold red].", vertical="middle"), style="white")
-        self.console.print(Align.center("[yellow]🛈[/yellow]: [italic]After every battle, ⚔️ pokemon lose [bold red]-5 Health💔[/bold red] due to [red]fatigue[/red][/italic].", vertical="middle"), style="white")
+        self.console.print(Align.center("[yellow]🛈[/yellow]: [bold yellow]✨Choose your Pokemon✨:[/bold yellow] [green]3 each player![/green]\n[yellow]🛈[/yellow]: Choose your pokemon [bold yellow]queue order![/bold yellow]", vertical="middle"), style="white")
+        self.console.print(Align.center("[yellow]🛈[/yellow]: 🧙 exchange luck with a [purple]random effect![/purple] [bold green]💚 potion[/bold green] or [bold red]💔 poison[/bold red].\n[yellow]🛈[/yellow]:[italic]After every battle, ⚔️ pokemon lose [bold red]-5 Health💔[/bold red] due to [red]fatigue[/red][/italic].", vertical="middle"), style="white")
         
         # Print final panel to prompt user to start or quit
         self.console.print(
@@ -118,9 +116,11 @@ class Frontend:
     def display_pokemon_array(self) -> None:
         self.clear_screen()
 
-        self.console.print(Align.center("[green]Choose [bold]3 pokemons![/bold][/green] \n\t   Selected pokemons will be [red]removed from the pokemon list array![/red]\n", vertical="middle"), style="white")
-        table = Table(border_style="bold white", box=HEAVY, title="Available Pokemon")
+        self.console.print(Align.center("\n[green]Choose [bold]3 pokemons![/bold][/green]", vertical="middle"), style="white")
+        self.console.print(Align.center("Selected pokemons will be [red]removed from the pokemon list![/red]\n", vertical="middle"), style="white")
+        
 
+        table = Table(border_style="bold white", box=HEAVY, title="Available Pokemon")
         # Add columns for the Pokemon attributes
         table.add_column("Index", justify="center")
         table.add_column("Name", justify="center")
@@ -353,6 +353,20 @@ class Frontend:
         except Exception as e:
             self.console.print(f"[red]Error in progress bar animation: {e}[/red]")
 
+    # ✅ working
+    def prompt_player_selection(self, player: str) -> str:
+        self.console.print(Align.center(f"[bold yellow]✨ {player} ✨[/bold yellow]", vertical="middle"), style="white")
+
+        self.console.print(
+            Panel(
+                Align.center("[cyan]Enter 3 Pokémon by entering their indices (space-separated):[/cyan]", vertical="middle"),
+                style="white",
+                border_style="yellow",
+                box=HEAVY
+            )
+        )
+
+        return input("> ").strip()
 
 # ================================================================================
 #                               Backend Core Method Calls
