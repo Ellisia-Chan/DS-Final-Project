@@ -22,6 +22,7 @@ class Gameplay:
         # player pokemon array selection loop
         self.frontend.pokemon_selection()
         
+        # 🟧 in progress
         # player pokemon queue for battle
         self.frontend.pokemon_queue_selection()
 

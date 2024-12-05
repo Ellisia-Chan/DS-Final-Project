@@ -24,7 +24,13 @@ class Frontend:
     def show_error_message(self, message: str) -> None:
         error_message = Text(message, style="red")
         self.console.print(error_message)
-        time.sleep(1)
+        time.sleep(1.5)
+    
+    # ✅ working
+    # shows selected pokemon when selecting
+    def show_selected_pokemon(self, pokemon: list) -> None:
+        self.console.print(f"Selected Pokemon: [green]{pokemon[0][0]}, {pokemon[1][0]}, {pokemon[2][0]}[/green]")
+        time.sleep(1.5)
         
     # ✅ Working
     def wait_for_start(self) -> None:
@@ -162,7 +168,6 @@ class Frontend:
         )
         panel1_middle = Panel(
             middle_aligned_message1,
-            title="Battle 1",
             style="yellow",
             border_style="yellow",
             width=middle_width,
@@ -190,7 +195,6 @@ class Frontend:
         )
         panel2_middle = Panel(
             middle_aligned_message2,
-            title="Battle 2",
             style="yellow",
             border_style="yellow",
             width=middle_width,
@@ -218,7 +222,6 @@ class Frontend:
         )
         panel3_middle = Panel(
             middle_aligned_message3,
-            title="Battle 3",
             style="yellow",
             border_style="yellow",
             width=middle_width,
@@ -251,6 +254,7 @@ class Frontend:
 
         # Print the table with all three rows
         self.console.print(table)
+        self.console.input(Panel(Align.center("[bold green]PRESS ENTER TO CONTINUE To BATTLE[/bold green]", vertical="middle"), style="white", border_style="yellow", box=HEAVY))
 
  
 # ================================================================================

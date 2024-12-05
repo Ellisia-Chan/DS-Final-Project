@@ -54,11 +54,16 @@ class Backend:
                     index += 1
                 else:
                     self.frontend.show_error_message("One or more indices are invalid. Please try again.")
+                
+                self.frontend.show_selected_pokemon(player_pokemons.get_linked_list())
 
             except (ValueError, IndexError):
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
     
-    # ✅ working          
+    # ✅ working
+    # This method allows the user to select 3 pokemons from their respective pokemon linked lists
+    # and adds them to the player's pokemon queue. The pokemons are added in order of selection.
+    # This is done for both player 1 and player 2.
     def select_pokemon_queue(self):
         index: int = 0
         while index < 2:
@@ -85,6 +90,8 @@ class Backend:
                     index += 1
                 else:
                     self.frontend.show_error_message("One or more indices are invalid. Please try again.")
+                
+                self.frontend.show_selected_pokemon(player_queue.get_queue())
             
             except (ValueError, IndexError):
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
@@ -93,6 +100,9 @@ class Backend:
             self.player1_pokemon_queue.get_queue(),
             self.player2_pokemon_queue.get_queue())
     
+    def Handle_battle(self):
+        pass
+
 # 🐞Debugging
 if __name__ == "__main__":
     import main

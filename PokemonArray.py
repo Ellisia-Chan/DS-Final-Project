@@ -21,18 +21,18 @@ class Pokemon_Array:
         # ✅ working
         self.__pokemons: np.ndarray = np.array([
             #   Name        Type           Health   Power
-            ('Charizard',  'Fire',           78,     84),  # Fire
+            ('Charizard',  'Fire',           80,     80),  # Fire
             ('Arcanine',   'Fire',           90,     95),  # Fire
-            ('Pikachu',    'Electric',       35,     55),  # Electric
-            ('Jolteon',    'Electric',       65,    110),  # Electric
-            ('Squirtle',   'Water',          44,     48),  # Water
-            ('Vaporeon',   'Water',         130,     65),  # Water
-            ('Bulbasaur',  'Grass',          45,     49),  # Grass
-            ('Leafeon',    'Grass',          65,    110),  # Grass
-            ('Eevee',      'Normal',         55,     55),  # Normal
-            ('Snorlax',    'Normal',        160,    110),  # Normal
-            ('Tauros',     'Normal',         75,    100),  # Normal
-            ('Flareon',    'Fire',           65,    130),  # Fire
+            ('Pikachu',    'Electric',       50,     75),  # Electric
+            ('Jolteon',    'Electric',       70,     90),  # Electric
+            ('Squirtle',   'Water',          50,     60),  # Water
+            ('Vaporeon',   'Water',         100,     70),  # Water
+            ('Bulbasaur',  'Grass',          50,     55),  # Grass
+            ('Leafeon',    'Grass',          70,    100),  # Grass
+            ('Eevee',      'Normal',         50,     60),  # Normal
+            ('Snorlax',    'Normal',        100,     90),  # Normal
+            ('Tauros',     'Normal',         70,    100),  # Normal
+            ('Flareon',    'Fire',           60,     85),  # Fire
         ], dtype=self.__pokemon_dtype)
 
     def get(self) -> list:
