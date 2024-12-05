@@ -80,56 +80,50 @@ class Backend:
     # This is done for both player 1 and player 2.
     
     def select_pokemon_queue(self) -> None:
-        # Dummy start
-        self.frontend.display_players_pokemon_queue(
-            self.player1_pokemon_queue.get_queue(),
-            self.player2_pokemon_queue.get_queue(),
-            "white",
-            "white")
         
         index: int = 0
         while index < 2:
             try:
+                # Determine the current player's data
                 player_str: str = "Player 1" if index == 0 else "Player 2"
                 player_pokemons: Linked_List = self.player1_pokemons if index == 0 else self.player2_pokemons
                 player_queue: Queue = self.player1_pokemon_queue if index == 0 else self.player2_pokemon_queue
-                self.frontend.display_player_pokemons(player_pokemons, player_str)
-                
-                self.frontend.player_queue_insert(player_queue,player_str)
-                # Get input from the user
+
+                # Display the available Pokémon for the current player
+                self.frontend.player_queue_insert(player_pokemons,player_str)
+
+                # Prompt player to make their selections
                 choices_raw = self.frontend.prompt_player_selection(player_str)
                 queue_choice: list = list(map(int, choices_raw.split()))
 
-                
+                # Validate the input: ensure exactly 3 Pokémon are selected
                 if len(queue_choice) != 3:
                     self.frontend.show_error_message("You must select exactly 3 Pokémon!")
                     continue
-                
-                # Check for duplicate choices
+
+                # Check for duplicate selections
                 if len(set(queue_choice)) != len(queue_choice):
                     self.frontend.show_error_message("Duplicate Pokémon selections are not allowed.")
                     continue
 
+                # Check that all chosen indices are valid
                 if all(1 <= choice <= player_pokemons.size() for choice in queue_choice):
                     for choice in queue_choice:
+                        # Add the selected Pokémon to the player's queue
                         player_queue.enqueue(player_pokemons.get_node(choice))
                     index += 1
                 else:
                     self.frontend.show_error_message("One or more indices are invalid. Please try again.")
+                    continue
+
+                # Update the frontend with the selected Pokémon
+                self.frontend.player_queue_insert(player_queue.get_queue(), player_str)
                 
-                self.frontend.player_queue_insert(queue_choice,player_str)
-                # self.frontend.show_selected_pokemon(player_queue.get_queue())
-            
             except (ValueError, IndexError):
+                # Handle invalid input gracefully
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
-        
-        # Main battle output
-        self.frontend.display_players_pokemon_queue(
-            self.player1_pokemon_queue.get_queue(),
-            self.player2_pokemon_queue.get_queue(),
-            "white",
-            "white")
-    
+
+
     # 🟧 in progress
     def random_effects_selection(self) -> None:
         index: int = 0

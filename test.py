@@ -307,6 +307,6 @@ class Frontend:
 
 if __name__ == "__main__":
      f = Frontend()
-    #  f.display_players_pokemon_queue([],[],"white","white")
+     f.display_players_pokemon_queue([],[],"white","white")
      f.player_queue_insert([["Pikachu"], ["Charizard"], ["Bulbasaur"]], "Player 2")
 

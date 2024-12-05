@@ -2,6 +2,7 @@
 # ✅ working
 # ⚠️ Untested
 # 💬 may message ako
+# ❗❗❗ Warning
 
 from backend import Backend
 
@@ -143,32 +144,32 @@ class Frontend:
         self.console.print(Align.center(table))
         print()
     
-    # ✅ working
-    def display_player_pokemons(self, player_linked_list, player_str: int) -> None:
-        self.clear_screen()
+    # ❗❗❗ Binago ko. Ewan ko kung ginagamit pato or redundant na. Pa check po hehehehe
+    # def display_player_pokemons(self, player_linked_list, player_str: int) -> None:
+    #     self.clear_screen()
         
-        self.console.print("\n\n")
-        table = Table(border_style="bold white", box=HEAVY, title=f"{player_str} Pokemon Queue")
+    #     self.console.print("\n\n")
+    #     table = Table(border_style="bold white", box=HEAVY, title=f"{player_str} Pokemon Queue")
         
-        # Add columns for the Pokemon attributes
-        table.add_column("Index", justify="center")
-        table.add_column("Name", justify="center")
-        table.add_column("Type", justify="center")
-        table.add_column("Health", justify="center")
-        table.add_column("Power", justify="center")
+    #     # Add columns for the Pokemon attributes
+    #     table.add_column("Index", justify="center")
+    #     table.add_column("Name", justify="center")
+    #     table.add_column("Type", justify="center")
+    #     table.add_column("Health", justify="center")
+    #     table.add_column("Power", justify="center")
 
-        # Populate the table with Pokemon data from backend
-        for idx, pokemon in enumerate(player_linked_list.get_linked_list()):
-            table.add_row(
-                str(idx+1),  # Index
-                str(pokemon[0]),  # Name
-                str(pokemon[1]),  # Type
-                str(pokemon[2]),  # Health
-                str(pokemon[3]),  # Power
-            )
+    #     # Populate the table with Pokemon data from backend
+    #     for idx, pokemon in enumerate(player_linked_list.get_linked_list()):
+    #         table.add_row(
+    #             str(idx+1),  # Index
+    #             str(pokemon[0]),  # Name
+    #             str(pokemon[1]),  # Type
+    #             str(pokemon[2]),  # Health
+    #             str(pokemon[3]),  # Power
+    #         )
 
-        # Print the table center-aligned
-        self.console.print(Align.left(table))
+    #     # Print the table center-aligned
+    #     self.console.print(Align.left(table))
 
     # ✅ working
     def display_players_pokemon_queue(self, player1_queue: list, player2_queue: list, style_color, title_color) -> None:
@@ -370,7 +371,7 @@ class Frontend:
 
         return input("> ").strip()
 
-
+    # ⚠️ Untested. IDK SAN TO GALING. Pahanap ASHASHASHASHSAH
     def prompt_pokemon_queue_selection(self, player_pokemons, player_str: str) -> list:
         self.display_player_pokemons(player_pokemons, player_str)
         self.console.print(
@@ -388,8 +389,8 @@ class Frontend:
         return list(map(int, raw_input.split()))
     
 
-    # ⚠️ Untested
-    def player_queue_insert(self, player_queue: list, player_number: str):
+    # ✅ working
+    def player_queue_insert(self, player_queue, player_number):
         self.clear_screen()
 
         # Get console width
