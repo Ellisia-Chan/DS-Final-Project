@@ -6,13 +6,15 @@
 from backend import Backend
 
 import sys, os, time
+from time import sleep
 
+from rich.box import HEAVY
 from rich.text import Text
-from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 from rich.align import Align
-from rich.box import HEAVY
+from rich.console import Console
+from rich.progress import Progress, BarColumn, TextColumn
 
 class Frontend:
     # 🟧 in progress
@@ -57,27 +59,56 @@ class Frontend:
             )
             self.console.print(panel, justify="left")
      
-    # 🟧 in progress
+    #✅ Working
     def program_intro(self) -> None:
         os.system('cls')
 
-        message = "🏆 Winner: [green]+5 Health💚, +5 Power[/green]\n🔥 Loser: [red]-10 Health💔, +3 Power[/red]"
+        # Function to read ASCII art from a file
+        def draw_ascii(file_name):
+            try:
+                # Open the file with UTF-8 encoding
+                with open(file_name + ".txt", "r", encoding="utf-8") as file:
+                    return file.read()  # Return the content of the file
+            except FileNotFoundError:
+                return "[red]Error: ASCII art file not found.[/red]"
+            except UnicodeDecodeError:
+                return "[red]Error: Unable to decode ASCII art file.[/red]"
 
-        # Print the panel with centered alignment
-        self.console.print(Panel(Align.center("[bold blue]Pokemon Battle![/bold blue]", vertical="middle"), style="white", border_style="blue", box=HEAVY))
-        self.console.print(Align.center("By: Sherwin P.Limosnero\n\n", vertical="middle"), style="white")
-        
 
-        self.console.print(Align.center("[yellow]🛈[/yellow]: After each selection, 👼 blesses your [green]pokemon[/green] with a [bold yellow]random value[/bold yellow].", vertical="middle"), style="white")
-        self.console.print(Align.center("[yellow]🛈[/yellow]: 🧙 can exchange your [bold yellow]✨blessing✨[/bold yellow] for a [purple]random effect[/purple].", vertical="middle"), style="white")
-        self.console.print(Align.center("[yellow]🛈[/yellow]: [purple]random effect[/purple] could be [bold green]💚 potion[/bold green] or [bold red]💔 poison[/bold red].", vertical="middle"), style="white")
-        self.console.print(Align.center("[yellow]🛈[/yellow]: [italic]After every battle, ⚔️ pokemon lose [bold red]-2 Health💔[/bold red] due to [red]fatigue[/red][/italic].", vertical="middle"), style="white")
-        self.console.print(Align.center("[yellow]🛈[/yellow]: To finish the battle, both players must use all their pokemons.", vertical="middle"), style="white")
-        self.console.print(Align.center(message, vertical="middle"), style="white")
+        # Pokemon title ASCII art
+        ascii_art = draw_ascii("pokemon_title")  # Fetch ASCII content from file
+
+        # Print the panel with centered alignment for ASCII art
+        self.console.print(
+            Panel(
+                Align.center(f"[blue]{ascii_art}[/blue]", vertical="middle"),
+                style="white",
+                border_style="blue",
+                box=HEAVY
+            )
+        )
+
+        # Additional Information and Messages
+        self.console.print(Align.center("[yellow]🛈[/yellow]: [bold yellow]✨Choose your Pokemon✨:[/bold yellow] [green]3 each player![/green]\n", vertical="middle"), style="white")
+        self.console.print(Align.center("[yellow]🛈[/yellow]: Choose your pokemon [bold yellow]queue order![/bold yellow]", vertical="middle"), style="white")
+        self.console.print(Align.center("[yellow]🛈[/yellow]: 🧙 exchange luck with a [purple]random effect![/purple] [bold green]💚 potion[/bold green] or [bold red]💔 poison[/bold red].", vertical="middle"), style="white")
+        self.console.print(Align.center("[yellow]🛈[/yellow]: [italic]After every battle, ⚔️ pokemon lose [bold red]-5 Health💔[/bold red] due to [red]fatigue[/red][/italic].", vertical="middle"), style="white")
         
-        self.console.print(Panel(Align.center("[bold green]PRESS ENTER TO START[/bold green] or [bold red]type 'q' to quit[/bold red]", vertical="middle"), style="white", border_style="yellow", box=HEAVY))
+        # Print final panel to prompt user to start or quit
+        self.console.print(
+            Panel(
+                Align.center("[bold green]PRESS ENTER TO START[/bold green] or [bold red]type 'q' to quit[/bold red]", vertical="middle"),
+                style="white",
+                border_style="yellow",
+                box=HEAVY
+            )
+        )
+
         # Wait for user input to continue or quit
         self.wait_for_start()
+
+    
+
         
     # ✅ Working
     # This method displays the Pokemon array from the backend using a rich table.
@@ -292,7 +323,31 @@ class Frontend:
             )
             
         self.console.print(Align.left(table))
- 
+
+    # ✅ working
+    def spinner_animation(self, seconds: int, spinner_type: str = "dots"):
+        os.system('cls')
+        with self.console.status("[bold green]Processing...", spinner=spinner_type) as status:
+            sleep(seconds)
+
+    # ✅ working
+    def progress_bar_animation(self, seconds: int):
+        os.system('cls')
+        total_steps = 100
+        step_duration = seconds / total_steps  # Calculate time per step
+
+        with Progress(
+            TextColumn("[bold blue]Progress:[/bold blue]"),
+            BarColumn(bar_width=60),
+            TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
+        ) as progress:
+            task = progress.add_task("Battle ready...", total=total_steps)
+
+            for _ in range(total_steps):
+                sleep(step_duration)  # Simulate work
+                progress.update(task, advance=1)  # Update progress bar
+
+
 # ================================================================================
 #                               Backend Core Method Calls
 # ================================================================================
