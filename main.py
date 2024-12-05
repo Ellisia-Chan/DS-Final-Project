@@ -22,7 +22,7 @@ class Gameplay:
         # ✅ working
         # player pokemon array selection loop
         self.frontend.pokemon_selection()
-        self.frontend.progress_bar_animation(35)
+        self.frontend.progress_bar_animation(3)
 
         # ✅ working
         # player pokemon queue for battle
