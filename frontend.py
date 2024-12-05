@@ -21,7 +21,11 @@ class Frontend:
     def __init__(self) -> None:
         self.backend = Backend(self)
         self.console = Console()
-        
+    
+    # ✅ working
+    def clear_screen(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
+
     # ✅ working
     def show_error_message(self, message: str) -> None:
         error_message = Text(message, style="red")
@@ -61,7 +65,7 @@ class Frontend:
      
     #✅ Working
     def program_intro(self) -> None:
-        os.system('cls')
+        self.clear_screen()
 
         # Function to read ASCII art from a file
         def draw_ascii(file_name):
@@ -89,10 +93,15 @@ class Frontend:
         )
 
         # Additional Information and Messages
-        self.console.print(Align.center("[yellow]🛈[/yellow]: [bold yellow]✨Choose your Pokemon✨:[/bold yellow] [green]3 each player![/green]\n", vertical="middle"), style="white")
-        self.console.print(Align.center("[yellow]🛈[/yellow]: Choose your pokemon [bold yellow]queue order![/bold yellow]", vertical="middle"), style="white")
-        self.console.print(Align.center("[yellow]🛈[/yellow]: 🧙 exchange luck with a [purple]random effect![/purple] [bold green]💚 potion[/bold green] or [bold red]💔 poison[/bold red].", vertical="middle"), style="white")
-        self.console.print(Align.center("[yellow]🛈[/yellow]: [italic]After every battle, ⚔️ pokemon lose [bold red]-5 Health💔[/bold red] due to [red]fatigue[/red][/italic].", vertical="middle"), style="white")
+        message = "🏆 Winner: [green]+5 Health💚, +5 Power[/green]\n🔥 Loser: [red]-10 Health💔, +3 Power[/red]"
+        
+        self.console.print(Align.center("By: Sherwin P.Limosnero\n\n", vertical="middle"), style="white")
+        self.console.print(Align.center("[yellow]🛈[/yellow]: After each selection, 👼 blesses your [green]pokemon[/green] with a [bold yellow]random value[/bold yellow].", vertical="middle"), style="white")
+        self.console.print(Align.center("[yellow]🛈[/yellow]: 🧙 can exchange your [bold yellow]✨blessing✨[/bold yellow] for a [purple]random effect[/purple].", vertical="middle"), style="white")
+        self.console.print(Align.center("[yellow]🛈[/yellow]: [purple]random effect[/purple] could be [bold green]💚 potion[/bold green] or [bold red]💔 poison[/bold red].", vertical="middle"), style="white")
+        self.console.print(Align.center("[yellow]🛈[/yellow]: [italic]After every battle, ⚔️ pokemon lose [bold red]-2 Health💔[/bold red] due to [red]fatigue[/red][/italic].", vertical="middle"), style="white")
+        self.console.print(Align.center("[yellow]🛈[/yellow]: To finish the battle, both players must use all their pokemons.", vertical="middle"), style="white")
+        self.console.print(Align.center(message, vertical="middle"), style="white")
         
         # Print final panel to prompt user to start or quit
         self.console.print(
@@ -107,14 +116,12 @@ class Frontend:
         # Wait for user input to continue or quit
         self.wait_for_start()
 
-    
-
         
     # ✅ Working
     # This method displays the Pokemon array from the backend using a rich table.
     # It shows the available Pokemon for selection and prints the table center-aligned.
     def display_pokemon_array(self) -> None:
-        os.system('cls')
+        self.clear_screen()
 
         self.console.print(Align.center("[green]Choose [bold]3 pokemons![/bold][/green] \n\t   Selected pokemons will be [red]removed from the pokemon list array![/red]\n", vertical="middle"), style="white")
         table = Table(border_style="bold white", box=HEAVY, title="Available Pokemon")
@@ -141,7 +148,7 @@ class Frontend:
     
     # ✅ working
     def display_player_pokemons(self, player_linked_list, player_str: int) -> None:
-        os.system('cls')
+        self.clear_screen()
         
         self.console.print("\n\n")
         table = Table(border_style="bold white", box=HEAVY, title=f"{player_str} Pokemon Queue")
@@ -168,7 +175,7 @@ class Frontend:
 
     # ✅ working
     def display_players_pokemon_queue(self, player1_queue: list, player2_queue: list) -> None:
-        os.system('cls')
+        self.clear_screen()
         # Get console width
         total_width = self.console.size.width
 
@@ -302,7 +309,7 @@ class Frontend:
     
     # 🟧 in progress
     def random_effects_display(self, player_name: str, pokemon_name: str) -> None:
-        os.system('cls')
+        self.clear_screen()
         message: str = f"[bold white]\t\t  {player_name} Pokemon Random Effect stack[/bold white]\n{pokemon_name[0]} will receive a 3 random effect stack (Power-ups or Poisons)\n\n[red]Press enter to generate stack[/red]"
         
         self.print_panel(message, "Random Effects", "yellow")
@@ -324,26 +331,32 @@ class Frontend:
 
     # ✅ working
     def spinner_animation(self, seconds: int, spinner_type: str = "dots"):
-        os.system('cls')
-        with self.console.status("[bold green]Processing...", spinner=spinner_type) as status:
-            sleep(seconds)
+        try:
+            self.clear_screen()
+            with self.console.status("[bold green]Processing...", spinner=spinner_type) as status:
+                sleep(seconds)
+        except Exception as e:
+            self.console.print(f"[red]Error in spinner animation: {e}[/red]")
 
     # ✅ working
     def progress_bar_animation(self, seconds: int):
-        os.system('cls')
-        total_steps = 100
-        step_duration = seconds / total_steps  # Calculate time per step
+        try:
+            self.clear_screen()
+            total_steps = 100
+            step_duration = seconds / total_steps
 
-        with Progress(
-            TextColumn("[bold blue]Battle ready:[/bold blue]"),
-            BarColumn(bar_width=60),
-            TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
-        ) as progress:
-            task = progress.add_task("Battle ready...", total=total_steps)
+            with Progress(
+                TextColumn("[bold blue]Battle ready:[/bold blue]"),
+                BarColumn(bar_width=60),
+                TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
+            ) as progress:
+                task = progress.add_task("Battle ready...", total=total_steps)
 
-            for _ in range(total_steps):
-                sleep(step_duration)  # Simulate work
-                progress.update(task, advance=1)  # Update progress bar
+                for _ in range(total_steps):
+                    sleep(step_duration)
+                    progress.update(task, advance=1)
+        except Exception as e:
+            self.console.print(f"[red]Error in progress bar animation: {e}[/red]")
 
 
 # ================================================================================
