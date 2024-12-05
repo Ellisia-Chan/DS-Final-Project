@@ -22,9 +22,13 @@ class Gameplay:
         # player pokemon array selection loop
         self.frontend.pokemon_selection()
         
-        # 🟧 in progress
+        # ✅ working
         # player pokemon queue for battle
         self.frontend.pokemon_queue_selection()
+        
+        # 🟧 in progress
+        # player selection for blessings (power-ups/poison)
+        self.frontend.pokemon_rand_effects_selection()
 
 if __name__ == "__main__":
     Gameplay()
