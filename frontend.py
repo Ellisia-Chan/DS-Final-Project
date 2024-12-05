@@ -41,6 +41,21 @@ class Frontend:
             sys.exit()  # Quit the program
         else:
             self.console.print("[bold green]Game starting...[/bold green]", style="white")
+    
+    #✅ Working
+    def print_panel(self, message, title, style, width_fraction=2):
+            # Helper function to create and print a styled panel
+            console_width = self.console.size.width // width_fraction
+            aligned_message = Align.center(message)
+            panel = Panel(
+                aligned_message,
+                title=title,
+                style=style,
+                border_style=style,
+                width=console_width,
+                padding=(1, 1)
+            )
+            self.console.print(panel, justify="left")
      
     # 🟧 in progress
     def program_intro(self) -> None:
@@ -255,7 +270,12 @@ class Frontend:
         # Print the table with all three rows
         self.console.print(table)
         self.console.input(Panel(Align.center("[bold green]PRESS ENTER TO CONTINUE To BATTLE[/bold green]", vertical="middle"), style="white", border_style="yellow", box=HEAVY))
-
+    
+    def random_effects_display(self, player_name: str, pokemon_name: str) -> None:
+        os.system('cls')
+        message: str = f"[bold white]\t\t  {player_name} Pokemon Random Effect stack[/bold white]\n{pokemon_name[0]} will receive a 3 random effect stack (Power-ups or Poisons)\n\n[red]Press enter to generate stack[/red]"
+        
+        self.print_panel(message, "Random Effects", "yellow")       
  
 # ================================================================================
 #                               Backend Core Method Calls
@@ -268,6 +288,9 @@ class Frontend:
     # ✅ working
     def pokemon_queue_selection(self) -> None:
         self.backend.select_pokemon_queue()
+        
+    def pokemon_rand_effects_selection(self) -> None:
+        self.backend.random_effects_selection()
         
 if __name__ == "__main__":
     import main
