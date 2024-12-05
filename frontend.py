@@ -62,25 +62,26 @@ class Frontend:
                 padding=(1, 1)
             )
             self.console.print(panel, justify="left")
-     
+    
+    #✅ Working
+    # Function to read ASCII art from a file
+    def draw_ascii(self, file_name):
+        try:
+            # Open the file with UTF-8 encoding
+            with open(file_name + ".txt", "r", encoding="utf-8") as file:
+                return file.read()  # Return the content of the file
+        except FileNotFoundError:
+            return "[red]Error: ASCII art file not found.[/red]"
+        except UnicodeDecodeError:
+            return "[red]Error: Unable to decode ASCII art file.[/red]"
+            
+
     #✅ Working
     def program_intro(self) -> None:
         self.clear_screen()
 
-        # Function to read ASCII art from a file
-        def draw_ascii(file_name):
-            try:
-                # Open the file with UTF-8 encoding
-                with open(file_name + ".txt", "r", encoding="utf-8") as file:
-                    return file.read()  # Return the content of the file
-            except FileNotFoundError:
-                return "[red]Error: ASCII art file not found.[/red]"
-            except UnicodeDecodeError:
-                return "[red]Error: Unable to decode ASCII art file.[/red]"
-
-
         # Pokemon title ASCII art
-        ascii_art = draw_ascii("pokemon_title")  # Fetch ASCII content from file
+        ascii_art = self.draw_ascii("pokemon_title")  # Fetch ASCII content from file
 
         # Print the panel with centered alignment for ASCII art
         self.console.print(
