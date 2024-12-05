@@ -115,10 +115,8 @@ class Frontend:
     # It shows the available Pokemon for selection and prints the table center-aligned.
     def display_pokemon_array(self) -> None:
         os.system('cls')
-        
-        # Display the Pokemon array from backend using a rich table
-        # Create a rich table with a heavy border
-        self.console.print("\n\n\t\t[green]Choose [bold]3 pokemons![/bold][/green] \n\t   Selected pokemons will be \n\t[red]removed from the pokemon list array![/red]")
+
+        self.console.print(Align.center("[green]Choose [bold]3 pokemons![/bold][/green] \n\t   Selected pokemons will be [red]removed from the pokemon list array![/red]\n", vertical="middle"), style="white")
         table = Table(border_style="bold white", box=HEAVY, title="Available Pokemon")
 
         # Add columns for the Pokemon attributes
@@ -139,7 +137,7 @@ class Frontend:
             )
 
         # Print the table center-aligned
-        self.console.print(Align.left(table))
+        self.console.print(Align.center(table))
     
     # ✅ working
     def display_player_pokemons(self, player_linked_list, player_str: int) -> None:
@@ -337,7 +335,7 @@ class Frontend:
         step_duration = seconds / total_steps  # Calculate time per step
 
         with Progress(
-            TextColumn("[bold blue]Progress:[/bold blue]"),
+            TextColumn("[bold blue]Battle ready:[/bold blue]"),
             BarColumn(bar_width=60),
             TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
         ) as progress:
