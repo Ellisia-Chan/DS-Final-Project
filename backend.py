@@ -78,7 +78,15 @@ class Backend:
     # This method allows the user to select 3 pokemons from their respective pokemon linked lists
     # and adds them to the player's pokemon queue. The pokemons are added in order of selection.
     # This is done for both player 1 and player 2.
+    
     def select_pokemon_queue(self) -> None:
+        # Dummy start
+        self.frontend.display_players_pokemon_queue(
+            self.player1_pokemon_queue.get_queue(),
+            self.player2_pokemon_queue.get_queue(),
+            "white",
+            "white")
+        
         index: int = 0
         while index < 2:
             try:
@@ -110,9 +118,12 @@ class Backend:
             except (ValueError, IndexError):
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
         
+        # Main battle output
         self.frontend.display_players_pokemon_queue(
             self.player1_pokemon_queue.get_queue(),
-            self.player2_pokemon_queue.get_queue())
+            self.player2_pokemon_queue.get_queue(),
+            "white",
+            "white")
     
     # 🟧 in progress
     def random_effects_selection(self) -> None:

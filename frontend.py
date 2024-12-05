@@ -141,6 +141,7 @@ class Frontend:
 
         # Print the table center-aligned
         self.console.print(Align.center(table))
+        print()
     
     # ✅ working
     def display_player_pokemons(self, player_linked_list, player_str: int) -> None:
@@ -170,139 +171,139 @@ class Frontend:
         self.console.print(Align.left(table))
 
     # ✅ working
-    def display_players_pokemon_queue(self, player1_queue: list, player2_queue: list) -> None:
-        self.clear_screen()
-        # Get console width
-        total_width = self.console.size.width
+    def display_players_pokemon_queue(self, player1_queue: list, player2_queue: list, style_color, title_color) -> None:
+            self.clear_screen()
+            # Get console width
+            total_width = self.console.size.width
 
-        # Calculate individual section widths
-        left_width = (7 * total_width) // 16
-        middle_width = total_width // 8
-        right_width = (7 * total_width) // 16
+            # Calculate individual section widths
+            left_width = (7 * total_width) // 16
+            middle_width = total_width // 8
+            right_width = (7 * total_width) // 16
 
-        # Take elements from the queues for each row
-        row1_left = player1_queue[0][0] if player1_queue else "Player 1 Pokemon Queue #1"
-        row1_right = player2_queue[0][0] if player2_queue else "Player 2 Pokemon Queue #1"
+            # Take elements from the queues for each row
+            row1_left = player1_queue[0][0] if player1_queue else "?"
+            row1_right = player2_queue[0][0] if player2_queue else "?"
 
-        row2_left = player1_queue[1][0] if player1_queue else "Player 1 Pokemon Queue #2"
-        row2_right = player2_queue[1][0] if player2_queue else "Player 2 Pokemon Queue #2"
+            row2_left = player1_queue[1][0] if player1_queue else "?"
+            row2_right = player2_queue[1][0] if player2_queue else "?"
 
-        row3_left = player1_queue[2][0] if player1_queue else "Player 1 Pokemon Queue #3"
-        row3_right = player2_queue[2][0] if player2_queue else "Player 2 Pokemon Queue #3"
+            row3_left = player1_queue[2][0] if player1_queue else "?"
+            row3_right = player2_queue[2][0] if player2_queue else "?"
 
-        # Create aligned messages for each panel in all rows
-        left_aligned_message1 = Align.center(row1_left)
-        middle_aligned_message1 = Align.center("VS")
-        right_aligned_message1 = Align.center(row1_right)
+            # Create aligned messages for each panel in all rows
+            left_aligned_message1 = Align.center(row1_left)
+            middle_aligned_message1 = Align.center("VS")
+            right_aligned_message1 = Align.center(row1_right)
 
-        left_aligned_message2 = Align.center(row2_left)
-        middle_aligned_message2 = Align.center("VS")
-        right_aligned_message2 = Align.center(row2_right)
+            left_aligned_message2 = Align.center(row2_left)
+            middle_aligned_message2 = Align.center("VS")
+            right_aligned_message2 = Align.center(row2_right)
 
-        left_aligned_message3 = Align.center(row3_left)
-        middle_aligned_message3 = Align.center("VS")
-        right_aligned_message3 = Align.center(row3_right)
+            left_aligned_message3 = Align.center(row3_left)
+            middle_aligned_message3 = Align.center("VS")
+            right_aligned_message3 = Align.center(row3_right)
 
-        # Create panels for all three rows
-        panel1_left = Panel(
-            left_aligned_message1,
-            title="Player 1",
-            style="green",
-            border_style="green",
-            width=left_width,
-            padding=(1, 1),
-            box=HEAVY,
-        )
-        panel1_middle = Panel(
-            middle_aligned_message1,
-            style="yellow",
-            border_style="yellow",
-            width=middle_width,
-            padding=(1, 1),
-            box=HEAVY,
-        )
-        panel1_right = Panel(
-            right_aligned_message1,
-            title="Player 2",
-            style="red",
-            border_style="red",
-            width=right_width,
-            padding=(1, 1),
-            box=HEAVY,
-        )
+            # Create panels for all three rows
+            panel1_left = Panel(
+                left_aligned_message1,
+                title="Player 1",
+                style="green",
+                border_style="green",
+                width=left_width,
+                padding=(1, 1),
+                box=HEAVY,
+            )
+            panel1_middle = Panel(
+                middle_aligned_message1,
+                style=style_color,
+                border_style=style_color,
+                width=middle_width,
+                padding=(1, 1),
+                box=HEAVY,
+            )
+            panel1_right = Panel(
+                right_aligned_message1,
+                title="Player 2",
+                style="green",
+                border_style="green",
+                width=right_width,
+                padding=(1, 1),
+                box=HEAVY,
+            )
 
-        panel2_left = Panel(
-            left_aligned_message2,
-            title="Player 1",
-            style="yellow",
-            border_style="yellow",
-            width=left_width,
-            padding=(1, 1),
-            box=HEAVY,
-        )
-        panel2_middle = Panel(
-            middle_aligned_message2,
-            style="yellow",
-            border_style="yellow",
-            width=middle_width,
-            padding=(1, 1),
-            box=HEAVY,
-        )
-        panel2_right = Panel(
-            right_aligned_message2,
-            title="Player 2",
-            style="green",
-            border_style="green",
-            width=right_width,
-            padding=(1, 1),
-            box=HEAVY,
-        )
+            panel2_left = Panel(
+                left_aligned_message2,
+                style="red",
+                border_style="red",
+                width=left_width,
+                padding=(1, 1),
+                box=HEAVY,
+            )
+            panel2_middle = Panel(
+                middle_aligned_message2,
+                style=style_color,
+                border_style=style_color,
+                width=middle_width,
+                padding=(1, 1),
+                box=HEAVY,
+            )
+            panel2_right = Panel(
+                right_aligned_message2,
+                style="red",
+                border_style="red",
+                width=right_width,
+                padding=(1, 1),
+                box=HEAVY,
+            )
 
-        panel3_left = Panel(
-            left_aligned_message3,
-            title="Player 1",
-            style="red",
-            border_style="red",
-            width=left_width,
-            padding=(1, 1),
-            box=HEAVY,
-        )
-        panel3_middle = Panel(
-            middle_aligned_message3,
-            style="yellow",
-            border_style="yellow",
-            width=middle_width,
-            padding=(1, 1),
-            box=HEAVY,
-        )
-        panel3_right = Panel(
-            right_aligned_message3,
-            title="Player 2",
-            style="blue",
-            border_style="blue",
-            width=right_width,
-            padding=(1, 1),
-            box=HEAVY,
-        )
+            panel3_left = Panel(
+                left_aligned_message3,
+                style="blue",
+                border_style="blue",
+                width=left_width,
+                padding=(1, 1),
+                box=HEAVY,
+            )
+            panel3_middle = Panel(
+                middle_aligned_message3,
+                style=style_color,
+                border_style=style_color,
+                width=middle_width,
+                padding=(1, 1),
+                box=HEAVY,
+            )
+            panel3_right = Panel(
+                right_aligned_message3,
+                style="blue",
+                border_style="blue",
+                width=right_width,
+                padding=(1, 1),
+                box=HEAVY,
+            )
 
-        # Create a table to align the panels side by side for all rows
-        table = Table.grid(padding=1)
-        table.add_column(justify="center", width=left_width)
-        table.add_column(justify="center", width=middle_width)
-        table.add_column(justify="center", width=right_width)
+            # Create a table to align the panels side by side for all rows
+            table = Table.grid(padding=1)
+            table.add_column(justify="center", width=left_width)
+            table.add_column(justify="center", width=middle_width)
+            table.add_column(justify="center", width=right_width)
+            
+            # Add rows to the table
+            table.add_row(panel1_left, panel1_middle, panel1_right)
+            table.add_row(panel2_left, panel2_middle, panel2_right)
+            table.add_row(panel3_left, panel3_middle, panel3_right)
+            
+
+            # Pokemon title ASCII art
+            ascii_art = self.draw_ascii("pokemon_title")  # Fetch ASCII content from file
+
+            self.console.print(Panel(Align.center(f"[{title_color}]{ascii_art}[/{title_color}]",
+                vertical="middle"), style=style_color, border_style=style_color, box=HEAVY, padding=(1, 1)))
+            
+            # Print the table with all three rows
+            self.console.print(table)
+            self.console.input(Panel(Align.center("[bold white]PRESS ENTER TO BATTLE START![/bold white]", vertical="middle"), style=style_color, border_style=style_color, box=HEAVY))
         
-        # Add rows to the table
-        table.add_row(panel1_left, panel1_middle, panel1_right)
-        table.add_row(panel2_left, panel2_middle, panel2_right)
-        table.add_row(panel3_left, panel3_middle, panel3_right)
-        
-        self.console.print(Panel(Align.center("[bold blue]Pokemon Battle Queue[/bold blue]",
-            vertical="middle"), style="white", border_style="blue", box=HEAVY, padding=(1, 1)))
-
-        # Print the table with all three rows
-        self.console.print(table)
-        self.console.input(Panel(Align.center("[bold green]PRESS ENTER TO CONTINUE To BATTLE[/bold green]", vertical="middle"), style="white", border_style="yellow", box=HEAVY))
-    
     # 🟧 in progress
     def random_effects_display(self, player_name: str, pokemon_name: str) -> None:
         self.clear_screen()
@@ -386,11 +387,7 @@ class Frontend:
         raw_input = input("> ").strip()
         return list(map(int, raw_input.split()))
     
-    def select_pokemon_queue_display(self, player1_queue: list, player2_queue: list) -> None:
-        self.console.print("[bold blue]Final Pokémon Battle Queues:[/bold blue]")
-        self.console.print(f"[green]Player 1:[/green] {', '.join([pokemon[0] for pokemon in player1_queue])}")
-        self.console.print(f"[red]Player 2:[/red] {', '.join([pokemon[0] for pokemon in player2_queue])}")
-
+   
 # ================================================================================
 #                               Backend Core Method Calls
 # ================================================================================
@@ -408,4 +405,6 @@ class Frontend:
         
 if __name__ == "__main__":
     import main
-    main.Gameplay()
+    # main.Gameplay()
+    f = Frontend()
+    f.pokemon_queue_selection()
