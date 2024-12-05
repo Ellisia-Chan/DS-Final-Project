@@ -368,6 +368,28 @@ class Frontend:
 
         return input("> ").strip()
 
+
+    def prompt_pokemon_queue_selection(self, player_pokemons, player_str: str) -> list:
+        self.display_player_pokemons(player_pokemons, player_str)
+        self.console.print(
+            Panel(
+                Align.center(
+                    "[bold green]Enter 3 Pokémon in order for battle use by entering their indices (space-separated):[/bold green]",
+                    vertical="middle"
+                ),
+                style="white",
+                border_style="green",
+                padding=(1, 1)
+            )
+        )
+        raw_input = input("> ").strip()
+        return list(map(int, raw_input.split()))
+    
+    def select_pokemon_queue_display(self, player1_queue: list, player2_queue: list) -> None:
+        self.console.print("[bold blue]Final Pokémon Battle Queues:[/bold blue]")
+        self.console.print(f"[green]Player 1:[/green] {', '.join([pokemon[0] for pokemon in player1_queue])}")
+        self.console.print(f"[red]Player 2:[/red] {', '.join([pokemon[0] for pokemon in player2_queue])}")
+
 # ================================================================================
 #                               Backend Core Method Calls
 # ================================================================================
