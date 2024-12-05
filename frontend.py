@@ -149,10 +149,6 @@ class Frontend:
         self.console.print(Align.left(table))
 
     
-<<<<<<< Updated upstream
-
- 
-=======
     # 🟧 in progress
     def random_effects_display(self, player_name: str, pokemon_name: str) -> None:
         os.system('cls')
@@ -199,7 +195,6 @@ class Frontend:
                 progress.update(task, advance=1)  # Update progress bar
 
 
->>>>>>> Stashed changes
 # ================================================================================
 #                               Backend Core Method Calls
 # ================================================================================
