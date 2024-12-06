@@ -39,22 +39,27 @@ class Backend:
     def select_pokemon_list(self) -> None:
         index: int = 0
         while index < 2:
-            self.frontend.display_pokemon_array()
+            self.frontend.display_pokemon_array()  # Display available Pokémon
             try:
+                # Determine the current player
                 player_str: str = "Player 1" if index == 0 else "Player 2"
                 player_pokemons: Linked_List = self.player1_pokemons if index == 0 else self.player2_pokemons
 
-                choices: list = list(map(int, input(f"{player_str}\nEnter 3 pokemons by entering their indices (space-separated): ").split()))
+                # Get input from the user
+                choices_raw = self.frontend.prompt_player_selection(player_str)
+                choices: list = list(map(int, choices_raw.split()))
 
+                # Validate selection length
                 if len(choices) != 3:
                     self.frontend.show_error_message("You must select exactly 3 Pokémon!")
                     continue
-                
+
                 # Check for duplicate choices
                 if len(set(choices)) != len(choices):
                     self.frontend.show_error_message("Duplicate Pokémon selections are not allowed.")
                     continue
 
+                # Validate indices and add selected Pokémon to the player's list
                 if all(1 <= choice <= self.pokemon_array.size() for choice in choices):
                     for choice in choices:
                         player_pokemons.insert_at_end(self.pokemon_array.select_pokemon(choice))
@@ -62,52 +67,59 @@ class Backend:
                     index += 1
                 else:
                     self.frontend.show_error_message("One or more indices are invalid. Please try again.")
-                
+
+                # Display selected Pokémon
                 self.frontend.show_selected_pokemon(player_pokemons.get_linked_list())
 
             except (ValueError, IndexError):
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
     
-    # ✅ working
-    # This method allows the user to select 3 pokemons from their respective pokemon linked lists
-    # and adds them to the player's pokemon queue. The pokemons are added in order of selection.
-    # This is done for both player 1 and player 2.
+    # ⚠️ Untested
     def select_pokemon_queue(self) -> None:
+        
         index: int = 0
         while index < 2:
             try:
+                # Determine the current player's data
                 player_str: str = "Player 1" if index == 0 else "Player 2"
                 player_pokemons: Linked_List = self.player1_pokemons if index == 0 else self.player2_pokemons
                 player_queue: Queue = self.player1_pokemon_queue if index == 0 else self.player2_pokemon_queue
-                self.frontend.display_player_pokemons(player_pokemons, player_str)
-                
-                queue_choice = list(map(int, input(f"Enter 3 pokemons in order for battle use by entering their indices (space-separated): ").split()))
-                
+
+                # Display the available Pokémon for the current player
+                self.frontend.display_player_pokemon_queue(player_pokemons.get_linked_list(), player_str, player_queue.get_queue())
+
+                # Prompt player to make their selections
+                choices_raw = self.frontend.prompt_player_queue_selection()
+                queue_choice: list = list(map(int, choices_raw.split()))
+
+                # Validate the input: ensure exactly 3 Pokémon are selected
                 if len(queue_choice) != 3:
                     self.frontend.show_error_message("You must select exactly 3 Pokémon!")
                     continue
-                
-                # Check for duplicate choices
+
+                # Check for duplicate selections
                 if len(set(queue_choice)) != len(queue_choice):
                     self.frontend.show_error_message("Duplicate Pokémon selections are not allowed.")
                     continue
 
+                # Check that all chosen indices are valid
                 if all(1 <= choice <= player_pokemons.size() for choice in queue_choice):
                     for choice in queue_choice:
+                        # Add the selected Pokémon to the player's queue
                         player_queue.enqueue(player_pokemons.get_node(choice))
                     index += 1
                 else:
                     self.frontend.show_error_message("One or more indices are invalid. Please try again.")
+                    continue
+
+                # Update the frontend with the selected Pokémon
+                self.frontend.display_player_pokemon_queue(player_pokemons.get_linked_list(), player_str, player_queue.get_queue())
+                self.frontend.wait_for_timer(2)
                 
-                self.frontend.show_selected_pokemon(player_queue.get_queue())
-            
             except (ValueError, IndexError):
+                # Handle invalid input gracefully
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
-        
-        self.frontend.display_players_pokemon_queue(
-            self.player1_pokemon_queue.get_queue(),
-            self.player2_pokemon_queue.get_queue())
-    
+
     # 🟧 in progress
     def random_effects_selection(self) -> None:
         index: int = 0
