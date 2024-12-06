@@ -6,7 +6,7 @@
 
 from backend import Backend
 
-import sys, os, time
+import sys, time
 from time import sleep
 
 from rich.box import HEAVY
@@ -48,6 +48,9 @@ class Frontend:
             sys.exit()  # Quit the program
         else:
             self.console.print("[bold green]Game starting...[/bold green]", style="white")
+        
+    def wait_for_timer(self, seconds: float) -> None:
+        time.sleep(seconds)
     
     #✅ Working
     def print_panel(self, message, title, style, width_fraction=2):
@@ -75,7 +78,39 @@ class Frontend:
             return "[red]Error: ASCII art file not found.[/red]"
         except UnicodeDecodeError:
             return "[red]Error: Unable to decode ASCII art file.[/red]"
-            
+    
+    # ✅ working
+    def spinner_animation(self, seconds: float, spinner_type: str = "dots"):
+        try:
+            self.clear_screen()
+            with self.console.status("[bold green]Processing...", spinner=spinner_type) as status:
+                sleep(seconds)
+        except Exception as e:
+            self.console.print(f"[red]Error in spinner animation: {e}[/red]")
+
+    # ✅ working
+    def progress_bar_animation(self, seconds: float):
+        try:
+            self.clear_screen()
+            total_steps = 100
+            step_duration = seconds / total_steps
+
+            with Progress(
+                TextColumn("[bold blue]Preparing battle:[/bold blue]"),
+                BarColumn(bar_width=60),
+                TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
+            ) as progress:
+                task = progress.add_task("Battle ready...", total=total_steps)
+
+                for _ in range(total_steps):
+                    sleep(step_duration)
+                    progress.update(task, advance=1)
+        except Exception as e:
+            self.console.print(f"[red]Error in progress bar animation: {e}[/red]")
+
+# ======================================================================================
+#                            Frontend Program Flow Methods
+# ======================================================================================   
 
     #✅ Working
     def program_intro(self) -> None:
@@ -143,36 +178,9 @@ class Frontend:
         # Print the table center-aligned
         self.console.print(Align.center(table))
         print()
-    
-    # ❗❗❗ Binago ko. Ewan ko kung ginagamit pato or redundant na. Pa check po hehehehe
-    # def display_player_pokemons(self, player_linked_list, player_str: int) -> None:
-    #     self.clear_screen()
-        
-    #     self.console.print("\n\n")
-    #     table = Table(border_style="bold white", box=HEAVY, title=f"{player_str} Pokemon Queue")
-        
-    #     # Add columns for the Pokemon attributes
-    #     table.add_column("Index", justify="center")
-    #     table.add_column("Name", justify="center")
-    #     table.add_column("Type", justify="center")
-    #     table.add_column("Health", justify="center")
-    #     table.add_column("Power", justify="center")
-
-    #     # Populate the table with Pokemon data from backend
-    #     for idx, pokemon in enumerate(player_linked_list.get_linked_list()):
-    #         table.add_row(
-    #             str(idx+1),  # Index
-    #             str(pokemon[0]),  # Name
-    #             str(pokemon[1]),  # Type
-    #             str(pokemon[2]),  # Health
-    #             str(pokemon[3]),  # Power
-    #         )
-
-    #     # Print the table center-aligned
-    #     self.console.print(Align.left(table))
 
     # ✅ working
-    def display_players_pokemon_queue(self, player1_queue: list, player2_queue: list, style_color, title_color) -> None:
+    def display_players_pokemon_queue(self, style_color: str, title_color: str) -> None:
             self.clear_screen()
             # Get console width
             total_width = self.console.size.width
@@ -183,15 +191,10 @@ class Frontend:
             right_width = (7 * total_width) // 16
 
             # Take elements from the queues for each row
-            row1_left = player1_queue[0][0] if player1_queue else "?"
-            row1_right = player2_queue[0][0] if player2_queue else "?"
-
-            row2_left = player1_queue[1][0] if player1_queue else "?"
-            row2_right = player2_queue[1][0] if player2_queue else "?"
-
-            row3_left = player1_queue[2][0] if player1_queue else "?"
-            row3_right = player2_queue[2][0] if player2_queue else "?"
-
+            row1_left, row1_right = "?", "?"
+            row2_left, row2_right = "?", "?"
+            row3_left, row3_right = "?", "?"
+            
             # Create aligned messages for each panel in all rows
             left_aligned_message1 = Align.center(row1_left)
             middle_aligned_message1 = Align.center("VS")
@@ -327,34 +330,7 @@ class Frontend:
             
         self.console.print(Align.left(table))
 
-    # ✅ working
-    def spinner_animation(self, seconds: int, spinner_type: str = "dots"):
-        try:
-            self.clear_screen()
-            with self.console.status("[bold green]Processing...", spinner=spinner_type) as status:
-                sleep(seconds)
-        except Exception as e:
-            self.console.print(f"[red]Error in spinner animation: {e}[/red]")
-
-    # ✅ working
-    def progress_bar_animation(self, seconds: int):
-        try:
-            self.clear_screen()
-            total_steps = 100
-            step_duration = seconds / total_steps
-
-            with Progress(
-                TextColumn("[bold blue]Preparing battle:[/bold blue]"),
-                BarColumn(bar_width=60),
-                TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
-            ) as progress:
-                task = progress.add_task("Battle ready...", total=total_steps)
-
-                for _ in range(total_steps):
-                    sleep(step_duration)
-                    progress.update(task, advance=1)
-        except Exception as e:
-            self.console.print(f"[red]Error in progress bar animation: {e}[/red]")
+    
 
     # ✅ working
     def prompt_player_selection(self, player: str) -> str:
@@ -390,7 +366,7 @@ class Frontend:
     
 
     # ✅ working
-    def player_queue_insert(self, player_queue, player_number):
+    def display_player_pokemon_queue(self, player_pokemons: list, player_str: str, player_queue: list) -> None:
         self.clear_screen()
 
         # Get console width
@@ -402,13 +378,13 @@ class Frontend:
         right_width = (7 * total_width) // 16
 
         # Take elements from the queues for each row
-        row1_left = player_queue[0][0] if player_queue else "?"
+        row1_left = player_pokemons[0][0] if player_pokemons else "?"
         row1_right = player_queue[0][0] if player_queue else "?"
 
-        row2_left = player_queue[1][0] if player_queue else "?"
+        row2_left = player_pokemons[1][0] if player_pokemons else "?"
         row2_right = player_queue[1][0] if player_queue else "?"
 
-        row3_left = player_queue[2][0] if player_queue else "?"
+        row3_left = player_pokemons[2][0] if player_pokemons else "?"
         row3_right = player_queue[2][0] if player_queue else "?"
 
         # Create aligned messages for each panel in all rows
@@ -427,6 +403,7 @@ class Frontend:
         # Create panels for all three rows
         panel1_left = Panel(
             left_aligned_message1,
+            title="1",
             style="white",
             width=left_width,
             padding=(1, 1),
@@ -453,6 +430,7 @@ class Frontend:
 
         panel2_left = Panel(
             left_aligned_message2,
+            title="2",
             style="white",
             width=left_width,
             padding=(1, 1),
@@ -477,6 +455,7 @@ class Frontend:
 
         panel3_left = Panel(
             left_aligned_message3,
+            title="3",
             style="white",
             width=left_width,
             padding=(1, 1),
@@ -510,20 +489,14 @@ class Frontend:
         table.add_row(panel2_left, panel2_middle, panel2_right)
         table.add_row(panel3_left, panel3_middle, panel3_right)
         
-
-
-
-
-        self.console.print(Panel(Align.center(f"[bold white]{player_number}[/bold white]",
+        self.console.print(Panel(Align.center(f"[bold white]{player_str}[/bold white]",
                 vertical="middle"), style="yellow", border_style="yellow", box=HEAVY, padding=(1, 1)))
         
         # Print the table with all three rows
         self.console.print(table)
     
-
-
     # ⚠️ Untested
-    def prompt_player_queue(self) -> str:
+    def prompt_player_queue_selection(self) -> str:
         self.console.print(
             Panel(
                 Align.center("[cyan]Enter 3 Pokémon by entering their indices (space-separated):[/cyan]", vertical="middle"),
@@ -551,6 +524,6 @@ class Frontend:
         
 if __name__ == "__main__":
     import main
-    # main.Gameplay()
-    f = Frontend()
-    f.pokemon_queue_selection()
+    main.Gameplay()
+    # f = Frontend()
+    # f.pokemon_queue_selection()

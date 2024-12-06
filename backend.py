@@ -86,10 +86,10 @@ class Backend:
                 player_queue: Queue = self.player1_pokemon_queue if index == 0 else self.player2_pokemon_queue
 
                 # Display the available Pokémon for the current player
-                self.frontend.player_queue_insert(player_pokemons,player_str)
+                self.frontend.display_player_pokemon_queue(player_pokemons.get_linked_list(), player_str, player_queue.get_queue())
 
                 # Prompt player to make their selections
-                choices_raw = self.frontend.prompt_player_queue(player_str)
+                choices_raw = self.frontend.prompt_player_queue_selection()
                 queue_choice: list = list(map(int, choices_raw.split()))
 
                 # Validate the input: ensure exactly 3 Pokémon are selected
@@ -113,12 +113,12 @@ class Backend:
                     continue
 
                 # Update the frontend with the selected Pokémon
-                self.frontend.player_queue_insert(player_queue.get_queue(), player_str)
+                self.frontend.display_player_pokemon_queue(player_pokemons.get_linked_list(), player_str, player_queue.get_queue())
+                self.frontend.wait_for_timer(2)
                 
             except (ValueError, IndexError):
                 # Handle invalid input gracefully
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
-
 
     # 🟧 in progress
     def random_effects_selection(self) -> None:

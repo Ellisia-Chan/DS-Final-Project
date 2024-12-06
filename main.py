@@ -16,19 +16,19 @@ class Gameplay:
 
     # 🟧 in progress
     def run(self) -> None:
+        # ✅ working
+        # Intro animation and display
         self.frontend.program_intro()
-        self.frontend.spinner_animation(3, spinner_type="aesthetic")
+        self.frontend.spinner_animation(2, spinner_type="aesthetic")
         
         # ✅ working
         # player pokemon array selection loop
         self.frontend.pokemon_selection()
-        self.frontend.progress_bar_animation(3)
+        self.frontend.progress_bar_animation(2)
 
         # ⚠️ Untested
         # Show the before moving pokemons to their proper queue
         self.frontend.display_players_pokemon_queue( 
-            self.player1_pokemon_queue.get_queue(), 
-            self.player2_pokemon_queue.get_queue(),
             "white",
             "white"
         )
@@ -39,14 +39,14 @@ class Gameplay:
 
         # ⚠️ Untested
         # Show the before moving pokemons to their proper queue
-        self.frontend.display_players_pokemon_queue(
-            self.player1_pokemon_queue.get_queue(),
-            self.player2_pokemon_queue.get_queue(),
-            "red",
-            "yellow"
-        )
+        # self.frontend.display_players_pokemon_queue(
+        #     self.frontend.backend.player1_pokemon_queue.get_queue(),
+        #     self.frontend.backend.player2_pokemon_queue.get_queue(),
+        #     "red",
+        #     "yellow"
+        # )
 
-        self.frontend.spinner_animation(3, spinner_type="aesthetic")
+        self.frontend.spinner_animation(2, spinner_type="aesthetic")
 
 
         # 🟧 in progress
@@ -55,12 +55,12 @@ class Gameplay:
 
         # ⚠️ Untested
         # Show the before moving pokemons to their proper queue
-        self.frontend.display_players_pokemon_queue(
-            self.player1_pokemon_queue.get_queue(),
-            self.player2_pokemon_queue.get_queue(),
-            "yellow",
-            "yellow"
-        )
+        # self.frontend.display_players_pokemon_queue(
+        #     self.player1_pokemon_queue.get_queue(),
+        #     self.player2_pokemon_queue.get_queue(),
+        #     "yellow",
+        #     "yellow"
+        # )
 
 if __name__ == "__main__":
     Gameplay()
