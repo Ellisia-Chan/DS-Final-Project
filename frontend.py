@@ -22,7 +22,10 @@ class Frontend:
     def __init__(self) -> None:
         self.backend = Backend(self)
         self.console = Console()
-    
+        
+    # =============================================================
+    #                      Helper Functions
+    # =============================================================
     # ✅ working
     def clear_screen(self):
         print("\033c", end="")
@@ -53,7 +56,7 @@ class Frontend:
         time.sleep(seconds)
     
     #✅ Working
-    def print_panel(self, message, title, style, width_fraction=2):
+    def print_panel(self, message, title, style, width_fraction=2, panel_align="left"):
             # Helper function to create and print a styled panel
             console_width = self.console.size.width // width_fraction
             aligned_message = Align.center(message)
@@ -65,7 +68,7 @@ class Frontend:
                 width=console_width,
                 padding=(1, 1)
             )
-            self.console.print(panel, justify="left")
+            self.console.print(panel, justify = panel_align)
     
     #✅ Working
     # Function to read ASCII art from a file
@@ -111,7 +114,6 @@ class Frontend:
 # ======================================================================================
 #                            Frontend Program Flow Methods
 # ======================================================================================   
-
     #✅ Working
     def program_intro(self) -> None:
         self.clear_screen()
@@ -145,7 +147,6 @@ class Frontend:
 
         # Wait for user input to continue or quit
         self.wait_for_start()
-
         
     # ✅ Working
     # This method displays the Pokemon array from the backend using a rich table.
@@ -156,7 +157,6 @@ class Frontend:
         self.console.print(Align.center("\n[green]Choose [bold]3 pokemons![/bold][/green]", vertical="middle"), style="white")
         self.console.print(Align.center("Selected pokemons will be [red]removed from the pokemon list![/red]\n", vertical="middle"), style="white")
         
-
         table = Table(border_style="bold white", box=HEAVY, title="Available Pokemon")
         # Add columns for the Pokemon attributes
         table.add_column("Index", justify="center")
@@ -180,7 +180,7 @@ class Frontend:
         print()
 
     # ✅ working
-    def display_players_pokemon_queue(self, style_color: str, title_color: str) -> None:
+    def display_players_blank_pokemon_queue(self, style_color: str, title_color: str) -> None:
             self.clear_screen()
             # Get console width
             total_width = self.console.size.width
@@ -297,7 +297,6 @@ class Frontend:
             table.add_row(panel2_left, panel2_middle, panel2_right)
             table.add_row(panel3_left, panel3_middle, panel3_right)
             
-
             # Pokemon title ASCII art
             ascii_art = self.draw_ascii("pokemon_title")  # Fetch ASCII content from file
 
@@ -307,66 +306,9 @@ class Frontend:
             # Print the table with all three rows
             self.console.print(table)
             self.console.input(Panel(Align.center("[bold white]PRESS ENTER TO BATTLE START![/bold white]", vertical="middle"), style=style_color, border_style=style_color, box=HEAVY))
-        
-    # 🟧 in progress
-    def random_effects_display(self, player_name: str, pokemon_name: str) -> None:
-        self.clear_screen()
-        message: str = f"[bold white]\t\t  {player_name} Pokemon Random Effect stack[/bold white]\n{pokemon_name[0]} will receive a 3 random effect stack (Power-ups or Poisons)\n\n[red]Press enter to generate stack[/red]"
-        
-        self.print_panel(message, "Random Effects", "yellow")
-    
-    # 🟧 in progress  
-    def display_pokemon_stack_effect(self, player_str: str, pokemon_name: str, pokemon_effect_stack: list) -> None:
-        table = Table(border_style="bold white", box=HEAVY, title=f"{player_str} {pokemon_name[0]} Effect Stack")
-        
-        table.add_column("Index", justify="center", width=8)
-        table.add_column("Effects", justify="center", width=20)
-        
-        for idx, effect in enumerate(reversed(pokemon_effect_stack)):
-            table.add_row(
-                str(idx+1),  # Index
-                str(effect),  # Effect
-            )
             
-        self.console.print(Align.left(table))
-
-    
-
     # ✅ working
-    def prompt_player_selection(self, player: str) -> str:
-        self.console.print(Align.center(f"[bold yellow]✨ {player} ✨[/bold yellow]", vertical="middle"), style="white")
-
-        self.console.print(
-            Panel(
-                Align.center("[cyan]Enter 3 Pokémon by entering their indices (space-separated):[/cyan]", vertical="middle"),
-                style="white",
-                border_style="yellow",
-                box=HEAVY
-            )
-        )
-
-        return input("> ").strip()
-
-    # ⚠️ Untested. IDK SAN TO GALING. Pahanap ASHASHASHASHSAH
-    def prompt_pokemon_queue_selection(self, player_pokemons, player_str: str) -> list:
-        self.display_player_pokemons(player_pokemons, player_str)
-        self.console.print(
-            Panel(
-                Align.center(
-                    "[bold green]Enter 3 Pokémon in order for battle use by entering their indices (space-separated):[/bold green]",
-                    vertical="middle"
-                ),
-                style="white",
-                border_style="green",
-                padding=(1, 1)
-            )
-        )
-        raw_input = input("> ").strip()
-        return list(map(int, raw_input.split()))
-    
-
-    # ✅ working
-    def display_player_pokemon_queue(self, player_pokemons: list, player_str: str, player_queue: list) -> None:
+    def display_player_pokemon_queue_table(self, player_pokemons: list, player_str: str, player_queue: list) -> None:
         self.clear_screen()
 
         # Get console width
@@ -494,8 +436,63 @@ class Frontend:
         
         # Print the table with all three rows
         self.console.print(table)
+           
+    # 🟧 in progress
+    def random_effects_display(self, player_name: str, pokemon_name: str) -> None:
+        self.clear_screen()
+        message: str = f"[bold white]\t\t  {player_name} Pokemon Random Effect stack[/bold white]\n{pokemon_name[0]} will receive a 3 random effect stack (Power-ups or Poisons)\n\n[red]Press enter to generate stack[/red]"
+        
+        self.print_panel(message, "Random Effects", "yellow", panel_align="center")
     
-    # ⚠️ Untested
+    # 🟧 in progress  
+    def display_pokemon_stack_effect(self, player_str: str, pokemon_name: str, pokemon_effect_stack: list) -> None:
+        table = Table(border_style="bold white", box=HEAVY, title=f"{player_str} {pokemon_name[0]} Effect Stack")
+        
+        table.add_column("Index", justify="center", width=8)
+        table.add_column("Effects", justify="center", width=20)
+        
+        for idx, effect in enumerate(reversed(pokemon_effect_stack)):
+            table.add_row(
+                str(idx+1),  # Index
+                str(effect),  # Effect
+            )   
+        self.console.print(Align.center(table))
+
+    # ============================================================================
+    #                         PLAYER SELECTION METHODS
+    # ============================================================================    
+    # ✅ working
+    def prompt_player_selection(self, player: str) -> str:
+        self.console.print(Align.center(f"[bold yellow]✨ {player} ✨[/bold yellow]", vertical="middle"), style="white")
+
+        self.console.print(
+            Panel(
+                Align.center("[cyan]Enter 3 Pokémon by entering their indices (space-separated):[/cyan]", vertical="middle"),
+                style="white",
+                border_style="yellow",
+                box=HEAVY
+            )
+        )
+        return input("> ").strip()
+
+    # ✅ working
+    def prompt_pokemon_queue_selection(self, player_pokemons, player_str: str) -> list:
+        self.display_player_pokemons(player_pokemons, player_str)
+        self.console.print(
+            Panel(
+                Align.center(
+                    "[bold green]Enter 3 Pokémon in order for battle use by entering their indices (space-separated):[/bold green]",
+                    vertical="middle"
+                ),
+                style="white",
+                border_style="green",
+                padding=(1, 1)
+            )
+        )
+        raw_input = input("> ").strip()
+        return list(map(int, raw_input.split()))
+
+    # ✅ working
     def prompt_player_queue_selection(self) -> str:
         self.console.print(
             Panel(
@@ -505,12 +502,11 @@ class Frontend:
                 box=HEAVY
             )
         )
-
         return input("> ").strip()
-# ================================================================================
-#                               Backend Core Method Calls
-# ================================================================================
-        
+    
+    # ================================================================================
+    #                               Backend Core Method Calls
+    # ================================================================================  
     # ✅ working
     def pokemon_selection(self) -> None:
         self.backend.select_pokemon_list()
