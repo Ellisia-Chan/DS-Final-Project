@@ -86,7 +86,7 @@ class Backend:
                 player_queue: Queue = self.player1_pokemon_queue if index == 0 else self.player2_pokemon_queue
 
                 # Display the available Pokémon for the current player
-                self.frontend.display_player_pokemon_queue(player_pokemons.get_linked_list(), player_str, player_queue.get_queue())
+                self.frontend.display_player_pokemon_queue_table(player_pokemons.get_linked_list(), player_str, player_queue.get_queue())
 
                 # Prompt player to make their selections
                 choices_raw = self.frontend.prompt_player_queue_selection()
@@ -113,7 +113,7 @@ class Backend:
                     continue
 
                 # Update the frontend with the selected Pokémon
-                self.frontend.display_player_pokemon_queue(player_pokemons.get_linked_list(), player_str, player_queue.get_queue())
+                self.frontend.display_player_pokemon_queue_table(player_pokemons.get_linked_list(), player_str, player_queue.get_queue())
                 self.frontend.wait_for_timer(2)
                 
             except (ValueError, IndexError):

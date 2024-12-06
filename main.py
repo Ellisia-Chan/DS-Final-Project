@@ -26,41 +26,18 @@ class Gameplay:
         self.frontend.pokemon_selection()
         self.frontend.progress_bar_animation(2)
 
-        # ⚠️ Untested
-        # Show the before moving pokemons to their proper queue
-        self.frontend.display_players_pokemon_queue( 
-            "white",
-            "white"
-        )
+        # ✅ working
+        # Show the blank pokemons queue table for queue selection
+        self.frontend.display_players_blank_pokemon_queue("white", "white")
 
-        # ⚠️ Untested
-        # player pokemon queue for battle
+        # ✅ working
+        # player pokemon queue selection for battle order
         self.frontend.pokemon_queue_selection()
-
-        # ⚠️ Untested
-        # Show the before moving pokemons to their proper queue
-        # self.frontend.display_players_pokemon_queue(
-        #     self.frontend.backend.player1_pokemon_queue.get_queue(),
-        #     self.frontend.backend.player2_pokemon_queue.get_queue(),
-        #     "red",
-        #     "yellow"
-        # )
-
         self.frontend.spinner_animation(2, spinner_type="aesthetic")
 
-
         # 🟧 in progress
-        # player selection for blessings (power-ups/poison)
+        # player selection for random effects(power-ups/poison)
         self.frontend.pokemon_rand_effects_selection()
-
-        # ⚠️ Untested
-        # Show the before moving pokemons to their proper queue
-        # self.frontend.display_players_pokemon_queue(
-        #     self.player1_pokemon_queue.get_queue(),
-        #     self.player2_pokemon_queue.get_queue(),
-        #     "yellow",
-        #     "yellow"
-        # )
 
 if __name__ == "__main__":
     Gameplay()
