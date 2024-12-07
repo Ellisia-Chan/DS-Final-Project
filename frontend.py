@@ -132,7 +132,7 @@ class Frontend:
         )
 
         # Additional Information and Messages
-        self.console.print(Align.center("[yellow]🛈[/yellow]: [bold yellow]✨Choose your Pokemon✨:[/bold yellow] [green]3 each player![/green]\n[yellow]🛈[/yellow]: Choose your pokemon [bold yellow]queue order![/bold yellow]", vertical="middle"), style="white")
+        self.console.print(Align.center("[yellow]🛈[/yellow]: [bold yellow]✨ Choose your Pokemon ✨:[/bold yellow] [green]3 each player![/green]\n[yellow]🛈[/yellow]: Choose your pokemon [bold yellow]queue order![/bold yellow]", vertical="middle"), style="white")
         self.console.print(Align.center("[yellow]🛈[/yellow]: 🧙 exchange luck with a [purple]random effect![/purple] [bold green]💚 potion[/bold green] or [bold red]💔 poison[/bold red].\n[yellow]🛈[/yellow]:[italic]After every battle, ⚔️ pokemon lose [bold red]-5 Health💔[/bold red] due to [red]fatigue[/red][/italic].", vertical="middle"), style="white")
         
         # Print final panel to prompt user to start or quit
@@ -431,8 +431,9 @@ class Frontend:
         table.add_row(panel2_left, panel2_middle, panel2_right)
         table.add_row(panel3_left, panel3_middle, panel3_right)
         
+        self.console.print(Panel(Align.center("[bold white]Pokemon Queue Selection[/bold white]"), box=HEAVY, padding=(1, 1), style="red", border_style="red"))
         self.console.print(Panel(Align.center(f"[bold white]{player_str}[/bold white]",
-                vertical="middle"), style="yellow", border_style="yellow", box=HEAVY, padding=(1, 1)))
+                vertical="middle"), style="yellow", border_style="yellow", box=HEAVY))
         
         # Print the table with all three rows
         self.console.print(table)
@@ -440,9 +441,10 @@ class Frontend:
     # 🟧 in progress
     def random_effects_display(self, player_name: str, pokemon_name: str) -> None:
         self.clear_screen()
-        message: str = f"[bold white]\t\t  {player_name} Pokemon Random Effect stack[/bold white]\n{pokemon_name[0]} will receive a 3 random effect stack (Power-ups or Poisons)\n\n[red]Press enter to generate stack[/red]"
+        message: str = f"[bold white]{player_name} Pokemon Random Effect stack[/bold white]\n{pokemon_name[0]} will receive 3 random effect stack (Power-ups or Poisons)\n\n[red]Press enter to generate stack[/red]"
         
-        self.print_panel(message, "Random Effects", "yellow", panel_align="center")
+        self.print_panel(message, "Random Effects", "yellow", panel_align="center",  width_fraction=1)
+        input()
     
     # 🟧 in progress  
     def display_pokemon_stack_effect(self, player_str: str, pokemon_name: str, pokemon_effect_stack: list) -> None:
@@ -457,7 +459,13 @@ class Frontend:
                 str(effect),  # Effect
             )   
         self.console.print(Align.center(table))
-
+        self.print_panel(f"[bold white]Press enter to continue...", "", "blue", panel_align="center",  width_fraction=1)
+        input()
+        
+    # 🟧 in progress  
+    def display_pokemon_battle_preparation(self):
+        print("Sakit na ng ulo ko. AHSHASHAHAHASAHSH")
+        
     # ============================================================================
     #                         PLAYER SELECTION METHODS
     # ============================================================================    
@@ -514,9 +522,14 @@ class Frontend:
     # ✅ working
     def pokemon_queue_selection(self) -> None:
         self.backend.select_pokemon_queue()
-        
+    
+    # 🟧 in progress
     def pokemon_rand_effects_selection(self) -> None:
         self.backend.random_effects_selection()
+    
+    def pokemon_queue_battle_start(self) -> None:
+        print("Battle Start phase")
+        self.display_pokemon_battle_preparation()
         
 if __name__ == "__main__":
     import main
