@@ -19,7 +19,7 @@ class Gameplay:
         # ✅ working
         # Intro animation and display
         self.frontend.program_intro()
-        self.frontend.spinner_animation(2, spinner_type="aesthetic")
+        self.frontend.spinner_animation(2, spinner_type="aesthetic", message="Processing...")
         
         # ✅ working
         # player pokemon array selection loop
@@ -33,11 +33,16 @@ class Gameplay:
         # ✅ working
         # player pokemon queue selection for battle order
         self.frontend.pokemon_queue_selection()
-        self.frontend.spinner_animation(2, spinner_type="aesthetic")
+        self.frontend.spinner_animation(2, spinner_type="aesthetic", message="Processing Queue...")
 
         # 🟧 in progress
         # player selection for random effects(power-ups/poison)
         self.frontend.pokemon_rand_effects_selection()
+        self.frontend.spinner_animation(2, spinner_type="aesthetic", message="Preparing battle...")
+
+        # 🟧 in progress
+        # battle start
+        self.frontend.pokemon_queue_battle_start()
 
 if __name__ == "__main__":
     Gameplay()

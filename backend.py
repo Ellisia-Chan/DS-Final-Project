@@ -74,7 +74,7 @@ class Backend:
             except (ValueError, IndexError):
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
     
-    # ⚠️ Untested
+    # ✅ working
     def select_pokemon_queue(self) -> None:
         
         index: int = 0
@@ -94,7 +94,7 @@ class Backend:
 
                 # Validate the input: ensure exactly 3 Pokémon are selected
                 if len(queue_choice) != 3:
-                    self.frontend.show_error_message("You must select exactly 3 Pokémon!")
+                    self.frontend.show_error_message("You must select exactly 3 Pokémon for queue")
                     continue
 
                 # Check for duplicate selections
@@ -130,10 +130,8 @@ class Backend:
                 player_stack: Stack = self.player1_pokemon_stack if index == 0 else self.player2_pokemon_stack
                 
                 self.frontend.random_effects_display(player_str, player_queue.front())
-                input()
                 self.random_effect_generator(player_stack)
                 self.frontend.display_pokemon_stack_effect(player_str, player_queue.front(), player_stack.get())
-                input()
                 
                 index += 1
                             
