@@ -83,10 +83,10 @@ class Frontend:
             return "[red]Error: Unable to decode ASCII art file.[/red]"
     
     # ✅ working
-    def spinner_animation(self, seconds: float, spinner_type: str = "dots"):
+    def spinner_animation(self, seconds: float, spinner_type: str = "dots", message: str = ""):
         try:
             self.clear_screen()
-            with self.console.status("[bold green]Processing...", spinner=spinner_type) as status:
+            with self.console.status(f"[bold green]{message}", spinner=spinner_type) as status:
                 sleep(seconds)
         except Exception as e:
             self.console.print(f"[red]Error in spinner animation: {e}[/red]")
@@ -431,9 +431,29 @@ class Frontend:
         table.add_row(panel2_left, panel2_middle, panel2_right)
         table.add_row(panel3_left, panel3_middle, panel3_right)
         
-        self.console.print(Panel(Align.center("[bold white]Pokemon Queue Selection[/bold white]"), box=HEAVY, padding=(1, 1), style="red", border_style="red"))
+        self.console.print(Panel(Align.center("[bold white]Pokemon Battle Queue Selection[/bold white]"), box=HEAVY, padding=(1, 1), style="red", border_style="red"))
         self.console.print(Panel(Align.center(f"[bold white]{player_str}[/bold white]",
                 vertical="middle"), style="yellow", border_style="yellow", box=HEAVY))
+        
+        # Player pokemon details
+        table_pokemon_atts = Table(border_style="bold white", box=HEAVY)
+        # Add columns for the Pokemon attributes
+        table_pokemon_atts.add_column("Name", justify="center")
+        table_pokemon_atts.add_column("Type", justify="center")
+        table_pokemon_atts.add_column("Health", justify="center")
+        table_pokemon_atts.add_column("Power", justify="center")
+
+        # Populate the table with Pokemon data from backend
+        for idx, pokemon in enumerate(player_pokemons):
+            table_pokemon_atts.add_row(
+                str(pokemon[0]),  # Name
+                str(pokemon[1]),  # Type
+                str(pokemon[2]),  # Health
+                str(pokemon[3]),  # Power
+            )
+        # Print the table center-aligned
+        self.console.print(Align.center(table_pokemon_atts))
+        print()
         
         # Print the table with all three rows
         self.console.print(table)
@@ -441,7 +461,8 @@ class Frontend:
     # 🟧 in progress
     def random_effects_display(self, player_name: str, pokemon_name: str) -> None:
         self.clear_screen()
-        message: str = f"[bold white]{player_name} Pokemon Random Effect stack[/bold white]\n{pokemon_name[0]} will receive 3 random effect stack (Power-ups or Poisons)\n\n[red]Press enter to generate stack[/red]"
+        self.print_panel(player_name, "Random Effects", "blue", panel_align="center",  width_fraction=1)
+        message: str = f"[bold white] Pokemon Random Effect stack[/bold white]\n{pokemon_name[0]} will receive 3 random effect stack (Power-ups or Poisons)\n\n[red]Press enter to generate stack[/red]"
         
         self.print_panel(message, "Random Effects", "yellow", panel_align="center",  width_fraction=1)
         input()
@@ -526,8 +547,10 @@ class Frontend:
     # 🟧 in progress
     def pokemon_rand_effects_selection(self) -> None:
         self.backend.random_effects_selection()
-    
+
+    # 🟧 in progress
     def pokemon_queue_battle_start(self) -> None:
+        self.clear_screen()
         print("Battle Start phase")
         self.display_pokemon_battle_preparation()
         

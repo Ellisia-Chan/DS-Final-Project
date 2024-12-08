@@ -74,7 +74,7 @@ class Backend:
             except (ValueError, IndexError):
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
     
-    # ⚠️ Untested
+    # ✅ working
     def select_pokemon_queue(self) -> None:
         
         index: int = 0
