@@ -3,10 +3,10 @@
 # ⚠️ Untested
 # 🐞Debugging
 
-from LinkedList import Linked_List
-from Queue import Queue
-from stack import Stack
-from PokemonArray import Pokemon_Array
+from Data_Struc.LinkedList import Linked_List
+from Data_Struc.Queue import Queue
+from Data_Struc.stack import Stack
+from Data_Struc.PokemonArray import Pokemon_Array
 
 import random
 # 🟧 in progress
@@ -21,6 +21,7 @@ class Backend:
         self.player1_pokemon_stack: Stack = Stack()
         
         self.player1_current_battle_pokemon: list = []
+        self.player1_temporary_power: list = []
         
         # Player 2
         self.player2_pokemons: Linked_List = Linked_List()
@@ -144,7 +145,19 @@ class Backend:
         for _ in range(3):
             effect: str = random.choice(effects_list)
             player_stack.push(effect)
-            
+    
+    def random_effectiveness_generator(self) -> float:
+        effect_perc: list = [0.30, 0.20, 0.10]
+        return random.choice(effect_perc)
+    
+    def battle_calculation(self) -> None:
+        self.frontend.display_battle_start("white", "white", self.player1_pokemon_queue.front(), self.player2_pokemon_queue.front(), 0)
+        
+        self.player1_current_battle_pokemon.append(self.player1_pokemon_queue.dequeue())
+        self.player2_current_battle_pokemon.append(self.player2_pokemon_queue.dequeue())
+        
+        print(self.pokemon_array.is_element_countered(self.player1_current_battle_pokemon[0][1], self.player2_current_battle_pokemon[0][1]))
+        print(self.pokemon_array.is_element_countered(self.player2_current_battle_pokemon[0][1], self.player1_current_battle_pokemon[0][1]))
 
 # 🐞Debugging
 if __name__ == "__main__":
