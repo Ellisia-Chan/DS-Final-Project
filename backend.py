@@ -3,10 +3,10 @@
 # ⚠️ Untested
 # 🐞Debugging
 
-from LinkedList import Linked_List
-from Queue import Queue
-from stack import Stack
-from PokemonArray import Pokemon_Array
+from Data_Struc.LinkedList import Linked_List
+from Data_Struc.Queue import Queue
+from Data_Struc.stack import Stack
+from Data_Struc.PokemonArray import Pokemon_Array
 
 import random
 # 🟧 in progress
