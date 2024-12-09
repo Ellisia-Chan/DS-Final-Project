@@ -484,8 +484,69 @@ class Frontend:
         input()
         
     # 🟧 in progress  
-    def display_pokemon_battle_preparation(self):
-        print("Sakit na ng ulo ko. AHSHASHAHAHASAHSH")
+    def display_battle_start(self, style_color: str, title_color: str, player1_pokemon: list, player2_pokemon: list, battle_index: int) -> None:
+            self.clear_screen()
+            # Get console width
+            total_width = self.console.size.width
+
+            # Calculate individual section widths
+            left_width = (7 * total_width) // 16
+            middle_width = total_width // 8
+            right_width = (7 * total_width) // 16
+
+            # Take elements from the queues for each row
+            row1_left, row1_right = player1_pokemon[0], player2_pokemon[0]
+            
+            # Create aligned messages for each panel in all rows
+            left_aligned_message1 = Align.center(row1_left)
+            middle_aligned_message1 = Align.center("VS")
+            right_aligned_message1 = Align.center(row1_right)
+            
+            # Create panels for all three rows
+            panel1_left = Panel(
+                left_aligned_message1,
+                title="Player 1",
+                style="white",
+                border_style="green",
+                width=left_width,
+                padding=(1, 1),
+                box=HEAVY,
+            )
+            panel1_middle = Panel(
+                middle_aligned_message1,
+                style=style_color,
+                border_style=style_color,
+                width=middle_width,
+                padding=(1, 1),
+                box=HEAVY,
+            )
+            panel1_right = Panel(
+                right_aligned_message1,
+                title="Player 2",
+                style="white",
+                border_style="green",
+                width=right_width,
+                padding=(1, 1),
+                box=HEAVY,
+            )
+            # Create a table to align the panels side by side for all rows
+            table = Table.grid(padding=1)
+            table.add_column(justify="center", width=left_width)
+            table.add_column(justify="center", width=middle_width)
+            table.add_column(justify="center", width=right_width)
+            
+            # Add rows to the table
+            table.add_row(panel1_left, panel1_middle, panel1_right)
+            
+            # Pokemon title ASCII art
+            ascii_art = self.draw_ascii("pokemon_title")  # Fetch ASCII content from file
+
+            self.console.print(Panel(Align.center(f"[{title_color}]{ascii_art}[/{title_color}]",
+                vertical="middle"), style=style_color, border_style=style_color, box=HEAVY, padding=(1, 1)))
+            
+            # Print the table with all three rows
+            self.console.print(table)
+            self.console.input(Panel(Align.center("[bold white]PRESS ENTER TO BATTLE START![/bold white]", vertical="middle"), style=style_color, border_style=style_color, box=HEAVY))
         
     # ============================================================================
     #                         PLAYER SELECTION METHODS
@@ -550,9 +611,8 @@ class Frontend:
 
     # 🟧 in progress
     def pokemon_queue_battle_start(self) -> None:
-        self.clear_screen()
-        print("Battle Start phase")
-        self.display_pokemon_battle_preparation()
+        self.backend.battle_calculation()
+        
         
 if __name__ == "__main__":
     import main
