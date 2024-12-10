@@ -495,7 +495,7 @@ class Frontend:
             right_width = (7 * total_width) // 16
 
             # Take elements from the queues for each row
-            row1_left, row1_right = player1_pokemon[0], player2_pokemon[0]
+            row1_left, row1_right = player1_pokemon[0][0], player2_pokemon[0][0]
             
             # Create aligned messages for each panel in all rows
             left_aligned_message1 = Align.center(row1_left)

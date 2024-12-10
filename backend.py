@@ -167,10 +167,12 @@ class Backend:
     def battle_calculation(self) -> None:
         while True:
             self.battle_round += 1
-            self.frontend.display_battle_start("white", "white", self.player1_pokemon_queue.front(), self.player2_pokemon_queue.front(), self.battle_round)
             
             self.player1_current_battle_pokemon.append(self.player1_pokemon_queue.dequeue())
             self.player2_current_battle_pokemon.append(self.player2_pokemon_queue.dequeue())
+            
+            if self.player1_current_battle_pokemon[0] == "Queue is empty":
+                break
             
             self.player1_temporary_power = self.player1_current_battle_pokemon[0][3]
             self.player2_temporary_power = self.player2_current_battle_pokemon[0][3]
@@ -185,7 +187,7 @@ class Backend:
             
             
             
-            
+            self.frontend.display_battle_start("white", "white", self.player1_current_battle_pokemon, self.player2_current_battle_pokemon, self.battle_round)
             
             print(self.player1_current_battle_pokemon)
             print(player1_counter)
