@@ -33,6 +33,9 @@ class Backend:
         # Pokemon Array
         self.pokemon_array: Pokemon_Array = Pokemon_Array()
         
+        # Battle Variables
+        self.battle_round: int = 0
+        
     # ✅ working
     # This method allows the user to select 3 pokemons from the pokemon array
     # and adds them to the player's pokemon linked list. The pokemon is then removed
@@ -146,18 +149,60 @@ class Backend:
             effect: str = random.choice(effects_list)
             player_stack.push(effect)
     
+    # 🟧 in progress
     def random_effectiveness_generator(self) -> float:
         effect_perc: list = [0.30, 0.20, 0.10]
         return random.choice(effect_perc)
     
+    # 🟧 in progress
+    def element_counter_calc(self, counter_str: str) -> float:
+        if counter_str == "opponent countered":
+            return 0.10
+        elif counter_str == "player countered":
+            return 0.15
+        else:
+            return 0
+        
+    
     def battle_calculation(self) -> None:
-        self.frontend.display_battle_start("white", "white", self.player1_pokemon_queue.front(), self.player2_pokemon_queue.front(), 0)
-        
-        self.player1_current_battle_pokemon.append(self.player1_pokemon_queue.dequeue())
-        self.player2_current_battle_pokemon.append(self.player2_pokemon_queue.dequeue())
-        
-        print(self.pokemon_array.is_element_countered(self.player1_current_battle_pokemon[0][1], self.player2_current_battle_pokemon[0][1]))
-        print(self.pokemon_array.is_element_countered(self.player2_current_battle_pokemon[0][1], self.player1_current_battle_pokemon[0][1]))
+        while True:
+            self.battle_round += 1
+            
+            self.player1_current_battle_pokemon.append(self.player1_pokemon_queue.dequeue())
+            self.player2_current_battle_pokemon.append(self.player2_pokemon_queue.dequeue())
+            
+            if self.player1_current_battle_pokemon[0] == "Queue is empty":
+                break
+            
+            self.player1_temporary_power = self.player1_current_battle_pokemon[0][3]
+            self.player2_temporary_power = self.player2_current_battle_pokemon[0][3]
+            
+            player1_counter: str = self.pokemon_array.is_element_countered(self.player1_current_battle_pokemon[0][1],
+                                                                        self.player2_current_battle_pokemon[0][1])
+            player2_counter: str = self.pokemon_array.is_element_countered(self.player2_current_battle_pokemon[0][1],
+                                                                        self.player1_current_battle_pokemon[0][1])
+            
+            player1_power_element_calc = round(self.element_counter_calc(player1_counter) * self.player1_temporary_power)
+            player2_power_element_calc = round(self.element_counter_calc(player2_counter) * self.player2_temporary_power)
+            
+            
+            
+            self.frontend.display_battle_start("white", "white", self.player1_current_battle_pokemon, self.player2_current_battle_pokemon, self.battle_round)
+            
+            print(self.player1_current_battle_pokemon)
+            print(player1_counter)
+            print(self.player1_temporary_power)
+            print(self.player1_temporary_power + player1_power_element_calc)
+            
+            print(self.player2_current_battle_pokemon)
+            print(player2_counter)
+            print(self.player2_temporary_power)
+            print(self.player2_temporary_power + player2_power_element_calc) 
+            
+            input()
+            
+            self.player1_current_battle_pokemon.pop(0)
+            self.player2_current_battle_pokemon.pop(0)
 
 # 🐞Debugging
 if __name__ == "__main__":

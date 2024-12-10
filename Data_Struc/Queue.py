@@ -19,7 +19,7 @@ class Queue:
         return self.queue.pop(0)
     
     # ⚠️ Untested
-    def front(self) -> list:
+    def front(self)     :
         if self.isEmpty():
             return "Queue is empty"
         return self.queue[0]
