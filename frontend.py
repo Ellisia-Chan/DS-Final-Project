@@ -543,7 +543,7 @@ class Frontend:
 
             self.console.print(Panel(Align.center(f"[{title_color}]{ascii_art}[/{title_color}]",
                 vertical="middle"), style=style_color, border_style=style_color, box=HEAVY, padding=(1, 1)))
-            
+            self.print_panel(f"[bold white]Battle {battle_index}[/bold white]", "", "blue", panel_align="center",  width_fraction=1)
             # Print the table with all three rows
             self.console.print(table)
             self.console.input(Panel(Align.center("[bold white]PRESS ENTER TO BATTLE START![/bold white]", vertical="middle"), style=style_color, border_style=style_color, box=HEAVY))
