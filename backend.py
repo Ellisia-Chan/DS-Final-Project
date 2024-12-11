@@ -35,6 +35,7 @@ class Backend:
         
         # Battle Variables
         self.battle_round: int = 0
+        self.pokemon_items: list = ["Power Up", "Poison"]
         
     # ✅ working
     # This method allows the user to select 3 pokemons from the pokemon array
@@ -58,7 +59,6 @@ class Backend:
                 if len(choices) != 3:
                     self.frontend.show_error_message("You must select exactly 3 Pokémon!")
                     continue
-
                 # Check for duplicate choices
                 if len(set(choices)) != len(choices):
                     self.frontend.show_error_message("Duplicate Pokémon selections are not allowed.")
@@ -73,14 +73,12 @@ class Backend:
                 else:
                     self.frontend.show_error_message("One or more indices are invalid. Please try again.")
 
-                # Display selected Pokémon
+                queued_linked_list = player_pokemons.get_linked_list()
+                for pokemon in queued_linked_list:
+                    player_queue.enqueue(pokemon)
+                    
+                # Display selected Pokémon    
                 self.frontend.show_selected_pokemon(player_pokemons.get_linked_list())
-                
-                # Check that all chosen indices are valid
-                if all(1 <= choice <= player_pokemons.size() for choice in choices):
-                    for choice in choices:
-                        # Add the selected Pokémon to the player's queue
-                        player_queue.enqueue(player_pokemons.get_node(choice))
 
             except (ValueError, IndexError):
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
@@ -95,10 +93,30 @@ class Backend:
                 player_stack: Stack = self.player1_pokemon_stack if index == 0 else self.player2_pokemon_stack
                 
                 self.frontend.display_pokemon_item_table(player_queue.get_queue(), player_str, player_stack.get())
-                input()
-                index += 1
                 
-                            
+                choices_raw = self.frontend.prompt_player_item_selection()
+                choices: list = list(map(int, choices_raw.split()))
+                
+                # Validate selection length
+                if len(choices) != 3:
+                    self.frontend.show_error_message("You must select exactly 3 items designated to 3 pokemons!")
+                    continue
+                
+                # Validate indices and add selected Pokémon to the player's list
+                if all(choice in {1, 2} for choice in choices):
+                    for choice in reversed(choices):
+                        if choice == 1:
+                            player_stack.push("Power Up")
+                        elif choice == 2:
+                            player_stack.push("Poison")
+                        else:
+                            pass
+                    index += 1
+                else:
+                    self.frontend.show_error_message("One or more indices are invalid. Please try again.")      
+                    
+                print(player_stack.get()) 
+                input()                    
             except (ValueError, IndexError):
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
         

@@ -154,6 +154,19 @@ class Frontend:
     def display_pokemon_array(self) -> None:
         self.clear_screen()
 
+        # Pokemon title ASCII art
+        ascii_art = self.draw_ascii("pokemon_title")  # Fetch ASCII content from file
+
+        # Print the panel with centered alignment for ASCII art
+        self.console.print(
+            Panel(
+                Align.center(f"[blue]{ascii_art}[/blue]", vertical="middle"),
+                style="white",
+                border_style="blue",
+                box=HEAVY
+            )
+        )
+        
         self.console.print(Align.center("\n[green]Choose [bold]3 pokemons![/bold][/green]", vertical="middle"), style="white")
         self.console.print(Align.center("Selected pokemons will be [red]removed from the pokemon list![/red]\n", vertical="middle"), style="white")
         
@@ -177,7 +190,6 @@ class Frontend:
 
         # Print the table center-aligned
         self.console.print(Align.center(table))
-        print()
             
     # ✅ working
     def display_pokemon_item_table(self, player_queue: list, player_str: str, player_stack: list) -> None:
@@ -234,7 +246,7 @@ class Frontend:
         )
         panel1_right = Panel(
             right_aligned_message1,
-            title="Queue 1",
+            title="Queue 1 item",
             style="green",
             border_style="green",
             width=right_width,
@@ -259,7 +271,7 @@ class Frontend:
         )
         panel2_right = Panel(
             right_aligned_message2,
-            title="Queue 2",
+            title="Queue 2 item",
             style="red",
             border_style="red",
             width=right_width,
@@ -284,7 +296,7 @@ class Frontend:
         )
         panel3_right = Panel(
             right_aligned_message3,
-            title="Queue 3",
+            title="Queue 3 item",
             style="blue",
             border_style="blue",
             width=right_width,
@@ -303,26 +315,41 @@ class Frontend:
         table.add_row(panel2_left, panel2_middle, panel2_right)
         table.add_row(panel3_left, panel3_middle, panel3_right)
         
-        self.console.print(Panel(Align.center("[bold white]Pokemon Battle Queue Selection[/bold white]"), box=HEAVY, padding=(1, 1), style="red", border_style="red"))
-        self.console.print(Panel(Align.center(f"[bold white]{player_str}[/bold white]",
-                vertical="middle"), style="yellow", border_style="yellow", box=HEAVY))
+        # Pokemon title ASCII art
+        ascii_art = self.draw_ascii("pokemon_title")  # Fetch ASCII content from file
+
+        # Print the panel with centered alignment for ASCII art
+        self.console.print(
+            Panel(
+                Align.center(f"[blue]{ascii_art}[/blue]", vertical="middle"),
+                style="white",
+                border_style="blue",
+                box=HEAVY
+            )
+        )
+        
+        self.console.print(Panel(Align.center(f"[bold white]🎇 {player_str} 🎇 Pokemon Item Selection[/bold white]"), box=HEAVY, style="red", border_style="red"))
         
         # Player pokemon details
         table_pokemon_atts = Table(border_style="bold white", box=HEAVY)
         # Add columns for the Pokemon attributes
+        table_pokemon_atts.add_column("Index", justify="center")
         table_pokemon_atts.add_column("Name", justify="center")
-        table_pokemon_atts.add_column("Type", justify="center")
-        table_pokemon_atts.add_column("Health", justify="center")
-        table_pokemon_atts.add_column("Power", justify="center")
+        table_pokemon_atts.add_column("Power Effects(Random)", justify="center")
 
         # Populate the table with Pokemon data from backend
-        for idx, pokemon in enumerate(player_queue):
+        for idx, item in enumerate(self.backend.pokemon_items):
+            if item == "Power Up":
+                effect_str = "+30%, +20%, +10%"
+            else:
+                effect_str = "-30%, -20%, -10%"
+                
             table_pokemon_atts.add_row(
-                str(pokemon[0]),  # Name
-                str(pokemon[1]),  # Type
-                str(pokemon[2]),  # Health
-                str(pokemon[3]),  # Power
+                str(idx+1),  # Index
+                str(item),  # Name
+                str(effect_str)
             )
+  
         # Print the table center-aligned
         self.console.print(Align.center(table_pokemon_atts))
         print()
@@ -405,6 +432,17 @@ class Frontend:
         self.console.print(
             Panel(
                 Align.center("[cyan]Enter 3 Pokémon in order for battle use by entering their indices (space-separated):[/cyan]", vertical="middle"),
+                style="white",
+                border_style="yellow",
+                box=HEAVY
+            )
+        )
+        return input("> ").strip()
+
+    def prompt_player_item_selection(self) -> str:
+        self.console.print(
+            Panel(
+                Align.center("[cyan]Enter the item you want to use per pokemon (space-separated):[/cyan]", vertical="middle"),
                 style="white",
                 border_style="yellow",
                 box=HEAVY
