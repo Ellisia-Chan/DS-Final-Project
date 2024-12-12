@@ -146,7 +146,7 @@ class Backend:
                 player2_updated_power = player2_base_power + (player2_base_power * player2_power_multiplier)
                 
                 print(player1_updated_power)
-                print(player2_updated_power)6 
+                print(player2_updated_power)
                 input()
 
                 self.frontend.display_battle_start("yellow", "white", player1_pokemon, player2_pokemon, self.battle_round)
