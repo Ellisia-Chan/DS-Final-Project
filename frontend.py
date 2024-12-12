@@ -78,6 +78,7 @@ class Frontend:
             )
             self.console.print(panel, justify = panel_align)
     
+    #✅ Working
     def pokemon_title(self, color):
         # Pokemon title ASCII art
         ascii_art = self.draw_ascii("pokemon_title")  # Fetch ASCII content from file
@@ -91,6 +92,49 @@ class Frontend:
                 box=HEAVY
             )
         )
+
+    # ❗❗❗ tanginang function to hayop this.
+    def message_board_progress_bar(self, message, color):
+        # Display a message in a styled panel
+        self.clear_screen()
+        # top watermark
+        self.pokemon_title("blue")
+
+        self.console.print(
+            Panel(
+                Align.center(f"[{color}]{message}[/{color}]\n{self.progress_bar_animation(3)}", vertical="middle"),
+                style="white",
+                border_style=color,
+                box=HEAVY,
+                padding=(3, 3)
+            )
+        )
+        time.sleep(2)
+
+
+    # ✅ working
+    def progress_bar_animation(self, seconds: float):
+        try:
+            self.clear_screen()
+            total_steps = 100
+            step_duration = seconds / total_steps
+
+            with Progress(
+                TextColumn("[bold blue]Preparing battle:[/bold blue]"),
+                BarColumn(bar_width=60),
+                TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
+            ) as progress:
+                task = progress.add_task("Battle ready...", total=total_steps)
+
+                for _ in range(total_steps):
+                    sleep(step_duration)
+                    progress.update(task, advance=1)
+        except Exception as e:
+            self.console.print(f"[red]Error in progress bar animation: {e}[/red]")
+
+
+
+
 
 
     #✅ Working
@@ -114,35 +158,31 @@ class Frontend:
         except Exception as e:
             self.console.print(f"[red]Error in spinner animation: {e}[/red]")
 
-    # ✅ working
-    def progress_bar_animation(self, seconds: float):
-        try:
-            self.clear_screen()
-            total_steps = 100
-            step_duration = seconds / total_steps
-
-            with Progress(
-                TextColumn("[bold blue]Preparing battle:[/bold blue]"),
-                BarColumn(bar_width=60),
-                TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
-            ) as progress:
-                task = progress.add_task("Battle ready...", total=total_steps)
-
-                for _ in range(total_steps):
-                    sleep(step_duration)
-                    progress.update(task, advance=1)
-        except Exception as e:
-            self.console.print(f"[red]Error in progress bar animation: {e}[/red]")
+    
 
 # ======================================================================================
 #                            Frontend Program Flow Methods
 # ======================================================================================   
+    def press_enter(self, message):
+        self.console.print(
+            Align.center(
+                Panel(
+                    f"[bold green]{message}[/bold green]",
+                    style="white",
+                    border_style="yellow",
+                    box=HEAVY,
+                    expand=False  # Fits the content exactly
+                ),
+                vertical="middle"  # Centers the entire panel verticall
+            )
+        )
+    
     #✅ Working
     def program_intro(self) -> None:
         self.clear_screen()
 
         # top watermark
-        self.pokemon_title("blue")
+        self.pokemon_title("white")
 
         # Additional Information and Messages
         self.console.print(Align.center("[yellow]🛈[/yellow]: [bold yellow]✨ Each player must [green]choose 3 Pokemon[/green]✨", vertical="middle"), style="white")
@@ -151,18 +191,7 @@ class Frontend:
         self.console.print(Align.center("\n\n[yellow]🛈[/yellow]:[italic]After every battle, ⚔️ pokemon lose [bold red]-5 Health💔[/bold red] due to [red]fatigue[/red][/italic]", vertical="middle"), style="white")
 
         # Print final panel to prompt user to start or quit
-        self.console.print(
-            Align.center(
-                Panel(
-                    "[bold green]PRESS ENTER TO START[/bold green]",
-                    style="white",
-                    border_style="green",
-                    box=HEAVY,
-                    expand=False  # Fits the content exactly
-                ),
-                vertical="middle"  # Centers the entire panel verticall
-            )
-        )
+        self.press_enter("Press enter to start")
 
         # Wait for user input to continue or quit
         self.wait_for_start()
@@ -416,6 +445,8 @@ class Frontend:
             
             # Print the table
             self.console.print(table)
+            
+            time.sleep(1)
             self.console.input(Panel(Align.center("[bold white]PRESS ENTER TO BATTLE START![/bold white]", vertical="middle"), style=style_color, border_style=style_color, box=HEAVY))
     
     def display_battle_calc(self, style_color: str, player1_pokemon: list, player2_pokemon: list, battle_index: int, player1_counter_str: str, player2_counter_str: str, player1_stack: list, player2_stack: list, player1_element_power: int, player2_element_power: int) -> None:
@@ -631,27 +662,62 @@ class Frontend:
                 box=HEAVY,
             )
             
-            # Create a table to align the panels side by side for all rows
-            table = Table.grid()
-            table.add_column(justify="center", width=left_width)
-            table.add_column(justify="center", width=middle_width)
-            table.add_column(justify="center", width=right_width)
+            # # Create a table to align the panels side by side for all rows
+            # table = Table.grid()
+            # table.add_column(justify="center", width=left_width)
+            # table.add_column(justify="center", width=middle_width)
+            # table.add_column(justify="center", width=right_width)
             
-            # Add rows to the table
-            table.add_row(panel1_left, panel1_middle, panel1_right)
-            table.add_row(panel2_left, panel2_middle, panel2_right)
-            table.add_row(panel3_left, panel3_middle, panel3_right)
-            table.add_row(panel4_left, panel4_middle, panel4_right)
-            table.add_row(panel5_left, panel5_middle, panel5_right)
-            table.add_row(panel6_left, panel6_middle, panel6_right)
-            table.add_row(panel7_left, panel7_middle, panel7_right)
-            
+            # # Add rows to the table
+            # table.add_row(panel1_left, panel1_middle, panel1_right)
+            # table.add_row(panel2_left, panel2_middle, panel2_right)
+            # table.add_row(panel3_left, panel3_middle, panel3_right)
+            # table.add_row(panel4_left, panel4_middle, panel4_right)
+            # table.add_row(panel5_left, panel5_middle, panel5_right)
+            # table.add_row(panel6_left, panel6_middle, panel6_right)
+            # table.add_row(panel7_left, panel7_middle, panel7_right)
             self.print_panel(f"[bold white]Battle {battle_index}[/bold white]", "", "blue", panel_align="center",  width_fraction=1)
             
             # Print the table
-            self.console.print(table)
-            self.console.input(Panel(Align.center("[bold white]PRESS ENTER TO NEXT BATTLE QUEUEU![/bold white]", vertical="middle"), style=style_color, border_style=style_color, box=HEAVY))
-            
+            # self.console.print(table)
+
+
+
+            # Define the rows
+            rows = [
+                (panel1_left, panel1_middle, panel1_right),
+                (panel2_left, panel2_middle, panel2_right),
+                (panel3_left, panel3_middle, panel3_right),
+                (panel4_left, panel4_middle, panel4_right),
+                (panel5_left, panel5_middle, panel5_right),
+                (panel6_left, panel6_middle, panel6_right),
+                (panel7_left, panel7_middle, panel7_right),
+            ]
+
+            # Print each row with a delay
+            for row in rows:
+                # Create a new table for only the current row
+                temp_table = Table.grid()
+                temp_table.add_column(justify="center", width=left_width)
+                temp_table.add_column(justify="center", width=middle_width)
+                temp_table.add_column(justify="center", width=right_width)
+                temp_table.add_row(*row)  # Add only the current row
+                self.console.print(temp_table)  # Print the table for this row
+                time.sleep(1)  # Add a 1-second delay before printing the next row
+
+
+
+
+
+
+
+
+
+
+
+
+            self.console.input(Panel(Align.center("[bold white]PRESS ENTER TO NEXT BATTLE QUEUE![/bold white]", vertical="middle"), style=style_color, border_style=style_color, box=HEAVY))
+          
     # ============================================================================
     #                         PLAYER SELECTION METHODS
     # ============================================================================    

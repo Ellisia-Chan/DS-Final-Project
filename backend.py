@@ -119,7 +119,8 @@ class Backend:
                     continue    
                     
                 self.frontend.display_pokemon_item_table(player_queue.get_queue(), player_str, player_stack.get_reverse())
-                input("> Press Enter to Continue")
+                self.frontend.press_enter("Press enter to continue") 
+                input("")
             except (ValueError, IndexError):
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
                 continue
