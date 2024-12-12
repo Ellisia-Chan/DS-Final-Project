@@ -176,6 +176,9 @@ class Frontend:
                 vertical="middle"  # Centers the entire panel verticall
             )
         )
+
+
+        
     
     #✅ Working
     def program_intro(self) -> None:
@@ -455,6 +458,19 @@ class Frontend:
                         player1_poison_effect: int, player2_poison_effect: int, player1_final_power: int, player2_final_power: int, battle_winner: str) -> None:
             self.clear_screen()
 
+            item_color = {"Power Up" : "green",
+                          "Poison" : "red",
+                
+            }
+
+            # Get player stack item change color panel
+            player1_item = player1_stack[0]
+            player1_item_color = item_color.get(player1_item, "default")
+
+            player2_item = player2_stack[0]
+            player2_item_color = item_color.get(player2_item, "default")
+
+
             element_colors = {
                 "Fire": "red",
                 "Electric": "yellow",
@@ -463,6 +479,7 @@ class Frontend:
                 "Normal": "white",
                 "Ice": "cyan",
             }
+            
             # Get pokemon type change color panel
             player1_type = player1_pokemon[1]
             player1_element_color = element_colors.get(player1_type, "default")
@@ -526,32 +543,39 @@ class Frontend:
 
             # String Formatting for Power Up
             if player1_stack and player1_stack[0] == "Power Up":
-                player1_power_up_str = f"{player1_element_power} + {player1_item_effectiveness} = {player1_power_effect}"
+                player1_power_up_str = f"[bold white]{player1_element_power}[/bold white] + [bold purple]{player1_item_effectiveness}[/bold purple] = [bold green]{player1_power_effect}[/bold green]"
             else:
                 player1_power_up_str = "None"
 
             if player2_stack and player2_stack[0] == "Power Up":
-                player2_power_up_str = f"{player2_element_power} + {player2_item_effectiveness} = {player2_power_effect}"
+                player2_power_up_str = f"[bold white]{player2_element_power}[/bold white] + [bold purple]{player2_item_effectiveness}[/bold purple] = [bold green]{player2_power_effect}[/bold green]"
             else:
                 player2_power_up_str = "None"
 
             # String Formatting for Poison
             if player1_stack and player1_stack[0] == "Poison":
-                player2_poison_str = f"{player2_power_effect} - {player1_item_effectiveness} = {player2_poison_effect}"
+                player2_poison_str = f"[bold white]{player2_power_effect}[/bold white] - [bold purple]{player1_item_effectiveness}[/bold purple] = [bold red]{player2_poison_effect}[/bold red]"
             else:
                 player2_poison_str = "None"
 
             if player2_stack and player2_stack[0] == "Poison":
-                player1_poison_str = f"{player1_power_effect} - {player2_item_effectiveness} = {player1_poison_effect}"
+                player1_poison_str = f"[bold white]{player1_power_effect}[/bold white] - [bold purple]{player2_item_effectiveness}[/bold purple] = [bold red]{player1_poison_effect}[/bold red]"
             else:
                 player1_poison_str = "None"
                 
             if player1_final_power > player2_final_power:
                 power_comp = ">"
+                player1_comp_color = "yellow"
+                player2_comp_color = "black"
+
             elif player1_final_power < player2_final_power:
                 power_comp = "<"
+                player1_comp_color = "black"
+                player2_comp_color = "yellow"
             else:
                 power_comp = "=="
+                player1_comp_color = "grey"
+                player2_comp_color = "grey"
 
             
             # Pokemon Name
@@ -559,22 +583,21 @@ class Frontend:
                 left_aligned_message1,
                 title="Player 1",
                 style="white",
-                border_style="green",
+                border_style=player1_element_color,
                 width=left_width,
                 box=HEAVY,
             )
             panel1_middle = Panel(
-                middle_aligned_message1,
-                style=style_color,
-                border_style=style_color,
+                "",
+                style="black",
+                border_style="black",
                 width=middle_width,
-                box=HEAVY,
             )
             panel1_right = Panel(
                 right_aligned_message1,
                 title="Player 2",
                 style="white",
-                border_style="green",
+                border_style=player2_element_color,
                 width=right_width,
                 box=HEAVY,
             )
@@ -583,25 +606,23 @@ class Frontend:
             panel2_left = Panel(
                 str(player1_pokemon[2]),
                 title="Health",
-                style="white",
-                border_style="green",
+                style="green",
+                border_style="white",
                 width=right_width,
-                box=HEAVY,
             )
             panel2_middle = Panel(
-                ":",
-                style=style_color,
-                border_style=style_color,
+                "",
+                style="black",
+                border_style="black",
                 width=middle_width,
-                box=HEAVY,
+
             )
             panel2_right = Panel(
                 str(player2_pokemon[2]),
                 title="Health",
-                style="white",
-                border_style="green",
+                style="green",
+                border_style="white",
                 width=right_width,
-                box=HEAVY,
             )
             
             # Element
@@ -616,9 +637,9 @@ class Frontend:
             
             panel3_middle = Panel(
                 counter_str,
-                title="Element Counter",
-                style=style_color,
-                border_style=style_color,
+                title="Counter",
+                style="yellow",
+                border_style="white",
                 width=middle_width,
                 box=HEAVY,
             )
@@ -633,51 +654,47 @@ class Frontend:
             
             # Power Multiplier
             panel4_left = Panel(
-                str(f"Base Power {player1_element_perc}"),
+                str(f"[bold green]{player1_element_perc}[/bold green]"),
                 title="Element Multiplier",
                 style="white",
-                border_style="green",
+                border_style="white",
                 width=right_width,
-                box=HEAVY,
             )
             panel4_middle = Panel(
-                ":",
-                title="",
-                style=style_color,
-                border_style=style_color,
+                "",
+                style="black",
+                border_style="black",
                 width=middle_width,
-                box=HEAVY,
+
             )
             panel4_right = Panel(
-                str(f"Base Power {player2_element_perc}"),
+                str(f"[bold green]{player2_element_perc}[/bold green]"),
                 title="Element Multiplier",
-                style="white",
-                border_style="green",
+                style="yellow",
+                border_style="yellow",
                 width=right_width,
-                box=HEAVY,
             )
             
             # Base Power
             panel5_left = Panel(
-                str(f"{player1_pokemon[3]} {player1_element_perc} = {player1_element_power}"),
+                str(f"{player1_pokemon[3]} {player1_element_perc} = [bold {player1_item_color}]{player1_element_power}[/bold {player1_item_color}]"),
                 title="Base Power",
                 style="white",
-                border_style="green",
+                border_style="white",
                 width=right_width,
                 box=HEAVY,
             )
             panel5_middle = Panel(
-                ":",
-                style=style_color,
-                border_style=style_color,
+                "",
+                style="black",
+                border_style="black",
                 width=middle_width,
-                box=HEAVY,
             )
             panel5_right = Panel(
-                str(f"{player2_pokemon[3]} {player2_element_perc} = {player2_element_power}"),
+                str(f"{player2_pokemon[3]} {player2_element_perc} = [bold {player2_item_color}]{player2_element_power}[/bold {player1_item_color}]"),
                 title="Base Power",
                 style="white",
-                border_style="green",
+                border_style="white",
                 width=right_width,
                 box=HEAVY,
             )
@@ -686,50 +703,44 @@ class Frontend:
             panel6_left = Panel(
                 str(player1_stack[0]),
                 title="Item",
-                style="white",
-                border_style="green",
+                style=player1_item_color,
+                border_style=player1_item_color,
                 width=right_width,
-                box=HEAVY,
             )
             panel6_middle = Panel(
-                ":",
-                style=style_color,
-                border_style=style_color,
-                width=middle_width,
-                box=HEAVY,
+                "",
+                style="black",
+                border_style="black",
+                width=middle_width, 
             )
             panel6_right = Panel(
                 str(player2_stack[0]),
                 title="Item",
-                style="white",
-                border_style="green",
+                style=player1_item_color,
+                border_style=player2_item_color,
                 width=right_width,
-                box=HEAVY,
             )
             
             # Item
             panel7_left = Panel(
                 f"{player1_item_effectiveness}",
                 title=f"{player1_stack[0]} Random Effectiveness",
-                style="white",
-                border_style="green",
+                style="purple",
+                border_style="purple",
                 width=right_width,
-                box=HEAVY,
             )
             panel7_middle = Panel(
-                ":",
-                style=style_color,
-                border_style=style_color,
+                "",
+                style="black",
+                border_style="black",
                 width=middle_width,
-                box=HEAVY,
             )
             panel7_right = Panel(
                 f"{player2_item_effectiveness}",
                 title=f"{player2_stack[0]} Random Effectiveness",
-                style="white",
-                border_style="green",
+                style="purple",
+                border_style="purple",
                 width=right_width,
-                box=HEAVY,
             )
             
             # Power Up
@@ -737,49 +748,44 @@ class Frontend:
                 f"{player1_power_up_str}",
                 title=f"Power Up",
                 style="white",
-                border_style="green",
+                border_style="white",
                 width=right_width,
-                box=HEAVY,
             )
             panel8_middle = Panel(
-                ":",
-                style=style_color,
-                border_style=style_color,
+                "",
+                style="black",
+                border_style="black",
                 width=middle_width,
-                box=HEAVY,
+
             )
             panel8_right = Panel(
                 f"{player2_power_up_str}",
                 title=f"Power Up",
                 style="white",
-                border_style="green",
+                border_style="white",
                 width=right_width,
-                box=HEAVY,
             )
             
             # Poison
             panel9_left = Panel(
                 f"{player1_poison_str}",
                 title=f"Poison",
-                style="white",
-                border_style="green",
+                style="red",
+                border_style="white",
                 width=right_width,
-                box=HEAVY,
             )
             panel9_middle = Panel(
-                ":",
-                style=style_color,
-                border_style=style_color,
+                "",
+                style="black",
+                border_style="black",
                 width=middle_width,
-                box=HEAVY,
             )
             panel9_right = Panel(
                 f"{player2_poison_str}",
                 title=f"Poison",
-                style="white",
-                border_style="green",
+                style="red",
+                border_style="white",
                 width=right_width,
-                box=HEAVY,
             )
             
             # Final Power
@@ -787,7 +793,7 @@ class Frontend:
                 f"{player1_final_power}",
                 title=f"Final Power",
                 style="white",
-                border_style="green",
+                border_style=player1_comp_color,
                 width=right_width,
                 box=HEAVY,
             )
@@ -803,7 +809,7 @@ class Frontend:
                 f"{player2_final_power}",
                 title=f"Final Power",
                 style="white",
-                border_style="green",
+                border_style=player2_comp_color,
                 width=right_width,
                 box=HEAVY,
             )
@@ -838,17 +844,43 @@ class Frontend:
                    
             battle_result_str = ""
             if battle_winner == "Player 1":
-                battle_result_str = "🔥 Player 1 wins! 🔥"
+                battle_result_str = "🏆 Player 1 wins! 🏆"
             elif battle_winner == "Player 2":
-                battle_result_str = "🔥 Player 2 wins! 🔥"
+                battle_result_str = "🏆 Player 2 wins! 🏆"
             else:
-                battle_result_str = "🔥 Tie! 🔥"
+                battle_result_str = "🏆 Tie! 🏆"
                 
-            self.print_panel(f"[bold white]{battle_result_str}[/bold white]", "", "blue", panel_align="center",  width_fraction=1)
-            self.console.input(Panel(Align.center("[bold white]PRESS ENTER TO NEXT BATTLE QUEUEU![/bold white]", vertical="middle"), style=style_color, border_style=style_color, box=HEAVY))
+            self.console.print(
+            Align.center(
+                Panel(
+                    f"[bold yellow]{battle_result_str}[/bold yellow]",
+                    style="white",
+                    border_style="yellow",
+                    box=HEAVY,
+                ),
+                vertical="middle"  # Centers the entire panel verticall
+            )
+        )
+            self.console.input(Panel(Align.center("[bold white]🔥 PRESS ENTER TO NEXT BATTLE QUEUE 🔥[/bold white]", vertical="middle"), style=style_color, border_style=style_color, box=HEAVY))
     
     def display_health_adjustment(self, player1_pokemon, player2_pokemon, player1_health: int, player2_health: int) -> None:
         self.clear_screen()
+
+        element_colors = {
+                "Fire": "red",
+                "Electric": "yellow",
+                "Water": "blue",
+                "Grass": "green",
+                "Normal": "white",
+                "Ice": "cyan",
+            }
+            
+        # Get pokemon type change color panel
+        player1_type = player1_pokemon[1]
+        player1_element_color = element_colors.get(player1_type, "default")
+
+        player2_type = player2_pokemon[1]
+        player2_element_color = element_colors.get(player2_type, "default")
 
         # Get console width
         total_width = self.console.size.width
@@ -863,7 +895,7 @@ class Frontend:
             f"{player1_pokemon[0]}",
             title="Player 1",
             style="white",
-            border_style="yellow",
+            border_style=player1_element_color,
             width=left_width,
             box=HEAVY,
         )
@@ -872,7 +904,7 @@ class Frontend:
             f"{player2_pokemon[0]}",
             title="Player 2",
             style="white",
-            border_style="green",
+            border_style=player2_element_color,
             width=right_width,
             box=HEAVY,
         )
