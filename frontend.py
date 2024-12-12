@@ -438,22 +438,13 @@ class Frontend:
             
             if player1_counter_str == "neutral" and player2_counter_str == "neutral":
                 counter_str = "None"
-                player1_element_perc = "0%"
-                player2_element_perc = "0%"
             elif player1_counter_str == "opponent countered" and player2_counter_str == "player countered":
                 counter_str = ">"
-                player1_element_perc = "+10%"
-                player2_element_perc = "-15%"
             elif player1_counter_str == "player countered" and player2_counter_str == "opponent countered":
                 counter_str = "<"
-                player1_element_perc = "-15%"
-                player2_element_perc = "10%"
             else:
                 counter_str = "?"
-                player1_element_perc = "0%"
-                player2_element_perc = "0%"
             
-            # Pokemon Name
             panel1_left = Panel(
                 left_aligned_message1,
                 title="Player 1",
@@ -478,7 +469,6 @@ class Frontend:
                 box=HEAVY,
             )
             
-            # Element
             panel2_left = Panel(
                 str(player1_pokemon[1]),
                 title="Element",
@@ -504,35 +494,7 @@ class Frontend:
                 width=right_width,
                 box=HEAVY,
             )
-            
-            # Power Multiplier
             panel3_left = Panel(
-                str(f"Power {player1_element_perc}"),
-                title="Element Multiplier",
-                style="white",
-                border_style="green",
-                width=right_width,
-                box=HEAVY,
-            )
-            panel3_middle = Panel(
-                "",
-                title="",
-                style=style_color,
-                border_style=style_color,
-                width=middle_width,
-                box=HEAVY,
-            )
-            panel3_right = Panel(
-                str(f"Power {player2_element_perc}"),
-                title="Element Multiplier",
-                style="white",
-                border_style="green",
-                width=right_width,
-                box=HEAVY,
-            )
-            
-            # Health
-            panel4_left = Panel(
                 str(player1_pokemon[2]),
                 title="Health",
                 style="white",
@@ -540,14 +502,14 @@ class Frontend:
                 width=right_width,
                 box=HEAVY,
             )
-            panel4_middle = Panel(
+            panel3_middle = Panel(
                 "",
                 style=style_color,
                 border_style=style_color,
                 width=middle_width,
                 box=HEAVY,
             )
-            panel4_right = Panel(
+            panel3_right = Panel(
                 str(player2_pokemon[2]),
                 title="Health",
                 style="white",
@@ -555,9 +517,7 @@ class Frontend:
                 width=right_width,
                 box=HEAVY,
             )
-            
-            # Base Power
-            panel5_left = Panel(
+            panel4_left = Panel(
                 str(player1_pokemon[3]),
                 title="Base Power",
                 style="white",
@@ -565,14 +525,14 @@ class Frontend:
                 width=right_width,
                 box=HEAVY,
             )
-            panel5_middle = Panel(
+            panel4_middle = Panel(
                 middle_aligned_message1,
                 style=style_color,
                 border_style=style_color,
                 width=middle_width,
                 box=HEAVY,
             )
-            panel5_right = Panel(
+            panel4_right = Panel(
                 str(player2_pokemon[3]),
                 title="Base Power",
                 style="white",
@@ -581,8 +541,7 @@ class Frontend:
                 box=HEAVY,
             )
             
-            # Item
-            panel6_left = Panel(
+            panel5_left = Panel(
                 str(player1_stack),
                 title="Item",
                 style="white",
@@ -590,14 +549,14 @@ class Frontend:
                 width=right_width,
                 box=HEAVY,
             )
-            panel6_middle = Panel(
+            panel5_middle = Panel(
                 "",
                 style=style_color,
                 border_style=style_color,
                 width=middle_width,
                 box=HEAVY,
             )
-            panel6_right = Panel(
+            panel5_right = Panel(
                 str(player2_stack),
                 title="Item",
                 style="white",
@@ -618,7 +577,6 @@ class Frontend:
             table.add_row(panel3_left, panel3_middle, panel3_right)
             table.add_row(panel4_left, panel4_middle, panel4_right)
             table.add_row(panel5_left, panel5_middle, panel5_right)
-            table.add_row(panel6_left, panel6_middle, panel6_right)
             
             self.print_panel(f"[bold white]Battle {battle_index}[/bold white]", "", "blue", panel_align="center",  width_fraction=1)
             
