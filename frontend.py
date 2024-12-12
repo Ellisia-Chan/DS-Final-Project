@@ -418,7 +418,7 @@ class Frontend:
             self.console.print(table)
             self.console.input(Panel(Align.center("[bold white]PRESS ENTER TO BATTLE START![/bold white]", vertical="middle"), style=style_color, border_style=style_color, box=HEAVY))
     
-    def display_battle_calc(self, style_color: str, player1_pokemon: list, player2_pokemon: list, battle_index: int, player1_counter_str: str, player2_counter_str: str, player1_stack: list, player2_stack: list) -> None:
+    def display_battle_calc(self, style_color: str, player1_pokemon: list, player2_pokemon: list, battle_index: int, player1_counter_str: str, player2_counter_str: str, player1_stack: list, player2_stack: list, player1_element_power: int, player2_element_power: int) -> None:
             self.clear_screen()
             # Get console width
             total_width = self.console.size.width
@@ -438,8 +438,8 @@ class Frontend:
             
             if player1_counter_str == "neutral" and player2_counter_str == "neutral":
                 counter_str = "None"
-                player1_element_perc = "0%"
-                player2_element_perc = "0%"
+                player1_element_perc = "+0%"
+                player2_element_perc = "+0%"
             elif player1_counter_str == "opponent countered" and player2_counter_str == "player countered":
                 counter_str = ">"
                 player1_element_perc = "+10%"
@@ -450,8 +450,8 @@ class Frontend:
                 player2_element_perc = "10%"
             else:
                 counter_str = "?"
-                player1_element_perc = "0%"
-                player2_element_perc = "0%"
+                player1_element_perc = "+0%"
+                player2_element_perc = "+0%"
             
             # Pokemon Name
             panel1_left = Panel(
@@ -558,7 +558,7 @@ class Frontend:
             
             # Base Power
             panel5_left = Panel(
-                str(player1_pokemon[3]),
+                str(f"{player1_pokemon[3]} + {player1_element_perc} = {player1_element_power}"),
                 title="Base Power",
                 style="white",
                 border_style="green",
@@ -566,14 +566,14 @@ class Frontend:
                 box=HEAVY,
             )
             panel5_middle = Panel(
-                middle_aligned_message1,
+                "",
                 style=style_color,
                 border_style=style_color,
                 width=middle_width,
                 box=HEAVY,
             )
             panel5_right = Panel(
-                str(player2_pokemon[3]),
+                str(f"{player2_pokemon[3]} + {player2_element_perc} = {player2_element_power}"),
                 title="Base Power",
                 style="white",
                 border_style="green",
