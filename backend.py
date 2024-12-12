@@ -218,7 +218,7 @@ class Backend:
                 )
                 
                 self.health_adjustment(player1_pokemon, player2_pokemon)
-
+                self.battle_summary_container(player1_pokemon, player2_pokemon, player1_final_power, player2_final_power, battle_winner, self.battle_round)
             except (ValueError, IndexError):
                 self.frontend.show_error_message("battle queue start error")
                 continue
@@ -252,8 +252,26 @@ class Backend:
         else:
             return 0
         
-    def battle_summary_container(self, player1_pokemon, player2_pokemon, player1_final_power, player2_final_power, battle_winner):
-        pass
+    def battle_summary_container(self, player1_pokemon, player2_pokemon, player1_final_power, player2_final_power, battle_winner, Battle_number):
+        player1_pokemon_name_list = []
+        player1_final_power_list = []
+        
+        player2_pokemon_name_list = []
+        player2_final_power_list = []
+        
+        battle_winner_list = []
+        battle_number_list = []
+        
+        player1_pokemon_name_list.append(player1_pokemon[0])
+        player1_final_power_list.append(player1_final_power)
+        
+        player2_pokemon_name_list.append(player2_pokemon[0])
+        player2_final_power_list.append(player2_final_power)
+        
+        battle_winner_list.append(battle_winner)
+        battle_number_list.append(Battle_number)
+        
+        self.battle_summary = [player1_pokemon_name_list, player1_final_power_list, player2_pokemon_name_list, player2_final_power_list, battle_winner_list, battle_number_list]
 
 # 🐞Debugging
 if __name__ == "__main__":

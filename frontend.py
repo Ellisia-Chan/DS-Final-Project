@@ -859,6 +859,32 @@ class Frontend:
         
         self.console.input(Panel(Align.center("[bold white]PRESS ENTER TO NEXT BATTLE QUEUEU![/bold white]", vertical="middle"), style=style_color, border_style=style_color, box=HEAVY))
     
+    def Display_battle_summary(self, summary: list) -> None:
+        self.clear_screen()
+
+        self.console.print(Align.center("\n[green][bold]Battle Summary[/bold][/green]", vertical="middle"), style="white")
+        
+        table = Table(border_style="bold white", box=HEAVY, title="Available Pokemon")
+        # Add columns for the Pokemon attributes
+        table.add_column("Battle", justify="center")
+        table.add_column("Name", justify="center")
+        table.add_column("Type", justify="center")
+        table.add_column("Health", justify="center")
+        table.add_column("Power", justify="center")
+
+        # Populate the table with Pokemon data from backend
+        for idx, pokemon in enumerate(self.backend.pokemon_array.get()):
+            table.add_row(
+                str(idx+1),  # Index
+                str(pokemon[0]),  # Name
+                str(pokemon[1]),  # Type
+                str(pokemon[2]),  # Health
+                str(pokemon[3]),  # Power
+            )
+
+        # Print the table center-aligned
+        self.console.print(Align.center(table))
+    
     # ============================================================================
     #                         PLAYER SELECTION METHODS
     # ============================================================================    
