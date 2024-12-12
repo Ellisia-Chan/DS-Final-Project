@@ -515,7 +515,7 @@ class Frontend:
                 box=HEAVY,
             )
             panel3_middle = Panel(
-                "",
+                ":",
                 title="",
                 style=style_color,
                 border_style=style_color,
@@ -541,7 +541,7 @@ class Frontend:
                 box=HEAVY,
             )
             panel4_middle = Panel(
-                "",
+                ":",
                 style=style_color,
                 border_style=style_color,
                 width=middle_width,
@@ -566,7 +566,7 @@ class Frontend:
                 box=HEAVY,
             )
             panel5_middle = Panel(
-                "",
+                ":",
                 style=style_color,
                 border_style=style_color,
                 width=middle_width,
@@ -591,7 +591,7 @@ class Frontend:
                 box=HEAVY,
             )
             panel6_middle = Panel(
-                "",
+                ":",
                 style=style_color,
                 border_style=style_color,
                 width=middle_width,
@@ -600,6 +600,31 @@ class Frontend:
             panel6_right = Panel(
                 str(player2_stack),
                 title="Item",
+                style="white",
+                border_style="green",
+                width=right_width,
+                box=HEAVY,
+            )
+            
+            # Item
+            panel7_left = Panel(
+                f"",
+                title=f"{player1_stack} Random Effectiveness",
+                style="white",
+                border_style="green",
+                width=right_width,
+                box=HEAVY,
+            )
+            panel7_middle = Panel(
+                "",
+                style=style_color,
+                border_style=style_color,
+                width=middle_width,
+                box=HEAVY,
+            )
+            panel7_right = Panel(
+                f"",
+                title=f"{player2_stack} Random Effectiveness",
                 style="white",
                 border_style="green",
                 width=right_width,
@@ -619,6 +644,7 @@ class Frontend:
             table.add_row(panel4_left, panel4_middle, panel4_right)
             table.add_row(panel5_left, panel5_middle, panel5_right)
             table.add_row(panel6_left, panel6_middle, panel6_right)
+            table.add_row(panel7_left, panel7_middle, panel7_right)
             
             self.print_panel(f"[bold white]Battle {battle_index}[/bold white]", "", "blue", panel_align="center",  width_fraction=1)
             
