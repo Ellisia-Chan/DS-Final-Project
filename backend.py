@@ -124,48 +124,108 @@ class Backend:
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
                 continue
     
-    # 🟧 in progress
+    # 🟧 Corrected in progress
     def battle_queue_start(self) -> None:
         while self.battle_round < 2:
             try:
                 self.battle_round += 1
-                
+                player1_final_power: int = 0
+                player2_final_power: int = 0
+
+                # Dequeue Pokémon and pop item effects
+                player1_item_effect: list = []
                 player1_pokemon = self.player1_pokemon_queue.dequeue()
-                player1_item_effect  = self.player1_pokemon_stack.pop()
-                player2_pokemon= self.player2_pokemon_queue.dequeue()
-                player2_item_effect = self.player2_pokemon_stack.pop()
-                
+                player1_item_effect.append(self.player1_pokemon_stack.pop())
+
+                player2_item_effect: list = []
+                player2_pokemon = self.player2_pokemon_queue.dequeue()
+                player2_item_effect.append(self.player2_pokemon_stack.pop())
+
+                # Base power and element multipliers
                 player1_base_power = player1_pokemon[3]
                 player2_base_power = player2_pokemon[3]
-                                
+
                 player1_counter_str = self.pokemon_array.is_element_countered(player1_pokemon[1], player2_pokemon[1])
                 player2_counter_str = self.pokemon_array.is_element_countered(player2_pokemon[1], player1_pokemon[1])
-                
+
                 player1_power_multiplier = self.element_counter_calc(player1_counter_str)
                 player2_power_multiplier = self.element_counter_calc(player2_counter_str)
+
+                # Element counter power calculation
+                player1_updated_power_element = round(
+                    player1_base_power * (1 + player1_power_multiplier) if player1_counter_str == "opponent countered"
+                    else player1_base_power * (1 - player1_power_multiplier) if player1_counter_str == "player countered"
+                    else player1_base_power
+                )
+                player2_updated_power_element = round(
+                    player2_base_power * (1 + player2_power_multiplier) if player2_counter_str == "opponent countered"
+                    else player2_base_power * (1 - player2_power_multiplier) if player2_counter_str == "player countered"
+                    else player2_base_power
+                )
+
+                # Add random item effectiveness multipliers
+                player1_item_effect.append(self.random_effectiveness_generator())
+                player2_item_effect.append(self.random_effectiveness_generator())
+
+                # Initialize updated power
+                player1_updated_power_effect = player1_updated_power_element
+                player2_updated_power_effect = player2_updated_power_element
+                player1_updated_poison_effect = player1_updated_power_element
+                player2_updated_poison_effect = player2_updated_power_element
                 
-                # Calculate power from element counter
-                if player1_counter_str == "opponent countered":
-                    player1_updated_power = round(player1_base_power + (player1_base_power * player1_power_multiplier))
-                elif player1_counter_str == "player countered":
-                    player1_updated_power = round(player1_base_power - (player1_base_power * player1_power_multiplier))
-                else:
-                    player1_updated_power = player1_base_power
+                player1_final_power = player1_updated_power_effect
+                player2_final_power = player2_updated_power_effect
+
+                # Apply item effects
+                if player1_item_effect[0] == "Power Up":
+                    player1_updated_power_effect = round(
+                        player1_updated_power_element * (1 + player1_item_effect[1])
+                    )
+                    player1_final_power = player1_updated_power_effect
+                if player2_item_effect[0] == "Power Up":
+                    player2_updated_power_effect = round(
+                        player2_updated_power_element * (1 + player2_item_effect[1])
+                    )
+                    player2_final_power = player2_updated_power_effect
+                    
+                if player1_item_effect[0] == "Poison":
+                    player2_updated_poison_effect = round(
+                        player2_updated_power_effect * (1 - player1_item_effect[1])
+                    )
+                    player2_final_power = player2_updated_poison_effect
+                    
+                if player2_item_effect[0] == "Poison":
+                    player1_updated_poison_effect = round(
+                        player1_updated_power_effect * (1 - player2_item_effect[1])
+                    )
+                    player1_final_power = player1_updated_poison_effect
+                    
+                # Final power calculation  
                 
-                if player2_counter_str == "opponent countered":
-                    player2_updated_power = round(player2_base_power + (player2_base_power * player2_power_multiplier))
-                elif player2_counter_str == "player countered":
-                    player2_updated_power = round(player2_base_power - (player2_base_power * player2_power_multiplier))
-                else:
-                    player2_updated_power = player2_base_power
+                battle_winner = self.battle_winner(player1_final_power, player2_final_power)
+
+                # Display battle details
+                self.frontend.display_battle_start(
+                    "yellow", "white", player1_pokemon, player2_pokemon, self.battle_round
+                )
+                self.frontend.display_battle_calc(
+                    "yellow", player1_pokemon, player2_pokemon, self.battle_round,
+                    player1_counter_str, player2_counter_str, player1_item_effect,
+                    player2_item_effect, player1_updated_power_element,
+                    player2_updated_power_element, player1_updated_power_effect,
+                    player2_updated_power_effect, player1_updated_poison_effect,
+                    player2_updated_poison_effect, player1_final_power, player2_final_power, battle_winner
+                )
                 
-                self.frontend.display_battle_start("yellow", "white", player1_pokemon, player2_pokemon, self.battle_round)
-                self.frontend.display_battle_calc("yellow", player1_pokemon, player2_pokemon, self.battle_round, player1_counter_str, player2_counter_str, player1_item_effect, player2_item_effect, player1_updated_power, player2_updated_power)
-                
+                self.health_adjustment(player1_pokemon, player2_pokemon)
+
             except (ValueError, IndexError):
                 self.frontend.show_error_message("battle queue start error")
                 continue
     
+    def health_adjustment(self, player1_pokemon, player2_pokemon) -> None:
+        pass
+
     # 🟧 in progress
     def battle_winner(self, player1_power, player2_power) -> str:
         if player1_power > player2_power:
