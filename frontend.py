@@ -376,9 +376,6 @@ class Frontend:
             middle_aligned_message1 = Align.center("VS")
             right_aligned_message1 = Align.center(row1_right)
             
-            # Create panels for all three rows
-            counter_panel = Panel("?", title="Counter",style="white", box=HEAVY)
-            
             panel1_left = Panel(
                 left_aligned_message1,
                 title="Player 1",
@@ -386,7 +383,7 @@ class Frontend:
                 border_style="green",
                 width=left_width,
                 box=HEAVY,
-            )
+            )       
             panel1_middle = Panel(
                 middle_aligned_message1,
                 style=style_color,
@@ -402,25 +399,7 @@ class Frontend:
                 width=right_width,
                 box=HEAVY,
             )
-            
-            panel2_left = Panel(
-                str(player1_pokemon[1]),
-                title="Element",
-                style="white",
-                border_style="green",
-                width=right_width,
-                box=HEAVY,
-            )
-            
-            panel2_right = Panel(
-                str(player2_pokemon[1]),
-                title="Element",
-                style="white",
-                border_style="green",
-                width=right_width,
-                box=HEAVY,
-            )
-            
+    
             # Create a table to align the panels side by side for all rows
             table = Table.grid()
             table.add_column(justify="center", width=left_width)
@@ -429,7 +408,6 @@ class Frontend:
             
             # Add rows to the table
             table.add_row(panel1_left, panel1_middle, panel1_right)
-            table.add_row(panel2_left, counter_panel, panel2_right)
             
             # Pokemon title ASCII art
             ascii_art = self.draw_ascii("pokemon_title")  # Fetch ASCII content from file
@@ -469,16 +447,12 @@ class Frontend:
             else:
                 counter_str = "?"
             
-            # Create panels for all three rows
-            counter_panel = Panel(counter_str, title="Counter",style="white", padding=(1, 1), box=HEAVY)
-            
             panel1_left = Panel(
                 left_aligned_message1,
                 title="Player 1",
                 style="white",
                 border_style="green",
                 width=left_width,
-                padding=(1, 1),
                 box=HEAVY,
             )
             panel1_middle = Panel(
@@ -486,7 +460,6 @@ class Frontend:
                 style=style_color,
                 border_style=style_color,
                 width=middle_width,
-                padding=(1, 1),
                 box=HEAVY,
             )
             panel1_right = Panel(
@@ -495,7 +468,6 @@ class Frontend:
                 style="white",
                 border_style="green",
                 width=right_width,
-                padding=(1, 1),
                 box=HEAVY,
             )
             
@@ -505,17 +477,69 @@ class Frontend:
                 style="white",
                 border_style="green",
                 width=right_width,
-                padding=(1, 1),
                 box=HEAVY,
             )
             
+            panel2_middle = Panel(
+                counter_str,
+                title="Element Counter",
+                style=style_color,
+                border_style=style_color,
+                width=middle_width,
+                box=HEAVY,
+            )
             panel2_right = Panel(
                 str(player2_pokemon[1]),
-                title="Element",
+                title="Element Counter",
                 style="white",
                 border_style="green",
                 width=right_width,
-                padding=(1, 1),
+                box=HEAVY,
+            )
+            panel3_left = Panel(
+                str(player1_pokemon[2]),
+                title="Health",
+                style="white",
+                border_style="green",
+                width=right_width,
+                box=HEAVY,
+            )
+            panel3_middle = Panel(
+                "",
+                style=style_color,
+                border_style=style_color,
+                width=middle_width,
+                box=HEAVY,
+            )
+            panel3_right = Panel(
+                str(player2_pokemon[2]),
+                title="Health",
+                style="white",
+                border_style="green",
+                width=right_width,
+                box=HEAVY,
+            )
+            panel4_left = Panel(
+                str(player1_pokemon[3]),
+                title="Power",
+                style="white",
+                border_style="green",
+                width=right_width,
+                box=HEAVY,
+            )
+            panel4_middle = Panel(
+                middle_aligned_message1,
+                style=style_color,
+                border_style=style_color,
+                width=middle_width,
+                box=HEAVY,
+            )
+            panel4_right = Panel(
+                str(player2_pokemon[3]),
+                title="Power",
+                style="white",
+                border_style="green",
+                width=right_width,
                 box=HEAVY,
             )
             
@@ -527,13 +551,16 @@ class Frontend:
             
             # Add rows to the table
             table.add_row(panel1_left, panel1_middle, panel1_right)
-            table.add_row(panel2_left, counter_panel, panel2_right)
+            table.add_row(panel2_left, panel2_middle, panel2_right)
+            table.add_row(panel3_left, panel3_middle, panel3_right)
+            table.add_row(panel4_left, panel4_middle, panel4_right)
             
             self.print_panel(f"[bold white]Battle {battle_index}[/bold white]", "", "blue", panel_align="center",  width_fraction=1)
             
             # Print the table
             self.console.print(table)
             self.console.input(Panel(Align.center("[bold white]PRESS ENTER TO NEXT BATTLE QUEUEU![/bold white]", vertical="middle"), style=style_color, border_style=style_color, box=HEAVY))
+            
     # ============================================================================
     #                         PLAYER SELECTION METHODS
     # ============================================================================    
@@ -554,7 +581,7 @@ class Frontend:
     def prompt_player_item_selection(self) -> str:
         self.console.print(
             Panel(
-                Align.center("[cyan]Enter the item you want to use per pokemon (space-separated):[/cyan]", vertical="middle"),
+                Align.center("[cyan]Enter the index of items you want to use per pokemon (space-separated):[/cyan]", vertical="middle"),
                 style="white",
                 border_style="yellow",
                 box=HEAVY

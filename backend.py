@@ -131,13 +131,16 @@ class Backend:
                 
                 player1_pokemon = self.player1_pokemon_queue.dequeue()
                 player2_pokemon = self.player2_pokemon_queue.dequeue()
+                
+                player1_base_power = player1_pokemon[3]
+                player2_base_power = player2_pokemon[3]
                                 
                 player1_counter_str = self.pokemon_array.is_element_countered(player1_pokemon[1], player2_pokemon[1])
                 player2_counter_str = self.pokemon_array.is_element_countered(player2_pokemon[1], player1_pokemon[1])
                 
                 player1_power_multiplier = self.element_counter_calc(player1_counter_str)
                 player2_power_multiplier = self.element_counter_calc(player2_counter_str)
-                               
+            
                 self.frontend.display_battle_start("yellow", "white", player1_pokemon, player2_pokemon, self.battle_round)
                 self.frontend.display_battle_calc("yellow", player1_pokemon, player2_pokemon, self.battle_round, player1_counter_str, player2_counter_str)
                 

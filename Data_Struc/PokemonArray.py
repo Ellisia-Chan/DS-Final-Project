@@ -20,18 +20,18 @@ class Pokemon_Array:
 
         self.__pokemons: np.ndarray = np.array([
             #   Name        Type           Health   Power
-            ('Charizard',  'Fire',           80,     80),  # Fire
-            ('Arcanine',   'Fire',           90,     95),  # Fire
-            ('Pikachu',    'Electric',       50,     75),  # Electric
-            ('Jolteon',    'Electric',       70,     90),  # Electric
-            ('Squirtle',   'Water',          50,     70),  # Water
-            ('Vaporeon',   'Water',         100,     70),  # Water
-            ('Bulbasaur',  'Grass',          50,     85),  # Grass
-            ('Leafeon',    'Grass',          70,    100),  # Grass
-            ('Eevee',      'Normal',         50,     80),  # Normal
-            ('Snorlax',    'Normal',        100,     90),  # Normal
-            ('Glaceon',    'Ice',            70,     90),  # Ice
-            ('Froslass',   'Ice',            80,     85),  # Ice
+            ('Charizard',  'Fire',           80,     50),  # Fire
+            ('Arcanine',   'Fire',           90,     35),  # Fire
+            ('Pikachu',    'Electric',       60,     45),  # Electric
+            ('Jolteon',    'Electric',       70,     50),  # Electric
+            ('Squirtle',   'Water',          50,     30),  # Water
+            ('Vaporeon',   'Water',         100,     40),  # Water
+            ('Bulbasaur',  'Grass',          50,     45),  # Grass
+            ('Leafeon',    'Grass',          70,     50),  # Grass
+            ('Eevee',      'Normal',         50,     35),  # Normal
+            ('Snorlax',    'Normal',        100,     45),  # Normal
+            ('Glaceon',    'Ice',            70,     30),  # Ice
+            ('Froslass',   'Ice',            80,     50),  # Ice
         ], dtype=self.__pokemon_dtype)
         
         self.__elemental_counters = {
