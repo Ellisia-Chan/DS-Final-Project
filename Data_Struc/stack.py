@@ -27,3 +27,6 @@ class Stack:
     # ✅ working
     def get(self) -> list:
         return self.items
+    
+    def get_reverse(self) -> list:
+        return self.items[::-1]
