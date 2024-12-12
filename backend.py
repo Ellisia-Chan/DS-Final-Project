@@ -124,6 +124,7 @@ class Backend:
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
                 continue
     
+    # 🟧 in progress
     def battle_queue_start(self) -> None:
         while self.battle_round < 2:
             try:
@@ -142,13 +143,40 @@ class Backend:
                 
                 player1_power_multiplier = self.element_counter_calc(player1_counter_str)
                 player2_power_multiplier = self.element_counter_calc(player2_counter_str)
-            
+                
+                # Calculate power from element counter
+                if player1_counter_str == "opponent countered":
+                    player1_updated_power = round(player1_base_power + (player1_base_power * player1_power_multiplier))
+                elif player1_counter_str == "player countered":
+                    player1_updated_power = round(player1_base_power - (player1_base_power * player1_power_multiplier))
+                else:
+                    player1_updated_power = player1_base_power
+                
+                if player2_counter_str == "opponent countered":
+                    player2_updated_power = round(player2_base_power + (player2_base_power * player2_power_multiplier))
+                elif player2_counter_str == "player countered":
+                    player2_updated_power = round(player2_base_power - (player2_base_power * player2_power_multiplier))
+                else:
+                    player2_updated_power = player2_base_power
+                    
+                player1_item_effect.append(self.random_effectiveness_generator())
+                player2_item_effect.append(self.random_effectiveness_generator())
+                
                 self.frontend.display_battle_start("yellow", "white", player1_pokemon, player2_pokemon, self.battle_round)
-                self.frontend.display_battle_calc("yellow", player1_pokemon, player2_pokemon, self.battle_round, player1_counter_str, player2_counter_str, player1_item_effect, player2_item_effect)
+                self.frontend.display_battle_calc("yellow", player1_pokemon, player2_pokemon, self.battle_round, player1_counter_str, player2_counter_str, player1_item_effect, player2_item_effect, player1_updated_power, player2_updated_power)
                 
             except (ValueError, IndexError):
                 self.frontend.show_error_message("battle queue start error")
                 continue
+    
+    # 🟧 in progress
+    def battle_winner(self, player1_power, player2_power) -> str:
+        if player1_power > player2_power:
+            return "Player 1"
+        elif player1_power < player2_power:
+            return "Player 2"
+        else:
+            return "Draw"
                        
     # 🟧 in progress
     def random_effectiveness_generator(self) -> float:
