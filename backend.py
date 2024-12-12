@@ -142,7 +142,7 @@ class Backend:
                 player2_power_multiplier = self.element_counter_calc(player2_counter_str)
             
                 self.frontend.display_battle_start("yellow", "white", player1_pokemon, player2_pokemon, self.battle_round)
-                self.frontend.display_battle_calc("yellow", player1_pokemon, player2_pokemon, self.battle_round, player1_counter_str, player2_counter_str)
+                self.frontend.display_battle_calc("yellow", player1_pokemon, player2_pokemon, self.battle_round, player1_counter_str, player2_counter_str, self.player1_pokemon_stack.pop(), self.player2_pokemon_stack.pop())
                 
             except (ValueError, IndexError):
                 self.frontend.show_error_message("battle queue start error")

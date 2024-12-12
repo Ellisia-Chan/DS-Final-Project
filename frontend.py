@@ -420,7 +420,7 @@ class Frontend:
             self.console.print(table)
             self.console.input(Panel(Align.center("[bold white]PRESS ENTER TO BATTLE START![/bold white]", vertical="middle"), style=style_color, border_style=style_color, box=HEAVY))
     
-    def display_battle_calc(self, style_color: str, player1_pokemon: list, player2_pokemon: list, battle_index: int, player1_counter_str: str, player2_counter_str: str) -> None:
+    def display_battle_calc(self, style_color: str, player1_pokemon: list, player2_pokemon: list, battle_index: int, player1_counter_str: str, player2_counter_str: str, player1_stack: list, player2_stack: list) -> None:
             self.clear_screen()
             # Get console width
             total_width = self.console.size.width
