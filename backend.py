@@ -142,7 +142,13 @@ class Backend:
                 
                 player1_power_multiplier = self.element_counter_calc(player1_counter_str)
                 player2_power_multiplier = self.element_counter_calc(player2_counter_str)
-            
+                player1_updated_power = player1_base_power + (player1_base_power * player1_power_multiplier)
+                player2_updated_power = player2_base_power + (player2_base_power * player2_power_multiplier)
+                
+                print(player1_updated_power)
+                print(player2_updated_power)6 
+                input()
+
                 self.frontend.display_battle_start("yellow", "white", player1_pokemon, player2_pokemon, self.battle_round)
                 self.frontend.display_battle_calc("yellow", player1_pokemon, player2_pokemon, self.battle_round, player1_counter_str, player2_counter_str, player1_item_effect, player2_item_effect)
                 
