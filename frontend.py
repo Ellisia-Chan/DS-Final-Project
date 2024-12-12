@@ -71,7 +71,18 @@ class Frontend:
             self.console.print(panel, justify = panel_align)
     
     def pokemon_title(self, color):
-        pass
+        # Pokemon title ASCII art
+        ascii_art = self.draw_ascii("pokemon_title")  # Fetch ASCII content from file
+
+        # Print the panel with centered alignment for ASCII art
+        self.console.print(
+            Panel(
+                Align.center(f"[{color}]{ascii_art}[/{color}]", vertical="middle"),
+                style="white",
+                border_style=color,
+                box=HEAVY
+            )
+        )
 
 
     #✅ Working
@@ -122,18 +133,8 @@ class Frontend:
     def program_intro(self) -> None:
         self.clear_screen()
 
-        # Pokemon title ASCII art
-        ascii_art = self.draw_ascii("pokemon_title")  # Fetch ASCII content from file
-
-        # Print the panel with centered alignment for ASCII art
-        self.console.print(
-            Panel(
-                Align.center(f"[blue]{ascii_art}[/blue]", vertical="middle"),
-                style="white",
-                border_style="blue",
-                box=HEAVY
-            )
-        )
+        # top watermark
+        self.pokemon_title("blue")
 
         # Additional Information and Messages
         self.console.print(Align.center("[yellow]🛈[/yellow]: [bold yellow]✨ Each player must [green]choose 3 Pokemon[/green]✨", vertical="middle"), style="white")
@@ -165,18 +166,8 @@ class Frontend:
     def display_pokemon_array(self) -> None:
         self.clear_screen()
 
-        # Pokemon title ASCII art
-        ascii_art = self.draw_ascii("pokemon_title")  # Fetch ASCII content from file
-
-        # Print the panel with centered alignment for ASCII art
-        self.console.print(
-            Panel(
-                Align.center(f"[blue]{ascii_art}[/blue]", vertical="middle"),
-                style="white",
-                border_style="blue",
-                box=HEAVY
-            )
-        )
+        # top watermark
+        self.pokemon_title("green")
         
         self.console.print(Align.center("\n[green]Choose [bold]3 pokemons![/bold][/green]", vertical="middle"), style="white")
         self.console.print(Align.center("Selected pokemons will be [red]removed from the pokemon list![/red]\n", vertical="middle"), style="white")
@@ -326,18 +317,8 @@ class Frontend:
         table.add_row(panel2_left, panel2_middle, panel2_right)
         table.add_row(panel3_left, panel3_middle, panel3_right)
         
-        # Pokemon title ASCII art
-        ascii_art = self.draw_ascii("pokemon_title")  # Fetch ASCII content from file
-
-        # Print the panel with centered alignment for ASCII art
-        self.console.print(
-            Panel(
-                Align.center(f"[blue]{ascii_art}[/blue]", vertical="middle"),
-                style="white",
-                border_style="blue",
-                box=HEAVY
-            )
-        )
+        # top watermark
+        self.pokemon_title("yellow")
         
         self.console.print(Panel(Align.center(f"[bold white]🎇 {player_str} 🎇 Pokemon Item Selection[/bold white]"), box=HEAVY, style="red", border_style="red"))
         
@@ -420,11 +401,9 @@ class Frontend:
             # Add rows to the table
             table.add_row(panel1_left, panel1_middle, panel1_right)
             
-            # Pokemon title ASCII art
-            ascii_art = self.draw_ascii("pokemon_title")  # Fetch ASCII content from file
+            # top watermark
+            self.pokemon_title("red")
 
-            self.console.print(Panel(Align.center(f"[{title_color}]{ascii_art}[/{title_color}]",
-                vertical="middle"), style=style_color, border_style=style_color, box=HEAVY, padding=(1, 1)))
             self.print_panel(f"[bold white]Battle {battle_index}[/bold white]", "", "blue", panel_align="center",  width_fraction=1)
             
             # Print the table
