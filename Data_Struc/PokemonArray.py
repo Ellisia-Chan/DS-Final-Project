@@ -103,15 +103,3 @@ class Pokemon_Array:
 if __name__ == "__main__":
     import main
     main.Gameplay()
-#     pokemon_array = Pokemon_Array()
-#     pokemon_array.show_pokemons()
-
-#     print("\n\n\nTest\n\n")
-#     selected_pokemon_1 = pokemon_array.select_and_remove_pokemon(13)
-#     print("\nTest\n\n")
-#     pokemon_array.show_pokemons()
-#     selected_pokemon_2 = pokemon_array.select_and_remove_pokemon(1)
-    
-#     print("\nTest\n\n")
-#     print(selected_pokemon_1)
-#     print(selected_pokemon_2)

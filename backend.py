@@ -72,6 +72,7 @@ class Backend:
                     index += 1
                 else:
                     self.frontend.show_error_message("One or more indices are invalid. Please try again.")
+                    continue
 
                 queued_linked_list = player_pokemons.get_linked_list()
                 for pokemon in queued_linked_list:
@@ -82,6 +83,7 @@ class Backend:
 
             except (ValueError, IndexError):
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
+                continue
                 
     # 🟧 in progress
     def effects_selection(self) -> None:
@@ -113,14 +115,36 @@ class Backend:
                             pass
                     index += 1
                 else:
-                    self.frontend.show_error_message("One or more indices are invalid. Please try again.")      
+                    self.frontend.show_error_message("One or more indices are invalid. Please try again.")
+                    continue    
                     
-                print(player_stack.get()) 
-                input()                    
+                self.frontend.display_pokemon_item_table(player_queue.get_queue(), player_str, player_stack.get_reverse())
+                input("> Press Enter to Continue")
             except (ValueError, IndexError):
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
-        
+                continue
+    
+    def battle_queue_start(self) -> None:
+        while self.battle_round < 2:
+            try:
+                self.battle_round += 1
                 
+                player1_pokemon = self.player1_pokemon_queue.dequeue()
+                player2_pokemon = self.player2_pokemon_queue.dequeue()
+                                
+                player1_counter_str = self.pokemon_array.is_element_countered(player1_pokemon[1], player2_pokemon[1])
+                player2_counter_str = self.pokemon_array.is_element_countered(player2_pokemon[1], player1_pokemon[1])
+                
+                player1_power_multiplier = self.element_counter_calc(player1_counter_str)
+                player2_power_multiplier = self.element_counter_calc(player2_counter_str)
+                               
+                self.frontend.display_battle_start("yellow", "white", player1_pokemon, player2_pokemon, self.battle_round)
+                self.frontend.display_battle_calc("yellow", player1_pokemon, player2_pokemon, self.battle_round, player1_counter_str, player2_counter_str)
+                
+            except (ValueError, IndexError):
+                self.frontend.show_error_message("battle queue start error")
+                continue
+                       
     # 🟧 in progress
     def random_effectiveness_generator(self) -> float:
         effect_perc: list = [0.30, 0.20, 0.10]

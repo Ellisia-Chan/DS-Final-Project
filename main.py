@@ -27,6 +27,9 @@ class Gameplay:
         # 🟧 in progress
         # player selection for random effects(power-ups/poison)
         self.frontend.pokemon_effects_selection()
+        
+        # 🟧 in progress
+        self.frontend.pokemon_queue_battle_start()
 
 
 if __name__ == "__main__":
