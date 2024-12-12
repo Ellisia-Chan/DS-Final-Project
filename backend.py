@@ -9,9 +9,9 @@ from Data_Struc.stack import Stack
 from Data_Struc.PokemonArray import Pokemon_Array
 
 import random
-# 🟧 in progress
+# ✅ working
 class Backend:
-    # 🟧 in progress
+    # ✅ working
     def __init__(self, frontend_instance) -> None:
         self.frontend = frontend_instance
         
@@ -85,7 +85,7 @@ class Backend:
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
                 continue
                 
-    # 🟧 in progress
+    # ✅ working
     def effects_selection(self) -> None:
         index: int = 0
         while index < 2:
@@ -124,7 +124,7 @@ class Backend:
                 self.frontend.show_error_message("Please enter valid numeric indices separated by spaces.")
                 continue
     
-    # 🟧 Corrected in progress
+    # ✅ working
     def battle_queue_start(self) -> None:
         while self.battle_round < 2:
             try:
@@ -224,9 +224,12 @@ class Backend:
                 continue
     
     def health_adjustment(self, player1_pokemon, player2_pokemon) -> None:
-        pass
+        player1_health = player1_pokemon[2] - 5
+        player2_health = player2_pokemon[2] - 5 
+        
+        self.frontend.display_health_adjustment(player1_pokemon, player2_pokemon, player1_health, player2_health)
 
-    # 🟧 in progress
+    # ✅ working
     def battle_winner(self, player1_power, player2_power) -> str:
         if player1_power > player2_power:
             return "Player 1"
@@ -235,12 +238,12 @@ class Backend:
         else:
             return "Draw"
                        
-    # 🟧 in progress
+    # ✅ working
     def random_effectiveness_generator(self) -> float:
         effect_perc: list = [0.30, 0.20, 0.10]
         return random.choice(effect_perc)
     
-    # 🟧 in progress
+    # ✅ working
     def element_counter_calc(self, counter_str: str) -> float:
         if counter_str == "opponent countered":
             return 0.10
@@ -248,6 +251,9 @@ class Backend:
             return 0.15
         else:
             return 0
+        
+    def battle_summary_container(self, player1_pokemon, player2_pokemon, player1_final_power, player2_final_power, battle_winner):
+        pass
 
 # 🐞Debugging
 if __name__ == "__main__":
