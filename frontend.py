@@ -186,7 +186,7 @@ class Frontend:
 
         # Additional Information and Messages
         self.console.print(Align.center("[yellow]🛈[/yellow]: [bold yellow]✨ Each player must [green]choose 3 Pokemon[/green]✨", vertical="middle"), style="white")
-        self.console.print(Align.center("Equip your pokemon with a [purple]random effect![/purple]", vertical="middle"), style="white")
+        self.console.print(Align.center("Equip your pokemon with a [purple]Item effects![/purple]", vertical="middle"), style="white")
         self.console.print(Align.center("[bold green]💚 potion to increase power![/bold green] or [bold red]💔 poison to decrease opponent's power![/bold red].", vertical="middle"), style="white")
         self.console.print(Align.center("\n\n[yellow]🛈[/yellow]:[italic]After every battle, ⚔️ pokemon lose [bold red]-5 Health💔[/bold red] due to [red]fatigue[/red][/italic]", vertical="middle"), style="white")
 
@@ -444,9 +444,9 @@ class Frontend:
             self.print_panel(f"[bold white]Battle {battle_index}[/bold white]", "", "blue", panel_align="center",  width_fraction=1)
             
             # Print the table
-            self.console.print(table)
-            
+            self.console.print(Align.center(table))
             time.sleep(1)
+
             self.console.input(Panel(Align.center("[bold white]PRESS ENTER TO BATTLE START![/bold white]", vertical="middle"), style=style_color, border_style=style_color, box=HEAVY))
     
     def display_battle_calc(self, style_color: str, player1_pokemon: list, player2_pokemon: list, battle_index: int,
@@ -807,6 +807,8 @@ class Frontend:
                 (panel10_left, panel10_middle, panel10_right),
             ]
 
+            self.print_panel(f"[bold white]🔥 Battle {battle_index} 🔥[/bold white]", "", "blue", panel_align="center",  width_fraction=1)
+            
             # Print each row with a delay
             for row in rows:
                 # Create a new table for only the current row
@@ -820,17 +822,77 @@ class Frontend:
                    
             battle_result_str = ""
             if battle_winner == "Player 1":
-                battle_result_str = "Player 1 wins!"
+                battle_result_str = "🔥 Player 1 wins! 🔥"
             elif battle_winner == "Player 2":
-                battle_result_str = "Player 2 wins!"
+                battle_result_str = "🔥 Player 2 wins! 🔥"
             else:
-                battle_result_str = "Tie!"
+                battle_result_str = "🔥 Tie! 🔥"
                 
             self.print_panel(f"[bold white]{battle_result_str}[/bold white]", "", "blue", panel_align="center",  width_fraction=1)
             self.console.input(Panel(Align.center("[bold white]PRESS ENTER TO NEXT BATTLE QUEUEU![/bold white]", vertical="middle"), style=style_color, border_style=style_color, box=HEAVY))
     
-    def display_health_adjustment(self) -> None:
-        pass
+    def display_health_adjustment(self, player1_pokemon, player2_pokemon, player1_health: int, player2_health: int) -> None:
+        self.clear_screen()
+
+        # Get console width
+        total_width = self.console.size.width
+        
+        style_color = "blue"
+        
+        # Calculate individual section widths
+        left_width = (7 * total_width) // 16
+        right_width = (7 * total_width) // 16
+        
+        panel1_left = Panel(
+            f"{player1_pokemon[0]}",
+            title="Player 1",
+            style="white",
+            border_style="yellow",
+            width=left_width,
+            box=HEAVY,
+        )
+        
+        panel1_right = Panel(
+            f"{player2_pokemon[0]}",
+            title="Player 2",
+            style="white",
+            border_style="green",
+            width=right_width,
+            box=HEAVY,
+        )
+        
+        panel2_left = Panel(
+            f"{player1_pokemon[2]} -> {player1_health}",
+            title="HP",
+            style="white",
+            border_style="yellow",
+            width=left_width,
+            box=HEAVY,
+        )
+        
+        panel2_right = Panel(
+            f"{player2_pokemon[2]} -> {player2_health}",
+            title="HP",
+            style="white",
+            border_style="green",
+            width=right_width,
+            box=HEAVY,
+        )
+        
+        table = Table.grid()
+        table.add_column(justify="center", width=left_width)
+        table.add_column(justify="center", width=right_width)
+        
+        table.add_row(panel1_left, panel1_right)
+        table.add_row(panel2_left, panel2_right)
+        
+        self.print_panel(f"[bold white]Health Adjustment[/bold white]\n[white]Due to Fatigue Pokemon loses 5 HP[/white]", "", "blue", panel_align="center",  width_fraction=1)
+        
+        # Print the table
+        self.console.print(Align.center(table))
+        print()
+        
+        self.console.input(Panel(Align.center("[bold white]PRESS ENTER TO NEXT BATTLE QUEUEU![/bold white]", vertical="middle"), style=style_color, border_style=style_color, box=HEAVY))
     
     # ============================================================================
     #                         PLAYER SELECTION METHODS
@@ -867,13 +929,16 @@ class Frontend:
     def pokemon_selection(self) -> None:
         self.backend.select_pokemon_list()
 
-    # 🟧 in progress
+    # ✅ working
     def pokemon_effects_selection(self) -> None:
         self.backend.effects_selection()
     
-    # 🟧 in progress
+    # ✅ working
     def pokemon_queue_battle_start(self) -> None:
         self.backend.battle_queue_start()
+        
+    def pokemon_battle_summary(self) -> None:
+        pass
         
         
 if __name__ == "__main__":

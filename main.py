@@ -24,13 +24,15 @@ class Gameplay:
         # player pokemon array selection loop
         self.frontend.pokemon_selection()
 
-
-        # 🟧 in progress
+        # ✅ working
         # player selection for random effects(power-ups/poison)
         self.frontend.pokemon_effects_selection()
         
-        # 🟧 in progress
+        # ✅ working
         self.frontend.pokemon_queue_battle_start()
+        
+        # ✅ working
+        self.frontend.pokemon_battle_summary()
 
 
 if __name__ == "__main__":
