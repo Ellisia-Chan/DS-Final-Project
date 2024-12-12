@@ -70,6 +70,21 @@ class Frontend:
             )
             self.console.print(panel, justify = panel_align)
     
+    def pokemon_title(self, color):
+        # Pokemon title ASCII art
+        ascii_art = self.draw_ascii("pokemon_title")  # Fetch ASCII content from file
+
+        # Print the panel with centered alignment for ASCII art
+        self.console.print(
+            Panel(
+                Align.center(f"[{color}]{ascii_art}[/{color}]", vertical="middle"),
+                style="white",
+                border_style=color,
+                box=HEAVY
+            )
+        )
+
+
     #✅ Working
     # Function to read ASCII art from a file
     def draw_ascii(self, file_name):
@@ -118,54 +133,41 @@ class Frontend:
     def program_intro(self) -> None:
         self.clear_screen()
 
-        # Pokemon title ASCII art
-        ascii_art = self.draw_ascii("pokemon_title")  # Fetch ASCII content from file
-
-        # Print the panel with centered alignment for ASCII art
-        self.console.print(
-            Panel(
-                Align.center(f"[blue]{ascii_art}[/blue]", vertical="middle"),
-                style="white",
-                border_style="blue",
-                box=HEAVY
-            )
-        )
+        # top watermark
+        self.pokemon_title("blue")
 
         # Additional Information and Messages
-        self.console.print(Align.center("[yellow]🛈[/yellow]: [bold yellow]✨ Choose your Pokemon ✨:[/bold yellow] [green]3 each player![/green]\n[yellow]🛈[/yellow]: Choose your pokemon [bold yellow]queue order![/bold yellow]", vertical="middle"), style="white")
-        self.console.print(Align.center("[yellow]🛈[/yellow]: 🧙 exchange luck with a [purple]random effect![/purple] [bold green]💚 potion[/bold green] or [bold red]💔 poison[/bold red].\n[yellow]🛈[/yellow]:[italic]After every battle, ⚔️ pokemon lose [bold red]-5 Health💔[/bold red] due to [red]fatigue[/red][/italic].", vertical="middle"), style="white")
-        
+        self.console.print(Align.center("[yellow]🛈[/yellow]: [bold yellow]✨ Each player must [green]choose 3 Pokemon[/green]✨", vertical="middle"), style="white")
+        self.console.print(Align.center("Equip your pokemon with a [purple]random effect![/purple]", vertical="middle"), style="white")
+        self.console.print(Align.center("[bold green]💚 potion to increase power![/bold green] or [bold red]💔 poison to decrease opponent's power![/bold red].", vertical="middle"), style="white")
+        self.console.print(Align.center("\n\n[yellow]🛈[/yellow]:[italic]After every battle, ⚔️ pokemon lose [bold red]-5 Health💔[/bold red] due to [red]fatigue[/red][/italic]", vertical="middle"), style="white")
+
         # Print final panel to prompt user to start or quit
         self.console.print(
-            Panel(
-                Align.center("[bold green]PRESS ENTER TO START[/bold green]", vertical="middle"),
-                style="white",
-                border_style="yellow",
-                box=HEAVY
+            Align.center(
+                Panel(
+                    "[bold green]PRESS ENTER TO START[/bold green]",
+                    style="white",
+                    border_style="green",
+                    box=HEAVY,
+                    expand=False  # Fits the content exactly
+                ),
+                vertical="middle"  # Centers the entire panel verticall
             )
         )
 
         # Wait for user input to continue or quit
         self.wait_for_start()
-        
+
+
     # ✅ Working
     # This method displays the Pokemon array from the backend using a rich table.
     # It shows the available Pokemon for selection and prints the table center-aligned.
     def display_pokemon_array(self) -> None:
         self.clear_screen()
 
-        # Pokemon title ASCII art
-        ascii_art = self.draw_ascii("pokemon_title")  # Fetch ASCII content from file
-
-        # Print the panel with centered alignment for ASCII art
-        self.console.print(
-            Panel(
-                Align.center(f"[blue]{ascii_art}[/blue]", vertical="middle"),
-                style="white",
-                border_style="blue",
-                box=HEAVY
-            )
-        )
+        # top watermark
+        self.pokemon_title("green")
         
         self.console.print(Align.center("\n[green]Choose [bold]3 pokemons![/bold][/green]", vertical="middle"), style="white")
         self.console.print(Align.center("Selected pokemons will be [red]removed from the pokemon list![/red]\n", vertical="middle"), style="white")
@@ -315,18 +317,8 @@ class Frontend:
         table.add_row(panel2_left, panel2_middle, panel2_right)
         table.add_row(panel3_left, panel3_middle, panel3_right)
         
-        # Pokemon title ASCII art
-        ascii_art = self.draw_ascii("pokemon_title")  # Fetch ASCII content from file
-
-        # Print the panel with centered alignment for ASCII art
-        self.console.print(
-            Panel(
-                Align.center(f"[blue]{ascii_art}[/blue]", vertical="middle"),
-                style="white",
-                border_style="blue",
-                box=HEAVY
-            )
-        )
+        # top watermark
+        self.pokemon_title("yellow")
         
         self.console.print(Panel(Align.center(f"[bold white]🎇 {player_str} 🎇 Pokemon Item Selection[/bold white]"), box=HEAVY, style="red", border_style="red"))
         
@@ -409,11 +401,9 @@ class Frontend:
             # Add rows to the table
             table.add_row(panel1_left, panel1_middle, panel1_right)
             
-            # Pokemon title ASCII art
-            ascii_art = self.draw_ascii("pokemon_title")  # Fetch ASCII content from file
+            # top watermark
+            self.pokemon_title("red")
 
-            self.console.print(Panel(Align.center(f"[{title_color}]{ascii_art}[/{title_color}]",
-                vertical="middle"), style=style_color, border_style=style_color, box=HEAVY, padding=(1, 1)))
             self.print_panel(f"[bold white]Battle {battle_index}[/bold white]", "", "blue", panel_align="center",  width_fraction=1)
             
             # Print the table
