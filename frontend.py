@@ -6,7 +6,7 @@
 
 from backend import Backend
 
-import sys, time
+import sys, time, os, platform
 from time import sleep
 
 from rich.box import HEAVY
@@ -28,7 +28,15 @@ class Frontend:
     # =============================================================
     # ✅ working
     def clear_screen(self):
-        print("\033c", end="")
+        # Detect the operating system
+        os_name = platform.system()
+
+        if os_name == "Windows":
+            # Clear screen for Windows (including PowerShell)
+            os.system("cls")
+        else:
+            # Clear screen for Unix-like systems (Linux, macOS)
+            print("\033c", end="")
 
     # ✅ working
     def show_error_message(self, message: str) -> None:
