@@ -454,6 +454,22 @@ class Frontend:
                         player1_element_power: int, player2_element_power: int, player1_power_effect: int, player2_power_effect: int,
                         player1_poison_effect: int, player2_poison_effect: int, player1_final_power: int, player2_final_power: int, battle_winner: str) -> None:
             self.clear_screen()
+
+            element_colors = {
+                "Fire": "red",
+                "Electric": "yellow",
+                "Water": "blue",
+                "Grass": "green",
+                "Normal": "white",
+                "Ice": "cyan",
+            }
+            # Get pokemon type change color panel
+            player1_type = player1_pokemon[1]
+            player1_element_color = element_colors.get(player1_type, "default")
+
+            player2_type = player2_pokemon[1]
+            player2_element_color = element_colors.get(player2_type, "default")
+
             # Get console width
             total_width = self.console.size.width
 
@@ -592,8 +608,8 @@ class Frontend:
             panel3_left = Panel(
                 str(player1_pokemon[1]),
                 title="Element",
-                style="white",
-                border_style="green",
+                style=player1_element_color,
+                border_style=player1_element_color,
                 width=right_width,
                 box=HEAVY,
             )
@@ -609,8 +625,8 @@ class Frontend:
             panel3_right = Panel(
                 str(player2_pokemon[1]),
                 title="Element",
-                style="white",
-                border_style="green",
+                style=player2_element_color,
+                border_style=player2_element_color,
                 width=right_width,
                 box=HEAVY,
             )
