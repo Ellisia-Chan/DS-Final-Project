@@ -93,7 +93,6 @@ class Frontend:
             )
         )
 
-    # ❗❗❗ tanginang function to hayop this.
     def message_board_progress_bar(self, message, color):
         # Display a message in a styled panel
         self.clear_screen()
@@ -894,29 +893,34 @@ class Frontend:
         
         self.console.input(Panel(Align.center("[bold white]PRESS ENTER TO NEXT BATTLE QUEUEU![/bold white]", vertical="middle"), style=style_color, border_style=style_color, box=HEAVY))
     
-    def Display_battle_summary(self, summary: list) -> None:
+    def Display_battle_summary(self, battle_summaries) -> None:
         self.clear_screen()
 
-        self.console.print(Align.center("\n[green][bold]Battle Summary[/bold][/green]", vertical="middle"), style="white")
         
-        table = Table(border_style="bold white", box=HEAVY, title="Available Pokemon")
-        # Add columns for the Pokemon attributes
-        table.add_column("Battle", justify="center")
-        table.add_column("Name", justify="center")
-        table.add_column("Type", justify="center")
-        table.add_column("Health", justify="center")
-        table.add_column("Power", justify="center")
 
-        # Populate the table with Pokemon data from backend
-        for idx, pokemon in enumerate(self.backend.pokemon_array.get()):
+        table = Table(border_style="bold white", box=HEAVY, title="Battle Results")
+        # Add columns for battle details
+        table.add_column("Battle", justify="center")
+        table.add_column("Player 1", justify="center")
+        table.add_column("Player 1 Power", justify="center")
+        table.add_column("Player 2", justify="center")
+        table.add_column("Player 2 Power", justify="center")
+        table.add_column("Winner", justify="center")
+
+        # Populate the table with battle summary data
+        for battle in battle_summaries:
             table.add_row(
-                str(idx+1),  # Index
-                str(pokemon[0]),  # Name
-                str(pokemon[1]),  # Type
-                str(pokemon[2]),  # Health
-                str(pokemon[3]),  # Power
+                str(battle[0]),  # Battle number
+                str(battle[1]),  # Player 1's Pokémon name
+                str(battle[2]),  # Player 1's Pokémon power
+                str(battle[3]),  # Player 2's Pokémon name
+                str(battle[4]),  # Player 2's Pokémon power
+                str(battle[5]),  # Winner
             )
 
+        # top watermark
+        self.pokemon_title("purple")
+        
         # Print the table center-aligned
         self.console.print(Align.center(table))
     
@@ -964,7 +968,7 @@ class Frontend:
         self.backend.battle_queue_start()
         
     def pokemon_battle_summary(self) -> None:
-        pass
+        self.Display_battle_summary(self.backend.battle_summaries)
         
         
 if __name__ == "__main__":

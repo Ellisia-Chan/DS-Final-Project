@@ -253,26 +253,22 @@ class Backend:
         else:
             return 0
         
-    def battle_summary_container(self, player1_pokemon, player2_pokemon, player1_final_power, player2_final_power, battle_winner, Battle_number):
-        player1_pokemon_name_list = []
-        player1_final_power_list = []
-        
-        player2_pokemon_name_list = []
-        player2_final_power_list = []
-        
-        battle_winner_list = []
-        battle_number_list = []
-        
-        player1_pokemon_name_list.append(player1_pokemon[0])
-        player1_final_power_list.append(player1_final_power)
-        
-        player2_pokemon_name_list.append(player2_pokemon[0])
-        player2_final_power_list.append(player2_final_power)
-        
-        battle_winner_list.append(battle_winner)
-        battle_number_list.append(Battle_number)
-        
-        self.battle_summary = [player1_pokemon_name_list, player1_final_power_list, player2_pokemon_name_list, player2_final_power_list, battle_winner_list, battle_number_list]
+    def battle_summary_container(self, player1_pokemon, player2_pokemon, player1_final_power, player2_final_power, battle_winner, battle_number):
+        # Create a single summary record for the battle
+        battle_summary = [
+            battle_number,  # Battle number
+            player1_pokemon[0],  # Player 1's Pokémon name
+            player1_final_power,  # Player 1's Pokémon power
+            player2_pokemon[0],  # Player 2's Pokémon name
+            player2_final_power,  # Player 2's Pokémon power
+            battle_winner,  # Winner
+        ]
+
+        # Append this summary to a class attribute storing all battle summaries
+        if not hasattr(self, 'battle_summaries'):
+            self.battle_summaries = []
+        self.battle_summaries.append(battle_summary)
+
 
 # 🐞Debugging
 if __name__ == "__main__":
