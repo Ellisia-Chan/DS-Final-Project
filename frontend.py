@@ -70,6 +70,10 @@ class Frontend:
             )
             self.console.print(panel, justify = panel_align)
     
+    def pokemon_title(self, color):
+        pass
+
+
     #✅ Working
     # Function to read ASCII art from a file
     def draw_ascii(self, file_name):
@@ -132,22 +136,29 @@ class Frontend:
         )
 
         # Additional Information and Messages
-        self.console.print(Align.center("[yellow]🛈[/yellow]: [bold yellow]✨ Choose your Pokemon ✨:[/bold yellow] [green]3 each player![/green]\n[yellow]🛈[/yellow]: Choose your pokemon [bold yellow]queue order![/bold yellow]", vertical="middle"), style="white")
-        self.console.print(Align.center("[yellow]🛈[/yellow]: 🧙 exchange luck with a [purple]random effect![/purple] [bold green]💚 potion[/bold green] or [bold red]💔 poison[/bold red].\n[yellow]🛈[/yellow]:[italic]After every battle, ⚔️ pokemon lose [bold red]-5 Health💔[/bold red] due to [red]fatigue[/red][/italic].", vertical="middle"), style="white")
-        
+        self.console.print(Align.center("[yellow]🛈[/yellow]: [bold yellow]✨ Each player must [green]choose 3 Pokemon[/green]✨", vertical="middle"), style="white")
+        self.console.print(Align.center("Equip your pokemon with a [purple]random effect![/purple]", vertical="middle"), style="white")
+        self.console.print(Align.center("[bold green]💚 potion to increase power![/bold green] or [bold red]💔 poison to decrease opponent's power![/bold red].", vertical="middle"), style="white")
+        self.console.print(Align.center("\n\n[yellow]🛈[/yellow]:[italic]After every battle, ⚔️ pokemon lose [bold red]-5 Health💔[/bold red] due to [red]fatigue[/red][/italic]", vertical="middle"), style="white")
+
         # Print final panel to prompt user to start or quit
         self.console.print(
-            Panel(
-                Align.center("[bold green]PRESS ENTER TO START[/bold green]", vertical="middle"),
-                style="white",
-                border_style="yellow",
-                box=HEAVY
+            Align.center(
+                Panel(
+                    "[bold green]PRESS ENTER TO START[/bold green]",
+                    style="white",
+                    border_style="green",
+                    box=HEAVY,
+                    expand=False  # Fits the content exactly
+                ),
+                vertical="middle"  # Centers the entire panel verticall
             )
         )
 
         # Wait for user input to continue or quit
         self.wait_for_start()
-        
+
+
     # ✅ Working
     # This method displays the Pokemon array from the backend using a rich table.
     # It shows the available Pokemon for selection and prints the table center-aligned.
