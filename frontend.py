@@ -152,7 +152,7 @@ class Frontend:
     def spinner_animation(self, seconds: float, spinner_type: str = "dots", message: str = ""):
         try:
             self.clear_screen()
-            with self.console.status(f"[bold green]{message}[/bold green]", spinner=spinner_type) as status:
+            with self.console.status(f"[green]{message}[/green]", spinner=spinner_type) as status:
                 sleep(seconds)
         except Exception as e:
             self.console.print(f"[red]Error in spinner animation: {e}[/red]")
@@ -653,7 +653,7 @@ class Frontend:
             
             # Power Multiplier
             panel4_left = Panel(
-                str(f"[bold green]{player1_element_perc}[/bold green]"),
+                str(f"[green]{player1_element_perc}[/green]"),
                 title="Element Multiplier",
                 style="white",
                 border_style="white",
@@ -667,10 +667,10 @@ class Frontend:
 
             )
             panel4_right = Panel(
-                str(f"[bold green]{player2_element_perc}[/bold green]"),
+                str(f"[green]{player2_element_perc}[/green]"),
                 title="Element Multiplier",
-                style="yellow",
-                border_style="yellow",
+                style="white",
+                border_style="white",
                 width=right_width,
             )
             
