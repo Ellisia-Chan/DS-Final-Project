@@ -58,7 +58,7 @@ class Frontend:
             self.console.print("[red]Game exited. Goodbye![/red]", style="white")
             sys.exit()  # Quit the program
         else:
-            self.console.print("[bold green]Game starting...[/bold green]", style="white")
+            self.console.print("[green]Game starting...[/green]", style="white")
         
     def wait_for_timer(self, seconds: float) -> None:
         time.sleep(seconds)
@@ -166,7 +166,7 @@ class Frontend:
         self.console.print(
             Align.center(
                 Panel(
-                    f"[bold green]{message}[/bold green]",
+                    f"[green]{message}[/green]",
                     style="white",
                     border_style="yellow",
                     box=HEAVY,
@@ -359,7 +359,7 @@ class Frontend:
         # top watermark
         self.pokemon_title("yellow")
         
-        self.console.print(Panel(Align.center(f"[bold white]🎇 {player_str} 🎇 Pokemon Item Selection[/bold white]"), box=HEAVY, style="red", border_style="red"))
+        self.console.print(Panel(Align.center(f"[bold]🎇 {player_str} 🎇 Pokemon Item Selection[/bold]"), box=HEAVY, style="red", border_style="red"))
         
         # Player pokemon details
         table_pokemon_atts = Table(border_style="white", box=HEAVY)
@@ -463,11 +463,15 @@ class Frontend:
             }
 
             # Get player stack item change color panel
-            player1_item = player1_stack[0]
-            player1_item_color = item_color.get(player1_item, "default")
+            player1_item = player1_stack[0] if player1_stack else None
+            player1_item_color = item_color.get(player1_item, "white")
 
-            player2_item = player2_stack[0]
-            player2_item_color = item_color.get(player2_item, "default")
+            player2_item = player2_stack[0] if player2_stack else None
+            player2_item_color = item_color.get(player2_item, "white")
+            
+            player1_item_color = player1_item_color or "white"
+            player2_item_color = player2_item_color or "white"
+
 
 
             element_colors = {
@@ -676,7 +680,7 @@ class Frontend:
             
             # Base Power
             panel5_left = Panel(
-                str(f"{player1_pokemon[3]} {player1_element_perc} = [bold {player1_item_color}]{player1_element_power}[/bold {player1_item_color}]"),
+                str(f"{player1_pokemon[3]} {player1_element_perc} = [{player1_item_color}]{player1_element_power}[/{player1_item_color}]"),
                 title="Base Power",
                 style="white",
                 border_style="white",
@@ -690,13 +694,14 @@ class Frontend:
                 width=middle_width,
             )
             panel5_right = Panel(
-                str(f"{player2_pokemon[3]} {player2_element_perc} = [bold {player2_item_color}]{player2_element_power}[/bold {player1_item_color}]"),
+                str(f"{player2_pokemon[3]} {player2_element_perc} = [{player2_item_color}]{player2_element_power}[/{player2_item_color}]"),
                 title="Base Power",
                 style="white",
                 border_style="white",
                 width=right_width,
                 box=HEAVY,
             )
+
             
             # Item
             panel6_left = Panel(
@@ -715,7 +720,7 @@ class Frontend:
             panel6_right = Panel(
                 str(player2_stack[0]),
                 title="Item",
-                style=player1_item_color,
+                style=player2_item_color,
                 border_style=player2_item_color,
                 width=right_width,
             )
@@ -828,7 +833,7 @@ class Frontend:
                 (panel10_left, panel10_middle, panel10_right),
             ]
 
-            self.print_panel(f"[bold white]🔥 Battle {battle_index} 🔥[/bold white]", "", "blue",  width_fraction=1, panel_align="center")
+            self.print_panel(f"[white]🔥 Battle {battle_index} 🔥[/white]", "", "blue",  width_fraction=1, panel_align="center")
             
             # Print each row with a delay
             for row in rows:
@@ -838,7 +843,11 @@ class Frontend:
                 temp_table.add_column(justify="center", width=middle_width)
                 temp_table.add_column(justify="center", width=right_width)
                 temp_table.add_row(*row)  # Add only the current row
-                self.console.print(temp_table)  # Print the table for this row
+                try:
+                    self.console.print(temp_table)
+                except Exception as e:
+                    print(f"Error rendering table: {e}")
+  # Print the table for this row
                 time.sleep(1)  # Add a 1-second delay before printing the next row
                    
             battle_result_str = ""
@@ -852,7 +861,7 @@ class Frontend:
             self.console.print(
             Align.center(
                 Panel(
-                    f"[bold yellow]{battle_result_str}[/bold yellow]",
+                    f"[yellow]{battle_result_str}[/yellow]",
                     style="white",
                     border_style="yellow",
                     box=HEAVY,
@@ -860,7 +869,7 @@ class Frontend:
                 vertical="middle"  # Centers the entire panel verticall
             )
         )
-            self.console.input(Panel(Align.center("[bold white]🔥 PRESS ENTER TO NEXT BATTLE QUEUE 🔥[/bold white]", vertical="middle"), style=style_color, border_style=style_color, box=HEAVY))
+            self.console.input(Panel(Align.center("🔥 PRESS ENTER TO NEXT BATTLE QUEUE 🔥", vertical="middle"), style=style_color, border_style=style_color, box=HEAVY))
     
     def display_health_adjustment(self, player1_pokemon, player2_pokemon, player1_health: int, player2_health: int) -> None:
         self.clear_screen()
@@ -984,7 +993,7 @@ class Frontend:
     # ============================================================================    
     # ✅ working
     def prompt_player_selection(self, player: str) -> str:
-        self.console.print(Align.center(f"[bold yellow]✨ {player} ✨[/bold yellow]", vertical="middle"), style="white")
+        self.console.print(Align.center(f"[yellow]✨ {player} ✨[/yellow]", vertical="middle"), style="white")
 
         self.console.print(
             Panel(
